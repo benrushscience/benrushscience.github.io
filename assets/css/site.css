@@ -237,3 +237,38 @@ button:focus-visible,
     margin: 0 0.8rem 0 0;
   }
 }
+
+/* CV-specific typography: reserve dark-blue bold for section titles only. */
+.cv-page .cv-section-title {
+  margin: 2rem 0 0.8rem;
+  font-family: "Merriweather", Georgia, serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+  display: inline-block;
+  padding-bottom: 0.1rem;
+}
+
+.cv-page .doc-content .cv-section-title:first-child {
+  margin-top: 0.25rem;
+}
+
+.cv-page .doc-content table {
+  margin: 0 0 1.25rem;
+}
+
+.cv-page .doc-content thead th,
+.cv-page .doc-content th {
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 400;
+}
+
+.cv-page .doc-content th strong,
+.cv-page .doc-content td strong {
+  color: var(--color-text);
+  font-weight: 400;
+}
