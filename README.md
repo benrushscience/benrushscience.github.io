@@ -16,4 +16,4 @@ Starter layout for a GitHub Pages personal website.
 1. Rename this folder/repo to your exact GitHub username format: `<username>.github.io`.
 2. Push to GitHub as that repository name.
 3. In GitHub repo settings, enable Pages from `main` branch root.
-4. Visit `https://<username>.github.io/`.
+4. Visit `https://benrushscience.github.io/`.
