@@ -272,3 +272,125 @@ button:focus-visible,
   color: var(--color-text);
   font-weight: 400;
 }
+
+.cv-page .cv-actions {
+  margin: 0.6rem 0 1.4rem;
+}
+
+.cv-page .cv-download-btn {
+  display: inline-block;
+  background: var(--color-primary-2);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid #174f8a;
+}
+
+.cv-page .cv-download-btn:hover {
+  background: var(--color-primary);
+}
+
+.cv-page .cv-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.cv-page .cv-toc {
+  position: sticky;
+  top: 5.4rem;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.8rem;
+}
+
+.cv-page .cv-toc-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.cv-page .cv-mini-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cv-page .cv-mini-toc li + li {
+  margin-top: 0.28rem;
+}
+
+.cv-page .cv-mini-toc a {
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.cv-page .cv-mini-toc a:hover {
+  color: var(--color-primary);
+}
+
+.cv-page .cv-section {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #fff;
+  margin: 0 0 1rem;
+  overflow: hidden;
+}
+
+.cv-page .cv-section > summary {
+  list-style: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0.8rem 1rem;
+  font-family: "Merriweather", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-primary);
+  background: #edf5fe;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cv-page .cv-section > summary::-webkit-details-marker {
+  display: none;
+}
+
+.cv-page .cv-section > summary::after {
+  content: '+';
+  float: right;
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.cv-page .cv-section[open] > summary::after {
+  content: '−';
+}
+
+.cv-page .cv-section-body {
+  padding: 0.3rem 0.75rem 0.7rem;
+}
+
+.cv-page .cv-section-body table {
+  margin: 0.25rem 0 0.5rem;
+}
+
+@media (max-width: 980px) {
+  .cv-page .cv-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-page .cv-toc {
+    position: static;
+    order: -1;
+  }
+}

@@ -22,7 +22,7 @@
     </div>
   </header>
   <main>
-    <div class="container"><section class="hero"><h1>CV</h1><div class="doc-content">
+    <div class="container"><section class="hero"><h1>CV</h1><div class="cv-actions"><a class="cv-download-btn" href="/assets/docs/BenRush_CV_2026_02_04.pdf" download>Download CV (PDF)</a></div><div class="cv-layout"><aside class="cv-toc" aria-label="CV section navigation"><p class="cv-toc-title">On this page</p><nav id="cv-mini-toc" class="cv-mini-toc"></nav></aside><div class="doc-content">
 <h2 class="cv-section-title">EDUCATION</h2>
 <table>
 <colgroup>
@@ -967,13 +967,86 @@
 </tr>
 </tbody>
 </table>
-</div></section></div>
+</div></div></section></div>
   </main>
   <footer><div class="container">&copy; <span id="year"></span> Ben Rush</div></footer>
   <script src="/assets/js/site.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    (function () {
+      const docContent = document.querySelector('.cv-page .doc-content');
+      const toc = document.getElementById('cv-mini-toc');
+      if (!docContent || !toc) return;
+
+      function slugify(text) {
+        return text
+          .toLowerCase()
+          .replace(/&amp;/g, 'and')
+          .replace(/[^a-z0-9\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-');
+      }
+
+      const headings = Array.from(docContent.querySelectorAll('.cv-section-title'));
+      if (!headings.length) return;
+
+      const usedIds = new Set();
+      const sections = [];
+
+      headings.forEach((heading, index) => {
+        const title = heading.textContent.trim();
+        let baseId = slugify(title) || `cv-section-${index + 1}`;
+        let id = baseId;
+        let n = 2;
+        while (usedIds.has(id)) {
+          id = `${baseId}-${n}`;
+          n += 1;
+        }
+        usedIds.add(id);
+
+        const details = document.createElement('details');
+        details.className = 'cv-section';
+        details.id = id;
+        details.open = index === 0;
+
+        const summary = document.createElement('summary');
+        summary.textContent = title;
+        details.appendChild(summary);
+
+        const body = document.createElement('div');
+        body.className = 'cv-section-body';
+        details.appendChild(body);
+
+        heading.parentNode.insertBefore(details, heading);
+
+        let node = heading.nextSibling;
+        heading.remove();
+        while (node && !(node.nodeType === 1 && node.classList && node.classList.contains('cv-section-title'))) {
+          const next = node.nextSibling;
+          body.appendChild(node);
+          node = next;
+        }
+
+        sections.push({ id, title });
+      });
+
+      const list = document.createElement('ul');
+      sections.forEach((section) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `#${section.id}`;
+        a.textContent = section.title;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+      toc.innerHTML = '';
+      toc.appendChild(list);
+    })();
+  </script>
 </body>
 </html>
+
+
 
 
 
