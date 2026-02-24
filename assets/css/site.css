@@ -394,3 +394,16 @@ button:focus-visible,
     order: -1;
   }
 }
+
+.science-page .publication-list {
+  margin: 0.35rem 0 0.4rem 1.2rem;
+  padding: 0;
+}
+
+.science-page .publication-list > li {
+  margin-bottom: 0.8rem;
+}
+
+.science-page .publication-list p {
+  margin: 0.22rem 0;
+}
