@@ -5,6 +5,7 @@
     "/assets/css/page-heroes.css",
     "/assets/css/interactions.css",
     "/assets/css/featured.css",
+    "/assets/css/mini-viz.css",
   ];
 
   sharedStylesheets.forEach((href) => {
