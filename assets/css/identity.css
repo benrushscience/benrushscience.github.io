@@ -32,6 +32,15 @@
   background-blend-mode: normal, normal, normal;
 }
 
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.72;
+}
+
 .hero::before,
 .home-hero::before {
   background-image:
@@ -60,14 +69,10 @@
   height: 0.44rem;
 }
 
-.home-hero-copy::before,
-.doc-content::before {
+.home-hero-copy::before {
   content: "";
   position: absolute;
   pointer-events: none;
-}
-
-.home-hero-copy::before {
   right: 4%;
   top: 10%;
   width: 6.2rem;
