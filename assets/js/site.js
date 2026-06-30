@@ -1,5 +1,5 @@
 (function () {
-  const sharedStylesheets = ["/assets/css/identity.css", "/assets/css/nav.css"];
+  const sharedStylesheets = ["/assets/css/identity.css", "/assets/css/nav.css", "/assets/css/page-heroes.css"];
   sharedStylesheets.forEach((href) => {
     const hasStylesheet = document.querySelector(`link[href="${href}"]`);
     if (hasStylesheet) return;
