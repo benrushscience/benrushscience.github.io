@@ -4,6 +4,7 @@
     "/assets/css/nav.css",
     "/assets/css/page-heroes.css",
     "/assets/css/interactions.css",
+    "/assets/css/featured.css",
   ];
 
   sharedStylesheets.forEach((href) => {
@@ -84,7 +85,7 @@
     if (target === current) link.setAttribute("aria-current", "page");
   });
 
-  const glowTargets = document.querySelectorAll(".button, .cv-page .cv-download-btn, .nav-toggle");
+  const glowTargets = document.querySelectorAll(".button, .cv-page .cv-download-btn, .nav-toggle, .featured-control, .featured-resource-link");
   glowTargets.forEach((target) => {
     target.addEventListener("pointermove", (event) => {
       const rect = target.getBoundingClientRect();
@@ -95,10 +96,64 @@
     });
   });
 
+  document.querySelectorAll("[data-featured-carousel]").forEach((carousel) => {
+    const track = carousel.querySelector("[data-featured-track]");
+    const previousButton = carousel.querySelector("[data-featured-prev]");
+    const nextButton = carousel.querySelector("[data-featured-next]");
+    const status = carousel.querySelector("[data-featured-status]");
+    if (!track || !previousButton || !nextButton) return;
+
+    const cards = Array.from(track.querySelectorAll(".featured-card"));
+
+    function getStep() {
+      const firstCard = cards[0];
+      if (!firstCard) return track.clientWidth;
+      const style = window.getComputedStyle(track);
+      const gap = Number.parseFloat(style.columnGap || style.gap || "0") || 0;
+      return firstCard.getBoundingClientRect().width + gap;
+    }
+
+    function getCurrentIndex() {
+      const step = getStep();
+      if (!step) return 0;
+      return Math.round(track.scrollLeft / step);
+    }
+
+    function updateCarouselState() {
+      const maxScroll = track.scrollWidth - track.clientWidth - 2;
+      const atStart = track.scrollLeft <= 2;
+      const atEnd = track.scrollLeft >= maxScroll;
+      previousButton.disabled = atStart;
+      nextButton.disabled = atEnd;
+
+      if (status && cards.length) {
+        const visibleIndex = Math.min(getCurrentIndex() + 1, cards.length);
+        status.textContent = `Showing ${visibleIndex} of ${cards.length}`;
+      }
+    }
+
+    function scrollByCard(direction) {
+      track.scrollBy({ left: direction * getStep(), behavior: "smooth" });
+    }
+
+    previousButton.addEventListener("click", () => scrollByCard(-1));
+    nextButton.addEventListener("click", () => scrollByCard(1));
+    track.addEventListener("scroll", updateCarouselState, { passive: true });
+    window.addEventListener("resize", updateCarouselState);
+
+    cards.forEach((card, index) => {
+      card.setAttribute("data-featured-index", String(index + 1));
+    });
+
+    updateCarouselState();
+  });
+
   const revealSelectors = [
     ".home-hero",
     ".page-hero-header",
     ".home-identity-rail",
+    ".featured-section",
+    ".featured-card",
     ".section-heading",
     ".module-section",
     ".module-card",
