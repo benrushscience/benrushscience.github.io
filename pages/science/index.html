@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/assets/css/identity.css" />
   <link rel="stylesheet" href="/assets/css/page-heroes.css" />
   <link rel="stylesheet" href="/assets/css/hero-image-test.css" />
+  <link rel="stylesheet" href="/assets/css/mini-viz.css" />
 </head>
 <body class="science-page">
   <header>
@@ -76,6 +77,7 @@
               <h2 class="science-section-title" id="research-projects-title">Research Projects</h2>
               <div class="module-grid" aria-label="Research project cards">
                 <article class="module-card project-card">
+                  <div class="mini-viz mini-viz-nlp mini-viz-compact" aria-hidden="true"><span></span><span></span><span></span></div>
                   <p class="module-kicker">Radiology AI</p>
                   <h3 class="module-title">LLMs for radiology reporting and incidental breast findings</h3>
                   <p class="module-description">I study how large language models can help identify incidental breast findings in radiology reports, with a focus on prompt design, model agreement, sensitivity, specificity, and consensus methods that could support safer follow-up workflows.</p>
@@ -87,6 +89,7 @@
                 </article>
 
                 <article class="module-card project-card">
+                  <div class="mini-viz mini-viz-harmonization mini-viz-compact" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
                   <p class="module-kicker">OSCAR</p>
                   <h3 class="module-title">Multi-site CT biomarkers</h3>
                   <p class="module-description">I work on harmonizing opportunistic abdominal CT biomarkers across participating sites to evaluate generalizability, site-level robustness, and population-level prediction of survival and other outcomes.</p>
@@ -98,6 +101,7 @@
                 </article>
 
                 <article class="module-card project-card">
+                  <div class="mini-viz mini-viz-map mini-viz-compact" aria-hidden="true"><span></span><span></span><span></span></div>
                   <p class="module-kicker">Public health</p>
                   <h3 class="module-title">Geospatial imaging context</h3>
                   <p class="module-description">I link CT-derived biomarkers with neighborhood-level socioeconomic indicators and healthcare access measures to study disparities and community-level patterns in imaging-derived health information.</p>
@@ -109,6 +113,7 @@
                 </article>
 
                 <article class="module-card project-card">
+                  <div class="mini-viz mini-viz-ct mini-viz-compact" aria-hidden="true"><span></span><span></span></div>
                   <p class="module-kicker">Body composition</p>
                   <h3 class="module-title">Muscle, fat, bone, and function</h3>
                   <p class="module-description">I study muscle quantity, muscle density, adipose tissue distribution, bone attenuation, and longitudinal body composition change across clinical and population-level cohorts.</p>
@@ -126,24 +131,28 @@
               <p>I care about the parts of clinical data science that make models trustworthy: clear definitions, auditable data cleaning, appropriate statistics, and interpretation that matches the evidence.</p>
               <div class="module-grid" aria-label="Methods and rigor cards">
                 <article class="module-card method-card">
+                  <div class="mini-viz mini-viz-cohort mini-viz-compact" aria-hidden="true"><span></span><span></span><span></span></div>
                   <p class="module-kicker">Cohorts</p>
                   <h3 class="module-title">Careful index CT logic</h3>
                   <p class="module-description">Define the index scan, deduplicate patients when needed, harmonize dates, align clinical variables, and preserve row-count audit trails through every major filtering step.</p>
                 </article>
 
                 <article class="module-card method-card">
+                  <div class="mini-viz mini-viz-qc mini-viz-compact" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
                   <p class="module-kicker">QC</p>
                   <h3 class="module-title">Biomarker and site checks</h3>
                   <p class="module-description">Inspect medians, IQRs, ranges, missingness, implausible values, extraction failures, scanner/protocol variation, and site-level differences before modeling.</p>
                 </article>
 
                 <article class="module-card method-card">
+                  <div class="mini-viz mini-viz-calibration mini-viz-compact" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
                   <p class="module-kicker">Modeling</p>
                   <h3 class="module-title">Prediction with calibration</h3>
                   <p class="module-description">Use survival and fixed-horizon prediction approaches when appropriate, reporting discrimination, calibration, uncertainty, and clinically relevant operating characteristics.</p>
                 </article>
 
                 <article class="module-card method-card">
+                  <div class="mini-viz mini-viz-claim mini-viz-compact" aria-hidden="true"><span></span><span></span><span></span></div>
                   <p class="module-kicker">Interpretation</p>
                   <h3 class="module-title">Cautious clinical language</h3>
                   <p class="module-description">Frame findings as prediction, association, risk stratification, transportability, or external validation unless a diagnostic or causal claim has been specifically validated.</p>
