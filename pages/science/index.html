@@ -40,11 +40,59 @@
             <p><a href="https://orcid.org/0000-0002-9530-1927">Full publication record on ORCID</a>.</p>
 
             <h2 class="science-section-title">Research Projects</h2>
-            <ul>
-              <li><strong>LLMs for radiology reporting and incidental breast findings:</strong> I study how large language models can help identify incidental breast findings in radiology reports, with a focus on prompt design, model agreement, sensitivity, specificity, and consensus methods that could support safer follow-up workflows.</li>
-              <li><strong>OSCAR mapping projects and public health:</strong> I use large-scale CT biomarker data from the OSCAR project to map patterns in muscle, fat, bone, and vascular health across communities, linking imaging biomarkers with neighborhood-level socioeconomic and healthcare access measures to better understand public health disparities.</li>
-              <li><strong>Opportunistic screening for health outcomes:</strong> I study how body composition and other CT-derived biomarkers can be used for opportunistic screening, including projects on GLP-1 RA–associated weight loss, cardiovascular disease risk, survival prediction, muscle health, fat distribution, bone density, and aortic calcification.</li>
-            </ul>
+            <div class="card-grid" aria-label="Research project cards">
+              <article class="card card-science">
+                <p class="card-kicker">Radiology AI</p>
+                <h3>LLMs for radiology reporting and incidental breast findings</h3>
+                <p>I study how large language models can help identify incidental breast findings in radiology reports, with a focus on prompt design, model agreement, sensitivity, specificity, and consensus methods that could support safer follow-up workflows.</p>
+              </article>
+
+              <article class="card card-science">
+                <p class="card-kicker">OSCAR</p>
+                <h3>Multi-site CT biomarkers</h3>
+                <p>I work on harmonizing opportunistic abdominal CT biomarkers across participating sites to evaluate generalizability, site-level robustness, and population-level prediction of survival and other outcomes.</p>
+              </article>
+
+              <article class="card card-science">
+                <p class="card-kicker">Public health</p>
+                <h3>Geospatial imaging context</h3>
+                <p>I link CT-derived biomarkers with neighborhood-level socioeconomic indicators and healthcare access measures to study disparities and community-level patterns in imaging-derived health information.</p>
+              </article>
+
+              <article class="card card-science">
+                <p class="card-kicker">Body composition</p>
+                <h3>Muscle, fat, bone, and function</h3>
+                <p>I study muscle quantity, muscle density, adipose tissue distribution, bone attenuation, and longitudinal body composition change across clinical and population-level cohorts.</p>
+              </article>
+            </div>
+
+            <h2 class="science-section-title">Methods and rigor</h2>
+            <p>I care about the parts of clinical data science that make models trustworthy: clear definitions, auditable data cleaning, appropriate statistics, and interpretation that matches the evidence.</p>
+            <div class="card-grid" aria-label="Methods and rigor cards">
+              <article class="card card-science">
+                <p class="card-kicker">Cohorts</p>
+                <h3>Careful index CT logic</h3>
+                <p>Define the index scan, deduplicate patients when needed, harmonize dates, align clinical variables, and preserve row-count audit trails through every major filtering step.</p>
+              </article>
+
+              <article class="card card-science">
+                <p class="card-kicker">QC</p>
+                <h3>Biomarker and site checks</h3>
+                <p>Inspect medians, IQRs, ranges, missingness, implausible values, extraction failures, scanner/protocol variation, and site-level differences before modeling.</p>
+              </article>
+
+              <article class="card card-science">
+                <p class="card-kicker">Modeling</p>
+                <h3>Prediction with calibration</h3>
+                <p>Use survival and fixed-horizon prediction approaches when appropriate, reporting discrimination, calibration, uncertainty, and clinically relevant operating characteristics.</p>
+              </article>
+
+              <article class="card card-science">
+                <p class="card-kicker">Interpretation</p>
+                <h3>Cautious clinical language</h3>
+                <p>Frame findings as prediction, association, risk stratification, transportability, or external validation unless a diagnostic or causal claim has been specifically validated.</p>
+              </article>
+            </div>
 
             <h2 class="science-section-title">Publications</h2>
             <ol class="publication-list">
@@ -137,7 +185,7 @@
         const details = document.createElement('details');
         details.className = 'cv-section';
         details.id = id;
-        details.open = index === 0;
+        details.open = true;
 
         const summary = document.createElement('summary');
         summary.textContent = title;
