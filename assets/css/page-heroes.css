@@ -77,7 +77,7 @@
   max-width: min(100%, 16ch);
   margin-bottom: var(--space-4);
   font-family: var(--font-hero);
-  font-size: clamp(2.45rem, 5.2vw, 5.1rem);
+  font-size: clamp(1.8375rem, 3.9vw, 3.825rem);
   font-weight: 800;
   letter-spacing: 0;
   line-height: 0.98;
@@ -293,6 +293,7 @@
 
 .cv-page .hero > h1:first-child {
   max-width: 13ch;
+  font-size: clamp(2.025rem, 1.41rem + 3.15vw, 4.275rem);
 }
 
 .cv-page .hero > h1:first-child::before {
@@ -352,7 +353,7 @@
 
   .page-hero-title {
     max-width: none;
-    font-size: 2.1rem;
+    font-size: 1.575rem;
     letter-spacing: 0;
     line-height: 1;
     overflow-wrap: break-word;
