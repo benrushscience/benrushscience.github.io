@@ -38,6 +38,7 @@
 .page-hero-copy {
   position: relative;
   z-index: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -349,8 +350,14 @@
 
   .page-hero-title {
     max-width: none;
-    font-size: clamp(2.7rem, 15vw, 4.45rem);
-    letter-spacing: -0.055em;
+    font-size: 2.1rem;
+    letter-spacing: 0;
+    line-height: 1;
+    overflow-wrap: break-word;
+  }
+
+  .page-hero-chip {
+    max-width: 100%;
   }
 
   .page-hero-art {
