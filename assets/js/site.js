@@ -6,6 +6,7 @@
     "/assets/css/interactions.css",
     "/assets/css/featured.css",
     "/assets/css/mini-viz.css",
+    "/assets/css/hero-image-test.css",
   ];
 
   sharedStylesheets.forEach((href) => {
