@@ -1,4 +1,13 @@
 (function () {
+  const identityHref = "/assets/css/identity.css";
+  const hasIdentityStylesheet = document.querySelector(`link[href="${identityHref}"]`);
+  if (!hasIdentityStylesheet) {
+    const identityStylesheet = document.createElement("link");
+    identityStylesheet.rel = "stylesheet";
+    identityStylesheet.href = identityHref;
+    document.head.appendChild(identityStylesheet);
+  }
+
   const links = document.querySelectorAll("nav a[href]");
   const current = window.location.pathname.replace(/\/$/, "");
   links.forEach((link) => {
