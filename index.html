@@ -4,10 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ben Rush | Home</title>
-  <meta name="description" content="Personal website for Ben Rush." />
+  <meta name="description" content="Ben Rush is a radiology data scientist, science communicator, improviser, and educator building rigorous ideas that connect with people." />
   <link rel="stylesheet" href="/assets/css/site.css" />
+  <link rel="stylesheet" href="/assets/css/home.css" />
 </head>
-<body>
+<body class="home-body">
   <header>
     <div class="container site-header">
       <p class="site-title"><strong>Ben Rush</strong></p>
@@ -24,44 +25,85 @@
   </header>
   <main>
     <div class="container home-page">
-      <section class="hero hero-home reveal-on-scroll">
-        <div class="hero-copy">
-          <p class="eyebrow">Creative science communicator • performer • educator</p>
-          <h1>Scientist, improviser, and teacher building ideas that connect with people.</h1>
-          <p class="hero-lead">Ben Rush brings together radiology data science, science communication, comedy, and facilitation to help audiences think clearly, collaborate bravely, and stay curious.</p>
-          <p>By day, Ben is a data scientist at the University of Wisconsin–Madison working in radiology and medical imaging. By night, he teaches improv, leads Amalgam Improv, and builds playful experiences that make complex ideas feel human.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="/pages/science/">Explore science</a>
-            <a class="button button-secondary" href="/pages/workshops/">Book a workshop</a>
+      <section class="home-hero reveal-on-scroll" aria-labelledby="home-hero-title">
+        <div class="home-hero-copy">
+          <p class="home-hero-kicker">Radiology data science • science communication • improv</p>
+          <h1 id="home-hero-title" class="home-hero-title">Science that makes complex ideas feel <em>human</em>.</h1>
+          <p class="home-hero-lede">Ben Rush, PhD, MPH is an informatics data scientist at UW–Madison Radiology who turns imaging data, AI workflows, and scientific stories into projects people can understand, use, and build on.</p>
+          <p class="home-hero-support">His work moves between CT biomarkers and population health, applied improv and team science, podcasting and public conversations—always with a focus on rigor, clarity, warmth, and creative momentum.</p>
+          <div class="home-hero-actions">
+            <a class="button button-primary" href="/pages/science/">Explore the science</a>
+            <a class="button button-secondary" href="/pages/workshops/">Bring Ben in</a>
+          </div>
+          <div class="home-hero-proof" aria-label="Core areas of work">
+            <span>CT biomarkers</span>
+            <span>Radiology AI</span>
+            <span>Applied improv</span>
+            <span>Science communication</span>
           </div>
         </div>
-        <aside class="hero-panel" aria-label="Current work snapshot">
-          <p class="hero-panel-title">Currently</p>
-          <ul class="hero-panel-list">
-            <li><strong>Researching</strong><span>CT biomarkers, imaging informatics, and AI workflows in radiology.</span></li>
-            <li><strong>Teaching</strong><span>Applied improv and communication in academic and professional settings.</span></li>
-            <li><strong>Building</strong><span>Community and performances through Amalgam Improv in Madison.</span></li>
-            <li><strong>Exploring</strong><span>How humor, clarity, and empathy can strengthen scientific communication.</span></li>
-          </ul>
+
+        <aside class="home-hero-showcase" aria-label="Current portfolio snapshot">
+          <div class="showcase-topline">
+            <span>Current focus</span>
+            <strong>UW–Madison Radiology</strong>
+          </div>
+
+          <div class="showcase-visual" aria-hidden="true">
+            <span class="scan-ring ring-one"></span>
+            <span class="scan-ring ring-two"></span>
+            <span class="scan-ring ring-three"></span>
+            <span class="scan-line"></span>
+            <span class="scan-node node-one"></span>
+            <span class="scan-node node-two"></span>
+            <span class="scan-node node-three"></span>
+          </div>
+
+          <div class="showcase-stack">
+            <article class="showcase-card">
+              <p>Research</p>
+              <strong>CT biomarkers + AI</strong>
+              <span>Turning routine imaging data into population-level risk insight.</span>
+            </article>
+            <article class="showcase-card">
+              <p>Teaching</p>
+              <strong>Workshops for scientists</strong>
+              <span>Communication, team science, humor, and creative risk-taking.</span>
+            </article>
+            <article class="showcase-card">
+              <p>Community</p>
+              <strong>Improv as infrastructure</strong>
+              <span>Building spaces where people listen, adapt, and make things together.</span>
+            </article>
+          </div>
+
+          <div class="showcase-footer">
+            <p class="showcase-footer-kicker">Connecting thread</p>
+            <p>Evidence, empathy, and playful structure for people doing complicated work.</p>
+          </div>
         </aside>
       </section>
 
-      <section class="snapshot-band reveal-on-scroll" aria-label="Ben Rush identity snapshot">
-        <article class="snapshot-card">
-          <p class="snapshot-label">Scientist</p>
-          <p class="snapshot-value">Imaging, epidemiology, and translational data work.</p>
+      <section class="home-identity-rail reveal-on-scroll" aria-label="Ben Rush identity snapshot">
+        <article class="home-identity-card">
+          <p class="home-identity-label">Scientist</p>
+          <h2>Imaging informatics</h2>
+          <p>CT biomarkers, epidemiology, AI workflows, and translational data science.</p>
         </article>
-        <article class="snapshot-card">
-          <p class="snapshot-label">Improviser</p>
-          <p class="snapshot-value">Longform performance, ensemble-building, and creative risk-taking.</p>
+        <article class="home-identity-card">
+          <p class="home-identity-label">Improviser</p>
+          <h2>Creative collaboration</h2>
+          <p>Longform performance, ensemble-building, and comfort with uncertainty.</p>
         </article>
-        <article class="snapshot-card">
-          <p class="snapshot-label">Educator</p>
-          <p class="snapshot-value">Workshops that help teams communicate with more confidence and warmth.</p>
+        <article class="home-identity-card">
+          <p class="home-identity-label">Educator</p>
+          <h2>Workshops that stick</h2>
+          <p>Interactive sessions that help teams communicate with confidence and warmth.</p>
         </article>
-        <article class="snapshot-card">
-          <p class="snapshot-label">Communicator</p>
-          <p class="snapshot-value">Podcasting, public speaking, and science stories that resonate.</p>
+        <article class="home-identity-card">
+          <p class="home-identity-label">Communicator</p>
+          <h2>Stories with structure</h2>
+          <p>Podcasting, public speaking, and science translation that respects the audience.</p>
         </article>
       </section>
 
