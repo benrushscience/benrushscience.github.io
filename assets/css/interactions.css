@@ -1,0 +1,287 @@
+/* Tasteful scroll animation and microinteractions */
+
+:root {
+  --motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-duration: 520ms;
+  --motion-duration-fast: 180ms;
+  --motion-lift: -0.28rem;
+  --motion-reveal-distance: 1.05rem;
+}
+
+html {
+  scroll-padding-top: 6.25rem;
+}
+
+body {
+  --cursor-x: 50%;
+  --cursor-y: 50%;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(var(--motion-reveal-distance)) scale(0.992);
+  filter: blur(5px);
+  transition:
+    opacity var(--motion-duration) var(--motion-ease),
+    transform var(--motion-duration) var(--motion-ease),
+    filter var(--motion-duration) var(--motion-ease);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.page-hero-header.reveal-on-scroll,
+.home-hero.reveal-on-scroll {
+  --motion-reveal-distance: 0.7rem;
+  transform: translateY(var(--motion-reveal-distance)) scale(0.986);
+}
+
+.module-card.reveal-on-scroll,
+.card.reveal-on-scroll,
+.science-section.reveal-on-scroll,
+.cv-section.reveal-on-scroll {
+  --motion-reveal-distance: 0.9rem;
+}
+
+.button,
+.cv-page .cv-download-btn,
+.nav-toggle,
+.site-nav a,
+.module-link,
+a.card,
+a.module-card {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button,
+.cv-page .cv-download-btn,
+.nav-toggle {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.button::after,
+.cv-page .cv-download-btn::after,
+.nav-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255, 255, 255, 0.42), transparent 36%);
+  opacity: 0;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease);
+}
+
+.button:hover::after,
+.cv-page .cv-download-btn:hover::after,
+.nav-toggle:hover::after {
+  opacity: 1;
+}
+
+.button:active,
+.cv-page .cv-download-btn:active,
+.nav-toggle:active,
+.site-nav a:active,
+.card:active,
+.module-card:active,
+.snapshot-card:active,
+.home-identity-card:active {
+  transform: translateY(-1px) scale(0.992);
+}
+
+.card,
+.module-card,
+.snapshot-card,
+.home-identity-card,
+.science-section,
+.cv-section,
+.page-hero-header,
+.home-hero-showcase,
+.media-card-media {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.card:hover,
+.module-card:hover,
+.snapshot-card:hover,
+.home-identity-card:hover,
+.science-section:hover,
+.cv-section:hover {
+  transform: translateY(var(--motion-lift));
+  box-shadow: var(--shadow-lift);
+}
+
+.card:hover .card-kicker,
+.module-card:hover .module-kicker,
+.home-identity-card:hover .home-identity-label,
+.science-section:hover .science-section-title {
+  color: var(--color-primary-2);
+}
+
+.card h2,
+.card h3,
+.module-title,
+.home-identity-card h2,
+.science-section-title,
+.page-hero-title {
+  transition: color var(--motion-duration-fast) var(--motion-ease), transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.card:hover h2,
+.card:hover h3,
+.module-card:hover .module-title,
+.home-identity-card:hover h2 {
+  transform: translateY(-0.06rem);
+}
+
+.card::after,
+.module-card::after,
+.home-identity-card::before,
+.science-section::before {
+  transition: opacity var(--motion-duration-fast) var(--motion-ease), transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.module-card:hover::before,
+.card:hover::before,
+.home-identity-card:hover::before,
+.science-section:hover::before {
+  opacity: 0.94;
+}
+
+.module-tag,
+.page-hero-chip,
+.home-hero-proof span,
+.tag,
+.pill {
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease),
+    background var(--motion-duration-fast) var(--motion-ease),
+    border-color var(--motion-duration-fast) var(--motion-ease),
+    box-shadow var(--motion-duration-fast) var(--motion-ease);
+}
+
+.module-tag:hover,
+.page-hero-chip:hover,
+.home-hero-proof span:hover,
+.tag:hover,
+.pill:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 253, 248, 0.88);
+  border-color: rgba(255, 79, 163, 0.24);
+  box-shadow: 0 10px 28px rgba(35, 24, 21, 0.08);
+}
+
+.module-link {
+  transition: color var(--motion-duration-fast) var(--motion-ease), transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.module-link:hover,
+.module-card:hover .module-link {
+  color: var(--color-primary-2);
+  transform: translateX(2px);
+}
+
+.module-link::after,
+.site-nav a::after,
+.button,
+.cv-page .cv-download-btn,
+.nav-toggle {
+  transition-duration: var(--motion-duration-fast);
+  transition-timing-function: var(--motion-ease);
+}
+
+.page-hero-orbit,
+.scan-ring {
+  transform-origin: center;
+}
+
+.page-hero-node,
+.scan-node {
+  animation: node-glow 4.8s var(--motion-ease) infinite;
+}
+
+.page-hero-node--two,
+.node-two {
+  animation-delay: 800ms;
+}
+
+.page-hero-node--three,
+.node-three {
+  animation-delay: 1600ms;
+}
+
+@keyframes node-glow {
+  0%, 100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@media (hover: none) {
+  .card:hover,
+  .module-card:hover,
+  .snapshot-card:hover,
+  .home-identity-card:hover,
+  .science-section:hover,
+  .cv-section:hover,
+  .module-tag:hover,
+  .page-hero-chip:hover,
+  .home-hero-proof span:hover,
+  .tag:hover,
+  .pill:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration: 1ms;
+    --motion-duration-fast: 1ms;
+    --motion-reveal-distance: 0;
+  }
+
+  .reveal-on-scroll,
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .page-hero-node,
+  .scan-node {
+    animation: none;
+  }
+
+  .card,
+  .module-card,
+  .snapshot-card,
+  .home-identity-card,
+  .science-section,
+  .cv-section,
+  .button,
+  .cv-page .cv-download-btn,
+  .nav-toggle,
+  .site-nav a,
+  .module-link,
+  .module-tag,
+  .page-hero-chip,
+  .home-hero-proof span,
+  .tag,
+  .pill {
+    transition: none !important;
+  }
+}
