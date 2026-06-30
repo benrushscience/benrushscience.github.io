@@ -75,13 +75,14 @@
 
 .page-hero-title {
   max-width: min(100%, 16ch);
-  margin-bottom: var(--space-4);
+  margin: 0 auto var(--space-4);
   font-family: var(--font-hero);
   font-size: clamp(1.8375rem, 3.9vw, 3.825rem);
   font-weight: 800;
   letter-spacing: 0;
   line-height: 0.98;
   overflow-wrap: break-word;
+  text-align: center;
 }
 
 .page-hero-title em {
@@ -293,14 +294,17 @@
 
 .cv-page .hero > h1:first-child {
   max-width: 13ch;
+  margin-left: auto;
+  margin-right: auto;
   font-size: clamp(2.025rem, 1.41rem + 3.15vw, 4.275rem);
+  text-align: center;
 }
 
 .cv-page .hero > h1:first-child::before {
   content: "Experience";
   display: block;
   width: fit-content;
-  margin-bottom: var(--space-3);
+  margin: 0 auto var(--space-3);
   padding: 0.32rem 0.7rem;
   border-radius: var(--radius-pill);
   background: rgba(255, 253, 248, 0.78);
