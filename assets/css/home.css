@@ -79,12 +79,13 @@
 
 .home-hero-title {
   max-width: 12ch;
-  margin-bottom: var(--space-5);
+  margin: 0 auto var(--space-5);
   font-family: var(--font-hero);
   font-size: clamp(2.5125rem, 7.05vw, 6rem);
   font-weight: 800;
   letter-spacing: 0;
   line-height: 0.94;
+  text-align: center;
 }
 
 .home-hero-title em {
