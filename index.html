@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/assets/css/modules.css" />
   <link rel="stylesheet" href="/assets/css/home.css" />
   <link rel="stylesheet" href="/assets/css/identity.css" />
+  <link rel="stylesheet" href="/assets/css/featured.css" />
 </head>
 <body class="home-body">
   <header>
@@ -107,6 +108,118 @@
           <h2>Stories with structure</h2>
           <p>Podcasting, public speaking, and science translation that respects the audience.</p>
         </article>
+      </section>
+
+      <section class="featured-section reveal-on-scroll" aria-labelledby="featured-work-title" data-featured-carousel>
+        <div class="featured-section-header">
+          <div class="featured-section-copy">
+            <p class="module-kicker">Featured work</p>
+            <h2 class="featured-title" id="featured-work-title">Research, shows, tools, and public-facing projects.</h2>
+            <p class="featured-lede">A curated sampler of work that connects rigorous imaging informatics, comedy, community infrastructure, and resources for people learning improv.</p>
+          </div>
+          <div class="featured-controls" aria-label="Featured work carousel controls">
+            <button class="featured-control" type="button" data-featured-prev aria-label="Previous featured work card">‹</button>
+            <button class="featured-control" type="button" data-featured-next aria-label="Next featured work card">›</button>
+          </div>
+        </div>
+
+        <div class="featured-carousel-shell">
+          <div class="featured-carousel-track" data-featured-track tabindex="0" aria-label="Featured work cards">
+            <a class="featured-card featured-card--improv" href="https://www.amalgamimprov.com/second-anniversary-show" target="_blank" rel="noopener">
+              <p class="featured-card-kicker">Performance / community</p>
+              <h3 class="featured-card-title">Amalgam Improv Second Anniversary at Bartell Theatre</h3>
+              <p class="featured-card-description">A full evening celebrating two years of independent improv in Madison at Bartell Theatre’s Evjue Stage, with a jam and two shows.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">Bartell Theatre</span>
+                <span class="featured-card-tag">Independent improv</span>
+              </div>
+              <span class="featured-card-link">View event</span>
+            </a>
+
+            <a class="featured-card featured-card--science" href="/pages/science/#research-projects">
+              <p class="featured-card-kicker">Research</p>
+              <h3 class="featured-card-title">OSCAR multicenter CT biomarker survival prediction</h3>
+              <p class="featured-card-description">Multi-site imaging informatics using opportunistic CT-derived biomarkers to evaluate population-level survival prediction and generalizability.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">CT biomarkers</span>
+                <span class="featured-card-tag">External validation</span>
+              </div>
+              <span class="featured-card-link">Explore science</span>
+            </a>
+
+            <a class="featured-card featured-card--improv" href="https://www.amalgamimprov.com/big-honey-events" target="_blank" rel="noopener">
+              <p class="featured-card-kicker">Festival / production</p>
+              <h3 class="featured-card-title">Big Honey’s Little Improv Festival</h3>
+              <p class="featured-card-description">Eight free comedy events over four days at Broom Street Theater, hosted by Big Honey with music, guests, and chances for audiences to join in.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">Festival</span>
+                <span class="featured-card-tag">Broom Street Theater</span>
+              </div>
+              <span class="featured-card-link">View festival</span>
+            </a>
+
+            <a class="featured-card featured-card--improv" href="https://www.amalgamimprov.com/improv-group-map" target="_blank" rel="noopener">
+              <p class="featured-card-kicker">Digital tool / community</p>
+              <h3 class="featured-card-title">World improv group map</h3>
+              <p class="featured-card-description">A global improv discovery tool with 2,000+ groups, built to help performers find scenes, shows, classes, and communities.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">2,000+ groups</span>
+                <span class="featured-card-tag">Improv infrastructure</span>
+              </div>
+              <span class="featured-card-link">Open map</span>
+            </a>
+
+            <a class="featured-card featured-card--science" href="https://doi.org/10.2214/AJR.24.32216" target="_blank" rel="noopener">
+              <p class="featured-card-kicker">Publication / award</p>
+              <h3 class="featured-card-title">CT body composition and systemic disease in 100,000+ patients</h3>
+              <p class="featured-card-description">AJR-recognized population-level analysis of CT-based body composition measures and systemic disease using AI tools.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">AJR</span>
+                <span class="featured-card-tag">Body composition</span>
+              </div>
+              <span class="featured-card-link">View DOI</span>
+            </a>
+
+            <a class="featured-card featured-card--media" href="https://www.instagram.com/amalgamimprov/" target="_blank" rel="noopener">
+              <p class="featured-card-kicker">Comedy / media</p>
+              <h3 class="featured-card-title">Jess McKenna Instagram video</h3>
+              <p class="featured-card-description">A social video moment connecting Amalgam’s Madison indie improv work to a broader comedy and improv audience.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">Instagram</span>
+                <span class="featured-card-tag">Comedy reach</span>
+              </div>
+              <span class="featured-card-link">Open Instagram</span>
+            </a>
+
+            <a class="featured-card featured-card--improv" href="/pages/workshops/">
+              <p class="featured-card-kicker">Workshop / science communication</p>
+              <h3 class="featured-card-title">Applied Improv for Scientists / Sci-prov</h3>
+              <p class="featured-card-description">Workshops and shows that help scientists practice presence, listening, storytelling, and clarity through improv.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">SciComm</span>
+                <span class="featured-card-tag">Applied improv</span>
+              </div>
+              <span class="featured-card-link">View workshops</span>
+            </a>
+
+            <article class="featured-card featured-card--improv">
+              <p class="featured-card-kicker">Improv learner hub</p>
+              <h3 class="featured-card-title">Listen, Watch, and Read resources from Amalgam</h3>
+              <p class="featured-card-description">Polished reference hubs that centralize improv podcasts, recent videos from major groups, and reading channels so learners can find quality examples and study material quickly.</p>
+              <div class="featured-card-meta" aria-label="Card topics">
+                <span class="featured-card-tag">17 podcasts</span>
+                <span class="featured-card-tag">15 video channels</span>
+                <span class="featured-card-tag">30 reading channels</span>
+              </div>
+              <div class="featured-resource-links" aria-label="Amalgam resource links">
+                <a class="featured-resource-link" href="https://www.amalgamimprov.com/listen" target="_blank" rel="noopener">Listen</a>
+                <a class="featured-resource-link" href="https://www.amalgamimprov.com/watch" target="_blank" rel="noopener">Watch</a>
+                <a class="featured-resource-link" href="https://www.amalgamimprov.com/read" target="_blank" rel="noopener">Read</a>
+              </div>
+            </article>
+          </div>
+        </div>
+        <p class="featured-carousel-status" data-featured-status aria-live="polite"></p>
       </section>
 
       <section class="module-section reveal-on-scroll" aria-labelledby="recognition-title">
