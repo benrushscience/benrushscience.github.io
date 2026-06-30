@@ -1,0 +1,278 @@
+/* Subtle visual identity layer: imaging, data, teaching, and improv */
+
+:root {
+  --identity-grid: rgba(35, 24, 21, 0.045);
+  --identity-pink: rgba(255, 79, 163, 0.18);
+  --identity-gold: rgba(255, 231, 141, 0.42);
+  --identity-copper: rgba(200, 91, 46, 0.16);
+}
+
+.site-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.site-title::before {
+  content: "";
+  width: 0.82rem;
+  height: 0.82rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, var(--color-primary-2) 0 18%, transparent 19% 40%, var(--color-accent-2) 41% 46%, transparent 47%),
+    var(--gradient-ink);
+  box-shadow: 0 0 0 4px rgba(255, 231, 141, 0.24), 0 0 22px rgba(255, 79, 163, 0.28);
+}
+
+.hero,
+.home-hero,
+.science-section,
+.module-card,
+.home-identity-rail {
+  background-blend-mode: normal, normal, normal;
+}
+
+.hero::before,
+.home-hero::before {
+  background-image:
+    linear-gradient(var(--identity-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--identity-grid) 1px, transparent 1px),
+    radial-gradient(circle at 14% 18%, var(--identity-gold), transparent 12rem),
+    radial-gradient(circle at 88% 14%, var(--identity-pink), transparent 14rem);
+  background-size: 44px 44px, 44px 44px, auto, auto;
+}
+
+.hero > h1::after,
+.home-hero-title::after,
+.module-section-title::after,
+.science-section-title::after {
+  content: "";
+  display: block;
+  width: clamp(3.2rem, 8vw, 5.5rem);
+  height: 0.36rem;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-primary-2), var(--color-accent-2), transparent);
+}
+
+.home-hero-title::after {
+  width: clamp(4rem, 11vw, 8rem);
+  height: 0.44rem;
+}
+
+.home-hero-copy::before,
+.doc-content::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.home-hero-copy::before {
+  right: 4%;
+  top: 10%;
+  width: 6.2rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(200, 91, 46, 0.16);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 79, 163, 0.13) 0 13%, transparent 14% 32%, rgba(255, 231, 141, 0.25) 33% 38%, transparent 39%),
+    radial-gradient(circle, transparent 52%, rgba(35, 24, 21, 0.06) 53%, transparent 54%);
+}
+
+.home-hero-proof span::before,
+.module-tag::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.42;
+}
+
+.showcase-visual::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 18%;
+  bottom: 18%;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent 48%, rgba(255, 248, 239, 0.16) 49% 51%, transparent 52%),
+    linear-gradient(0deg, transparent 48%, rgba(255, 248, 239, 0.16) 49% 51%, transparent 52%);
+  transform: rotate(18deg);
+}
+
+.scan-ring {
+  animation: identity-pulse 6s ease-in-out infinite;
+}
+
+.ring-two {
+  animation-delay: 900ms;
+}
+
+.ring-three {
+  animation-delay: 1800ms;
+}
+
+.project-card,
+.method-card,
+.publication-card {
+  background-image:
+    radial-gradient(circle at 88% 12%, rgba(255, 231, 141, 0.46), transparent 8rem),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(255, 248, 231, 0.88));
+}
+
+.workshop-card {
+  background-image:
+    radial-gradient(circle at 86% 12%, rgba(255, 79, 163, 0.14), transparent 8rem),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(255, 240, 168, 0.64));
+}
+
+.media-card {
+  background-image:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(255, 228, 202, 0.78));
+}
+
+.recognition-card {
+  background-image:
+    radial-gradient(circle at 88% 12%, rgba(255, 79, 163, 0.18), transparent 8rem),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(255, 232, 243, 0.72));
+}
+
+.project-card .module-kicker::before,
+.method-card .module-kicker::before,
+.publication-card .module-kicker::before,
+.workshop-card .module-kicker::before,
+.media-card .module-kicker::before,
+.recognition-card .module-kicker::before,
+.card-kicker::before,
+.home-identity-label::before {
+  display: inline-block;
+  margin-right: 0.45rem;
+  color: var(--module-accent, var(--color-accent));
+  opacity: 0.78;
+}
+
+.project-card .module-kicker::before,
+.method-card .module-kicker::before,
+.publication-card .module-kicker::before {
+  content: "▦";
+}
+
+.workshop-card .module-kicker::before {
+  content: "✦";
+}
+
+.media-card .module-kicker::before {
+  content: "◉";
+}
+
+.recognition-card .module-kicker::before {
+  content: "★";
+}
+
+.card-kicker::before {
+  content: "•";
+}
+
+.home-identity-label::before {
+  content: "↗";
+}
+
+.story-page .hero::after,
+.improv-page .hero::after,
+.podcasting-page .hero::after,
+.workshops-page .hero::after,
+.science-page .science-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: clamp(13rem, 28vw, 22rem);
+  aspect-ratio: 1;
+  inset: auto -5rem -8rem auto;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 42%, rgba(255, 79, 163, 0.12) 43% 44%, transparent 45% 58%, rgba(255, 231, 141, 0.22) 59% 60%, transparent 61%),
+    radial-gradient(circle, rgba(255, 79, 163, 0.08), transparent 68%);
+}
+
+.story-page .hero::after {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 42%, rgba(199, 63, 127, 0.14) 43% 44%, transparent 45% 58%, rgba(255, 231, 141, 0.22) 59% 60%, transparent 61%),
+    radial-gradient(circle, rgba(199, 63, 127, 0.08), transparent 68%);
+}
+
+.improv-page .hero::after,
+.workshops-page .hero::after {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 42%, rgba(255, 79, 163, 0.16) 43% 44%, transparent 45% 58%, rgba(255, 231, 141, 0.22) 59% 60%, transparent 61%),
+    conic-gradient(from 18deg, transparent, rgba(255, 79, 163, 0.11), transparent 28%);
+}
+
+.podcasting-page .hero::after {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 42%, rgba(200, 91, 46, 0.16) 43% 44%, transparent 45% 58%, rgba(255, 79, 163, 0.12) 59% 60%, transparent 61%),
+    radial-gradient(circle, rgba(200, 91, 46, 0.10), transparent 68%);
+}
+
+.science-section::after {
+  content: "";
+  position: absolute;
+  inset: auto 1rem 1rem auto;
+  width: 5.5rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, transparent 0 34%, rgba(200, 91, 46, 0.13) 35% 36%, transparent 37% 55%, rgba(255, 79, 163, 0.11) 56% 57%, transparent 58%),
+    linear-gradient(90deg, transparent 48%, rgba(35, 24, 21, 0.07) 49% 51%, transparent 52%),
+    linear-gradient(0deg, transparent 48%, rgba(35, 24, 21, 0.07) 49% 51%, transparent 52%);
+  opacity: 0.62;
+}
+
+.home-identity-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-identity-card::after {
+  content: "";
+  position: absolute;
+  right: -1.3rem;
+  bottom: -1.3rem;
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, transparent 42%, rgba(255, 79, 163, 0.11) 43% 44%, transparent 45%);
+}
+
+@keyframes identity-pulse {
+  0%, 100% {
+    opacity: 0.68;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-ring {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-hero-copy::before,
+  .science-section::after {
+    display: none;
+  }
+
+  .site-title::before {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+}
