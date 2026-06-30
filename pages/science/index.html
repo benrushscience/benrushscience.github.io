@@ -6,6 +6,7 @@
   <title>Ben Rush | Science</title>
   <meta name="description" content="Research themes, publications, and scientific projects." />
   <link rel="stylesheet" href="/assets/css/site.css" />
+  <link rel="stylesheet" href="/assets/css/modules.css" />
   <link rel="stylesheet" href="/assets/css/science.css" />
 </head>
 <body class="science-page">
@@ -52,29 +53,49 @@
 
             <section class="science-section" id="research-projects" aria-labelledby="research-projects-title">
               <h2 class="science-section-title" id="research-projects-title">Research Projects</h2>
-              <div class="card-grid" aria-label="Research project cards">
-                <article class="card card-science">
-                  <p class="card-kicker">Radiology AI</p>
-                  <h3>LLMs for radiology reporting and incidental breast findings</h3>
-                  <p>I study how large language models can help identify incidental breast findings in radiology reports, with a focus on prompt design, model agreement, sensitivity, specificity, and consensus methods that could support safer follow-up workflows.</p>
+              <div class="module-grid" aria-label="Research project cards">
+                <article class="module-card project-card">
+                  <p class="module-kicker">Radiology AI</p>
+                  <h3 class="module-title">LLMs for radiology reporting and incidental breast findings</h3>
+                  <p class="module-description">I study how large language models can help identify incidental breast findings in radiology reports, with a focus on prompt design, model agreement, sensitivity, specificity, and consensus methods that could support safer follow-up workflows.</p>
+                  <div class="module-tags" aria-label="Project topics">
+                    <span class="module-tag">LLMs</span>
+                    <span class="module-tag">Prompt design</span>
+                    <span class="module-tag">Radiology reports</span>
+                  </div>
                 </article>
 
-                <article class="card card-science">
-                  <p class="card-kicker">OSCAR</p>
-                  <h3>Multi-site CT biomarkers</h3>
-                  <p>I work on harmonizing opportunistic abdominal CT biomarkers across participating sites to evaluate generalizability, site-level robustness, and population-level prediction of survival and other outcomes.</p>
+                <article class="module-card project-card">
+                  <p class="module-kicker">OSCAR</p>
+                  <h3 class="module-title">Multi-site CT biomarkers</h3>
+                  <p class="module-description">I work on harmonizing opportunistic abdominal CT biomarkers across participating sites to evaluate generalizability, site-level robustness, and population-level prediction of survival and other outcomes.</p>
+                  <div class="module-tags" aria-label="Project topics">
+                    <span class="module-tag">External validation</span>
+                    <span class="module-tag">Survival prediction</span>
+                    <span class="module-tag">Harmonization</span>
+                  </div>
                 </article>
 
-                <article class="card card-science">
-                  <p class="card-kicker">Public health</p>
-                  <h3>Geospatial imaging context</h3>
-                  <p>I link CT-derived biomarkers with neighborhood-level socioeconomic indicators and healthcare access measures to study disparities and community-level patterns in imaging-derived health information.</p>
+                <article class="module-card project-card">
+                  <p class="module-kicker">Public health</p>
+                  <h3 class="module-title">Geospatial imaging context</h3>
+                  <p class="module-description">I link CT-derived biomarkers with neighborhood-level socioeconomic indicators and healthcare access measures to study disparities and community-level patterns in imaging-derived health information.</p>
+                  <div class="module-tags" aria-label="Project topics">
+                    <span class="module-tag">Geospatial data</span>
+                    <span class="module-tag">Health equity</span>
+                    <span class="module-tag">Access</span>
+                  </div>
                 </article>
 
-                <article class="card card-science">
-                  <p class="card-kicker">Body composition</p>
-                  <h3>Muscle, fat, bone, and function</h3>
-                  <p>I study muscle quantity, muscle density, adipose tissue distribution, bone attenuation, and longitudinal body composition change across clinical and population-level cohorts.</p>
+                <article class="module-card project-card">
+                  <p class="module-kicker">Body composition</p>
+                  <h3 class="module-title">Muscle, fat, bone, and function</h3>
+                  <p class="module-description">I study muscle quantity, muscle density, adipose tissue distribution, bone attenuation, and longitudinal body composition change across clinical and population-level cohorts.</p>
+                  <div class="module-tags" aria-label="Project topics">
+                    <span class="module-tag">Muscle</span>
+                    <span class="module-tag">Adipose tissue</span>
+                    <span class="module-tag">Bone</span>
+                  </div>
                 </article>
               </div>
             </section>
@@ -82,82 +103,99 @@
             <section class="science-section" id="methods-and-rigor" aria-labelledby="methods-and-rigor-title">
               <h2 class="science-section-title" id="methods-and-rigor-title">Methods and rigor</h2>
               <p>I care about the parts of clinical data science that make models trustworthy: clear definitions, auditable data cleaning, appropriate statistics, and interpretation that matches the evidence.</p>
-              <div class="card-grid" aria-label="Methods and rigor cards">
-                <article class="card card-science">
-                  <p class="card-kicker">Cohorts</p>
-                  <h3>Careful index CT logic</h3>
-                  <p>Define the index scan, deduplicate patients when needed, harmonize dates, align clinical variables, and preserve row-count audit trails through every major filtering step.</p>
+              <div class="module-grid" aria-label="Methods and rigor cards">
+                <article class="module-card method-card">
+                  <p class="module-kicker">Cohorts</p>
+                  <h3 class="module-title">Careful index CT logic</h3>
+                  <p class="module-description">Define the index scan, deduplicate patients when needed, harmonize dates, align clinical variables, and preserve row-count audit trails through every major filtering step.</p>
                 </article>
 
-                <article class="card card-science">
-                  <p class="card-kicker">QC</p>
-                  <h3>Biomarker and site checks</h3>
-                  <p>Inspect medians, IQRs, ranges, missingness, implausible values, extraction failures, scanner/protocol variation, and site-level differences before modeling.</p>
+                <article class="module-card method-card">
+                  <p class="module-kicker">QC</p>
+                  <h3 class="module-title">Biomarker and site checks</h3>
+                  <p class="module-description">Inspect medians, IQRs, ranges, missingness, implausible values, extraction failures, scanner/protocol variation, and site-level differences before modeling.</p>
                 </article>
 
-                <article class="card card-science">
-                  <p class="card-kicker">Modeling</p>
-                  <h3>Prediction with calibration</h3>
-                  <p>Use survival and fixed-horizon prediction approaches when appropriate, reporting discrimination, calibration, uncertainty, and clinically relevant operating characteristics.</p>
+                <article class="module-card method-card">
+                  <p class="module-kicker">Modeling</p>
+                  <h3 class="module-title">Prediction with calibration</h3>
+                  <p class="module-description">Use survival and fixed-horizon prediction approaches when appropriate, reporting discrimination, calibration, uncertainty, and clinically relevant operating characteristics.</p>
                 </article>
 
-                <article class="card card-science">
-                  <p class="card-kicker">Interpretation</p>
-                  <h3>Cautious clinical language</h3>
-                  <p>Frame findings as prediction, association, risk stratification, transportability, or external validation unless a diagnostic or causal claim has been specifically validated.</p>
+                <article class="module-card method-card">
+                  <p class="module-kicker">Interpretation</p>
+                  <h3 class="module-title">Cautious clinical language</h3>
+                  <p class="module-description">Frame findings as prediction, association, risk stratification, transportability, or external validation unless a diagnostic or causal claim has been specifically validated.</p>
                 </article>
               </div>
             </section>
 
             <section class="science-section" id="publications" aria-labelledby="publications-title">
               <h2 class="science-section-title" id="publications-title">Publications</h2>
-              <ol class="publication-list">
-                <li>
-                  <p><strong>Novel DXA body composition approaches: comparison with traditional total body scans</strong></p>
-                  <p><em>Journal of Clinical Densitometry</em> (2026-04) · <a href="https://doi.org/10.1016/j.jocd.2026.101668">https://doi.org/10.1016/j.jocd.2026.101668</a></p>
-                  <p>Diane Krueger; Gretta Borchardt; Lucas Andersen; Benjamin Rush; Jevin Lortie; Adam J. Kuchnia; Jennifer Sanfilippo; Neil Binkley</p>
-                </li>
-                <li>
-                  <p><strong>CT-Based Body Composition Measures and Systemic Disease: A Population-Level Analysis Using Artificial Intelligence Tools in Over 100,000 Patients</strong></p>
-                  <p><em>American Journal of Roentgenology</em> (2025) · <a href="https://doi.org/10.2214/AJR.24.32216">https://doi.org/10.2214/AJR.24.32216</a></p>
-                  <p>Pooler, B. Dustin; Garrett, John W.; Lee, Matthew H.; Rush, Benjamin E.; Kuchnia, Adam J.; Summers, Ronald M.; Pickhardt, Perry J.</p>
-                </li>
-                <li>
-                  <p><strong>Uncorrected and subcutaneous fat‐corrected echo intensities are similarly associated with magnetic resonance imaging per cent fat</strong></p>
-                  <p><em>JCSM Communications</em> (2024-01) · <a href="https://doi.org/10.1002/rco2.92">https://doi.org/10.1002/rco2.92</a></p>
-                  <p>Benjamin Rush; Sujay Garlapati; Jevin Lortie; Katie Osterbauer; Timothy J. Colgan; Daiki Tamada; Toby C. Campbell; Anne Traynor; Ticiana Leal; Kenneth Lee; et al.</p>
-                </li>
-                <li>
-                  <p><strong>The effect of computed tomography parameters on sarcopenia and myosteatosis assessment: a scoping review</strong></p>
-                  <p><em>Journal of Cachexia, Sarcopenia and Muscle</em> (2022-12) · <a href="https://doi.org/10.1002/jcsm.13068">https://doi.org/10.1002/jcsm.13068</a></p>
-                  <p>Jevin Lortie; Grace Gage; Benjamin Rush; Steven B. Heymsfield; Timothy P. Szczykutowicz; Adam J. Kuchnia</p>
-                </li>
-                <li>
-                  <p><strong>Using Bioimaging Techniques as Muscle Quality Biomarkers for Sarcopenia and Cachexia Diagnosis and Treatment</strong></p>
-                  <p><em>Dissertation or Thesis</em> (2022) · <a href="https://www.proquest.com/docview/2679739967/abstract/BED28F99191747D7PQ/1?accountid=465&sourcetype=Dissertations%20&%20Theses">https://www.proquest.com/docview/2679739967/abstract/BED28F99191747D7PQ/1?accountid=465&sourcetype=Dissertations%20&%20Theses</a></p>
-                  <p>Benjamin Rush</p>
-                </li>
-                <li>
-                  <p><strong>Myosteatosis as a Shared Biomarker for Sarcopenia and Cachexia Using MRI and Ultrasound</strong></p>
-                  <p><em>Frontiers in Rehabilitation Sciences</em> (2022-05-30) · <a href="https://doi.org/10.3389/fresc.2022.896114">https://doi.org/10.3389/fresc.2022.896114</a></p>
-                  <p>Benjamin Rush</p>
-                </li>
-                <li>
-                  <p><strong>Combination of DXA and BIS Predicts Jump Power Better Than Traditional Measures of Sarcopenia</strong></p>
-                  <p><em>JBMR Plus</em> (2021-08) · <a href="https://doi.org/10.1002/jbm4.10527">https://doi.org/10.1002/jbm4.10527</a></p>
-                  <p>Benjamin Rush; Neil Binkley; Diane Krueger; Yosuke Yamada; Adam J Kuchnia</p>
-                </li>
-                <li>
-                  <p><strong>Identification of Muscle Wasting in Lung Cancer using MRI Proton Density Fat Fraction and Ultrasound</strong></p>
-                  <p><em>The FASEB Journal</em> (2020-04) · <a href="https://doi.org/10.1096/fasebj.2020.34.s1.09640">https://doi.org/10.1096/fasebj.2020.34.s1.09640</a></p>
-                  <p>Katie Osterbauer; Jevin Lortie; Ben Rush; TJ Colgan; Kenneth Lee; Ticiana Leal; Scott Reeder; Adam Kuchnia</p>
-                </li>
-                <li>
-                  <p><strong>Sexual Health and Language Dominance Among Hispanic/Latino Women and Men: Analysis of a Nationally Representative Sample</strong></p>
-                  <p><em>Journal of Immigrant and Minority Health</em> (2016-06) · <a href="https://doi.org/10.1007/s10903-016-0446-7">https://doi.org/10.1007/s10903-016-0446-7</a></p>
-                  <p>Lucia Guerra-Reyes; Benjamin Rush; Debby Herbenick; Brian Dodge; Michael Reece; Vanessa Schick; Stephanie A. Sanders; J. Dennis Fortenberry</p>
-                </li>
-              </ol>
+              <div class="module-grid module-grid--two publication-grid" aria-label="Publication cards">
+                <article class="module-card publication-card">
+                  <p class="module-kicker">Journal of Clinical Densitometry · 2026</p>
+                  <h3 class="module-title">Novel DXA body composition approaches: comparison with traditional total body scans</h3>
+                  <p class="module-meta">Diane Krueger; Gretta Borchardt; Lucas Andersen; Benjamin Rush; Jevin Lortie; Adam J. Kuchnia; Jennifer Sanfilippo; Neil Binkley</p>
+                  <a class="module-link" href="https://doi.org/10.1016/j.jocd.2026.101668">View DOI</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">American Journal of Roentgenology · 2025</p>
+                  <h3 class="module-title">CT-Based Body Composition Measures and Systemic Disease: A Population-Level Analysis Using Artificial Intelligence Tools in Over 100,000 Patients</h3>
+                  <p class="module-meta">Pooler, B. Dustin; Garrett, John W.; Lee, Matthew H.; Rush, Benjamin E.; Kuchnia, Adam J.; Summers, Ronald M.; Pickhardt, Perry J.</p>
+                  <a class="module-link" href="https://doi.org/10.2214/AJR.24.32216">View DOI</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">JCSM Communications · 2024</p>
+                  <h3 class="module-title">Uncorrected and subcutaneous fat-corrected echo intensities are similarly associated with magnetic resonance imaging per cent fat</h3>
+                  <p class="module-meta">Benjamin Rush; Sujay Garlapati; Jevin Lortie; Katie Osterbauer; Timothy J. Colgan; Daiki Tamada; Toby C. Campbell; Anne Traynor; Ticiana Leal; Kenneth Lee; et al.</p>
+                  <a class="module-link" href="https://doi.org/10.1002/rco2.92">View DOI</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">Journal of Cachexia, Sarcopenia and Muscle · 2022</p>
+                  <h3 class="module-title">The effect of computed tomography parameters on sarcopenia and myosteatosis assessment: a scoping review</h3>
+                  <p class="module-meta">Jevin Lortie; Grace Gage; Benjamin Rush; Steven B. Heymsfield; Timothy P. Szczykutowicz; Adam J. Kuchnia</p>
+                  <a class="module-link" href="https://doi.org/10.1002/jcsm.13068">View DOI</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">Dissertation · 2022</p>
+                  <h3 class="module-title">Using Bioimaging Techniques as Muscle Quality Biomarkers for Sarcopenia and Cachexia Diagnosis and Treatment</h3>
+                  <p class="module-meta">Benjamin Rush</p>
+                  <a class="module-link" href="https://www.proquest.com/docview/2679739967/abstract/BED28F99191747D7PQ/1?accountid=465&sourcetype=Dissertations%20&%20Theses">View record</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">Frontiers in Rehabilitation Sciences · 2022</p>
+                  <h3 class="module-title">Myosteatosis as a Shared Biomarker for Sarcopenia and Cachexia Using MRI and Ultrasound</h3>
+                  <p class="module-meta">Benjamin Rush</p>
+                  <a class="module-link" href="https://doi.org/10.3389/fresc.2022.896114">View DOI</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">JBMR Plus · 2021</p>
+                  <h3 class="module-title">Combination of DXA and BIS Predicts Jump Power Better Than Traditional Measures of Sarcopenia</h3>
+                  <p class="module-meta">Benjamin Rush; Neil Binkley; Diane Krueger; Yosuke Yamada; Adam J Kuchnia</p>
+                  <a class="module-link" href="https://doi.org/10.1002/jbm4.10527">View DOI</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">The FASEB Journal · 2020</p>
+                  <h3 class="module-title">Identification of Muscle Wasting in Lung Cancer using MRI Proton Density Fat Fraction and Ultrasound</h3>
+                  <p class="module-meta">Katie Osterbauer; Jevin Lortie; Ben Rush; TJ Colgan; Kenneth Lee; Ticiana Leal; Scott Reeder; Adam Kuchnia</p>
+                  <a class="module-link" href="https://doi.org/10.1096/fasebj.2020.34.s1.09640">View DOI</a>
+                </article>
+
+                <article class="module-card publication-card">
+                  <p class="module-kicker">Journal of Immigrant and Minority Health · 2016</p>
+                  <h3 class="module-title">Sexual Health and Language Dominance Among Hispanic/Latino Women and Men: Analysis of a Nationally Representative Sample</h3>
+                  <p class="module-meta">Lucia Guerra-Reyes; Benjamin Rush; Debby Herbenick; Brian Dodge; Michael Reece; Vanessa Schick; Stephanie A. Sanders; J. Dennis Fortenberry</p>
+                  <a class="module-link" href="https://doi.org/10.1007/s10903-016-0446-7">View DOI</a>
+                </article>
+              </div>
             </section>
           </div>
         </div>
