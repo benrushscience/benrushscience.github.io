@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Geospatial context mini visualization</title>
+  <desc id="desc">Neighborhood grid with connected location and biomarker markers.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="50" y="15" width="140" height="54" rx="12" fill="#fffdf8" stroke="#111111" stroke-opacity="0.12"/>
+    <path d="M50 33h140M50 51h140M85 15v54M120 15v54M155 15v54" stroke="#111111" stroke-opacity="0.09"/>
+    <path d="M76 56c20-18 34-20 52-10 14 8 26 5 42-15" stroke="#ff4fa3" stroke-opacity="0.36" stroke-width="2"/>
+    <path d="M123 22c10 0 18 8 18 18 0 13-18 29-18 29s-18-16-18-29c0-10 8-18 18-18Z" fill="#fffdf8" stroke="#ff4fa3" stroke-width="3"/>
+    <circle cx="123" cy="40" r="6" fill="#ffe78d" stroke="#111111" stroke-opacity="0.12"/>
+    <circle cx="76" cy="56" r="5" fill="#c85b2e"/>
+    <circle cx="170" cy="31" r="5" fill="#ff4fa3"/>
+    <circle cx="91" cy="28" r="3.5" fill="#ffe78d"/>
+    <circle cx="151" cy="58" r="3.5" fill="#111111" opacity="0.22"/>
+  </g>
+</svg>
