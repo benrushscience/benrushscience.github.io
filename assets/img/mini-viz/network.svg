@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Collaboration network mini visualization</title>
+  <desc id="desc">A central shared node connected to collaborators and community points.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M78 29 118 43 163 24M78 29 70 58 118 43M118 43l48 24M118 43l-4-25M163 24l3 43" stroke="#111111" stroke-opacity="0.16" stroke-width="2"/>
+    <circle cx="118" cy="43" r="12" fill="#ffe78d" fill-opacity="0.72" stroke="#111111" stroke-opacity="0.12"/>
+    <circle cx="78" cy="29" r="8" fill="#ff4fa3"/>
+    <circle cx="70" cy="58" r="7" fill="#ff4fa3" fill-opacity="0.86"/>
+    <circle cx="163" cy="24" r="7" fill="#ff4fa3"/>
+    <circle cx="166" cy="67" r="8" fill="#c85b2e"/>
+    <circle cx="114" cy="18" r="5" fill="#ffe78d"/>
+    <path d="M46 43h20m108 0h20" stroke="#111111" stroke-opacity="0.10"/>
+  </g>
+</svg>
