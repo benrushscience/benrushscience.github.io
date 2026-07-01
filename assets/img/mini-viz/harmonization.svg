@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Multi-site harmonization mini visualization</title>
+  <desc id="desc">Three site inputs align into a single shared dataset.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="32" y="22" width="28" height="32" rx="8" fill="#fffdf8" stroke="#111111" stroke-opacity="0.12"/>
+    <rect x="32" y="58" width="28" height="6" rx="3" fill="#ff4fa3" fill-opacity="0.22" stroke="none"/>
+    <rect x="76" y="16" width="28" height="32" rx="8" fill="#fffdf8" stroke="#111111" stroke-opacity="0.12"/>
+    <rect x="76" y="52" width="28" height="6" rx="3" fill="#ffe78d" fill-opacity="0.58" stroke="none"/>
+    <rect x="120" y="24" width="28" height="32" rx="8" fill="#fffdf8" stroke="#111111" stroke-opacity="0.12"/>
+    <rect x="120" y="60" width="28" height="6" rx="3" fill="#c85b2e" fill-opacity="0.32" stroke="none"/>
+    <path d="M60 38h22m22 0h22m22 0h18" stroke="#111111" stroke-opacity="0.13" stroke-width="2"/>
+    <path d="M60 38c32-21 66-21 104 0" stroke="#ff4fa3" stroke-opacity="0.36" stroke-width="2"/>
+    <path d="M60 38c32 19 68 19 104 0" stroke="#ffe78d" stroke-opacity="0.72" stroke-width="2"/>
+    <rect x="166" y="23" width="38" height="34" rx="9" fill="#fffdf8" stroke="#111111" stroke-opacity="0.13"/>
+    <path d="M176 32h18m-18 8h18m-18 8h18" stroke="#111111" stroke-opacity="0.18" stroke-width="2"/>
+    <path d="M202 40h12m0 0-6-6m6 6-6 6" stroke="#ff4fa3" stroke-width="2"/>
+    <circle cx="46" cy="38" r="4" fill="#ff4fa3"/>
+    <circle cx="90" cy="38" r="4" fill="#ffe78d"/>
+    <circle cx="134" cy="38" r="4" fill="#c85b2e"/>
+  </g>
+</svg>
