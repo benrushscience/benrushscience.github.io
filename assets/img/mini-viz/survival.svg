@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Survival prediction mini visualization</title>
+  <desc id="desc">Two abstract survival curves with a prediction marker.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M43 18v47h154" stroke="#111111" stroke-opacity="0.18" stroke-width="2"/>
+    <path d="M52 27h30v8h26v9h26v8h26v7h26" stroke="#ff4fa3" stroke-width="3"/>
+    <path d="M52 24h22v13h26v11h31v9h28v6h27" stroke="#c85b2e" stroke-opacity="0.85" stroke-width="3"/>
+    <path d="M52 41h134" stroke="#111111" stroke-opacity="0.07"/>
+    <path d="M52 53h134" stroke="#111111" stroke-opacity="0.07"/>
+    <path d="M149 18v47" stroke="#ffe78d" stroke-opacity="0.86" stroke-width="2" stroke-dasharray="4 5"/>
+    <circle cx="149" cy="52" r="6" fill="#fffdf8" stroke="#ffe78d" stroke-width="3"/>
+    <circle cx="149" cy="44" r="4" fill="#ff4fa3"/>
+    <path d="M191 25h14m-7-7v14" stroke="#111111" stroke-opacity="0.16"/>
+  </g>
+</svg>
