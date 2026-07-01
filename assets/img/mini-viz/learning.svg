@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Applied learning mini visualization</title>
+  <desc id="desc">Workshop stage arc with interactive speech bubbles and practice loop.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M54 59c22-28 109-28 131 0" stroke="#111111" stroke-opacity="0.14" stroke-width="2"/>
+    <path d="M65 59h110" stroke="#ffe78d" stroke-opacity="0.80" stroke-width="4"/>
+    <path d="M78 25h45c7 0 12 5 12 12s-5 12-12 12h-20l-13 10 4-10H78c-7 0-12-5-12-12s5-12 12-12Z" fill="#fffdf8" stroke="#ff4fa3" stroke-width="2.5"/>
+    <path d="M129 18h35c6 0 11 5 11 11s-5 11-11 11h-13l-10 8 3-8h-15c-6 0-11-5-11-11s5-11 11-11Z" fill="#fffdf8" stroke="#c85b2e" stroke-opacity="0.78" stroke-width="2.5"/>
+    <path d="M96 34v8m-4-4h8" stroke="#ff4fa3" stroke-width="2.5"/>
+    <path d="M145 27v8m-4-4h8" stroke="#ffe78d" stroke-width="2.5"/>
+    <circle cx="73" cy="60" r="5" fill="#ff4fa3"/>
+    <circle cx="166" cy="60" r="5" fill="#c85b2e"/>
+  </g>
+</svg>
