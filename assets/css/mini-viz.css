@@ -108,6 +108,16 @@
   --mini-viz-image: url("/assets/img/mini-viz/signal.svg");
 }
 
+/* Context-specific upgrades for cards that previously shared a generic class. */
+.featured-card[href="/pages/science/#research-projects"] .mini-viz-harmonization {
+  --mini-viz-image: url("/assets/img/mini-viz/survival.svg");
+}
+
+.featured-card[href="https://doi.org/10.2214/AJR.24.32216"] .mini-viz-ct,
+article.project-card:nth-of-type(4) .mini-viz-ct {
+  --mini-viz-image: url("/assets/img/mini-viz/body-composition.svg");
+}
+
 .card:hover .mini-viz,
 .module-card:hover .mini-viz,
 .featured-card:hover .mini-viz,
