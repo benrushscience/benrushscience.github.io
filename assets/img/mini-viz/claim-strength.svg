@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Claim strength mini visualization</title>
+  <desc id="desc">Evidence fragments pass through a guardrail into a cautious communication mark.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="57" cy="28" r="5" fill="#ffe78d"/>
+    <circle cx="72" cy="48" r="5" fill="#ff4fa3"/>
+    <circle cx="91" cy="34" r="5" fill="#c85b2e"/>
+    <path d="M62 31c19 3 30 11 43 24M78 47c12 2 21 5 31 10M95 36c10 7 16 12 22 21" stroke="#111111" stroke-opacity="0.12" stroke-width="2"/>
+    <path d="M120 19v46" stroke="#111111" stroke-opacity="0.16" stroke-width="2"/>
+    <path d="M112 26h16M112 42h16M112 58h16" stroke="#ff4fa3" stroke-opacity="0.54" stroke-width="2.5"/>
+    <path d="M136 42h39" stroke="#ffe78d" stroke-width="4"/>
+    <path d="M175 42h14m0 0-6-6m6 6-6 6" stroke="#ffe78d" stroke-width="2"/>
+    <circle cx="158" cy="42" r="13" fill="#fffdf8" stroke="#ff4fa3" stroke-width="2.5"/>
+    <path d="M153 42l4 4 9-10" stroke="#c85b2e" stroke-width="2.4"/>
+  </g>
+</svg>
