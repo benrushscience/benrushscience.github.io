@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Calibration mini visualization</title>
+  <desc id="desc">Observed-versus-predicted diagonal plot with confidence band and points.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 18v48h142" stroke="#111111" stroke-opacity="0.18" stroke-width="2"/>
+    <path d="M58 60 185 23" stroke="#ffe78d" stroke-opacity="0.58" stroke-width="10"/>
+    <path d="M58 60 185 23" stroke="#111111" stroke-opacity="0.22" stroke-width="2"/>
+    <circle cx="76" cy="55" r="5" fill="#ff4fa3"/>
+    <circle cx="99" cy="49" r="5" fill="#ff4fa3" fill-opacity="0.86"/>
+    <circle cx="121" cy="42" r="5" fill="#ffe78d"/>
+    <circle cx="146" cy="36" r="5" fill="#ff4fa3"/>
+    <circle cx="169" cy="28" r="5" fill="#c85b2e"/>
+    <path d="M67 24h112M67 42h112" stroke="#111111" stroke-opacity="0.06"/>
+    <path d="M90 18v45M132 18v45M174 18v45" stroke="#111111" stroke-opacity="0.06"/>
+  </g>
+</svg>
