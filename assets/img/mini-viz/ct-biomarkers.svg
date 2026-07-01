@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">CT biomarker mini visualization</title>
+  <desc id="desc">Abstract axial CT slice with segmentation rings, biomarker points, and a measurement caliper.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M73 44c4-18 25-29 49-27 26 3 48 14 50 28 2 17-23 28-53 27-31-1-51-11-46-28Z" fill="#fffdf8" stroke="#111111" stroke-opacity="0.12"/>
+    <path d="M90 43c2-11 15-19 31-18 17 1 31 9 32 20 1 12-14 20-33 20-20 0-33-9-30-22Z" fill="#ffe78d" fill-opacity="0.18" stroke="#c85b2e" stroke-opacity="0.22"/>
+    <path d="M103 44c1-9 9-15 18-14 10 1 18 7 18 16 0 9-8 15-19 15-11 0-19-7-17-17Z" fill="#ff4fa3" fill-opacity="0.12" stroke="#ff4fa3" stroke-opacity="0.42" stroke-width="2"/>
+    <circle cx="120" cy="46" r="11" fill="#fffdf8" stroke="#ff4fa3" stroke-opacity="0.34" stroke-width="4"/>
+    <path d="M105 24c7-5 20-6 30-2" stroke="#111111" stroke-opacity="0.10"/>
+    <path d="M141 35h29" stroke="#ffe78d" stroke-width="4"/>
+    <path d="M143 35h-8m35 0h-8" stroke="#c85b2e" stroke-opacity="0.40" stroke-width="1.5"/>
+    <path d="M59 49h18m-9-9v18" stroke="#111111" stroke-opacity="0.16"/>
+    <circle cx="73" cy="43" r="5" fill="#ff4fa3" stroke="none"/>
+    <circle cx="151" cy="57" r="4" fill="#c85b2e" stroke="none" opacity="0.88"/>
+    <circle cx="96" cy="61" r="3.5" fill="#ffe78d" stroke="none"/>
+  </g>
+</svg>
