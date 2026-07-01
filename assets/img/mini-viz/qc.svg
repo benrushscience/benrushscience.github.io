@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Quality control mini visualization</title>
+  <desc id="desc">Distribution bars, threshold, and an outlier flag for biomarker checking.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M47 17v48h146" stroke="#111111" stroke-opacity="0.18" stroke-width="2"/>
+    <rect x="62" y="48" width="10" height="17" rx="5" fill="#ff4fa3"/>
+    <rect x="80" y="37" width="10" height="28" rx="5" fill="#ff4fa3" fill-opacity="0.82"/>
+    <rect x="98" y="25" width="10" height="40" rx="5" fill="#ffe78d"/>
+    <rect x="116" y="32" width="10" height="33" rx="5" fill="#ff4fa3" fill-opacity="0.86"/>
+    <rect x="134" y="45" width="10" height="20" rx="5" fill="#c85b2e" fill-opacity="0.84"/>
+    <path d="M55 36h104" stroke="#111111" stroke-opacity="0.13" stroke-dasharray="4 5"/>
+    <circle cx="174" cy="28" r="8" fill="#fffdf8" stroke="#c85b2e" stroke-width="2.5"/>
+    <path d="M169 28h10m-5-5v10" stroke="#c85b2e" stroke-width="2"/>
+    <path d="M160 35c6 8 12 12 22 13" stroke="#c85b2e" stroke-opacity="0.36" stroke-width="2"/>
+    <circle cx="101" cy="25" r="3" fill="#fffdf8"/>
+  </g>
+</svg>
