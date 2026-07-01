@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 84" role="img" aria-labelledby="title desc">
+  <title id="title">Radiology report AI mini visualization</title>
+  <desc id="desc">Highlighted report lines flow into model agreement nodes.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="45" y="16" width="54" height="52" rx="10" fill="#fffdf8" stroke="#111111" stroke-opacity="0.13"/>
+    <path d="M59 29h25M59 40h19M59 51h27" stroke="#111111" stroke-opacity="0.18" stroke-width="2"/>
+    <path d="M58 38h30" stroke="#ffe78d" stroke-opacity="0.75" stroke-width="7"/>
+    <path d="M102 42h32m0 0-7-7m7 7-7 7" stroke="#ff4fa3" stroke-opacity="0.64" stroke-width="2.5"/>
+    <circle cx="154" cy="30" r="8" fill="#ff4fa3"/>
+    <circle cx="176" cy="42" r="8" fill="#ffe78d"/>
+    <circle cx="154" cy="55" r="8" fill="#c85b2e"/>
+    <path d="M160 33l10 6M168 43l-9 8" stroke="#111111" stroke-opacity="0.16" stroke-width="2"/>
+    <path d="M151 55l3 3 7-8" stroke="#fffdf8" stroke-width="2.2"/>
+  </g>
+</svg>
