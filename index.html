@@ -17,7 +17,7 @@
     <div class="container site-header">
       <p class="site-title"><strong>Ben Rush</strong></p>
       <nav>
-        <a href="/">Home</a>
+        <a href="/" aria-current="page">Home</a>
         <a href="/pages/personal-story/">Story</a>
         <a href="/pages/science/">Science</a>
         <a href="/pages/improv/">Improv</a>
@@ -228,6 +228,41 @@
         </div>
       </section>
 
+
+      <section class="contact-section reveal-on-scroll" aria-labelledby="contact-title">
+        <div class="contact-section-copy">
+          <p class="module-kicker">Work with Ben</p>
+          <h2 id="contact-title">Collaborate, bring Ben in, or connect.</h2>
+          <p>Use the lane that fits what brought you here: scientific collaboration, workshops and science communication, Amalgam Improv questions, or social/professional connection.</p>
+        </div>
+        <div class="contact-card-grid" aria-label="Contact options">
+          <article class="contact-card">
+            <p class="contact-card-kicker">Science</p>
+            <h3>Scientific collaboration</h3>
+            <a href="mailto:rush4@wisc.edu">rush4@wisc.edu</a>
+          </article>
+          <article class="contact-card">
+            <p class="contact-card-kicker">Workshops</p>
+            <h3>Workshops and speaking</h3>
+            <a href="mailto:ben@deeperthandata.media">ben@deeperthandata.media</a>
+          </article>
+          <article class="contact-card">
+            <p class="contact-card-kicker">Amalgam</p>
+            <h3>Improv community questions</h3>
+            <a href="mailto:contact@amalgamimprov.com">contact@amalgamimprov.com</a>
+          </article>
+          <article class="contact-card contact-card--links">
+            <p class="contact-card-kicker">Profiles</p>
+            <h3>Follow and connect</h3>
+            <div class="contact-link-row">
+              <a href="https://www.instagram.com/benruschscience/" target="_blank" rel="noopener">Instagram</a>
+              <a href="https://www.linkedin.com/in/benrushscience/" target="_blank" rel="noopener">LinkedIn</a>
+              <a href="https://github.com/benrushscience" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section class="section-heading reveal-on-scroll">
         <p class="eyebrow">Explore the site</p>
         <h2>The many flavors of Ben Rush.</h2>
@@ -268,7 +303,29 @@
       </section>
     </div>
   </main>
-  <footer><div class="container">&copy; <span id="year"></span> Ben Rush</div></footer>
+  <footer class="site-footer">
+    <div class="container site-footer-inner">
+      <div class="site-footer-brand">
+        <p class="site-footer-name">Ben Rush</p>
+        <p>Radiology data science, science communication, applied improv, and workshops.</p>
+      </div>
+      <div class="site-footer-grid" aria-label="Contact links">
+        <div class="site-footer-group">
+          <h2>Contact</h2>
+          <a href="mailto:rush4@wisc.edu">Scientific collaboration</a>
+          <a href="mailto:ben@deeperthandata.media">Workshops</a>
+          <a href="mailto:contact@amalgamimprov.com">Amalgam questions</a>
+        </div>
+        <div class="site-footer-group">
+          <h2>Connect</h2>
+          <a href="https://www.instagram.com/benruschscience/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.linkedin.com/in/benrushscience/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/benrushscience" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <p class="site-footer-copyright">&copy; <span id="year"></span> Ben Rush</p>
+    </div>
+  </footer>
   <script src="/assets/js/site.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>

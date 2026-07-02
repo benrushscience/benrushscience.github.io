@@ -20,7 +20,7 @@
       <nav>
         <a href="/">Home</a>
         <a href="/pages/personal-story/">Story</a>
-        <a href="/pages/science/">Science</a>
+        <a href="/pages/science/" aria-current="page">Science</a>
         <a href="/pages/improv/">Improv</a>
         <a href="/pages/podcasting/">Podcasting</a>
         <a href="/pages/workshops/">Workshops</a>
@@ -71,6 +71,7 @@
               <p>With training in epidemiology and nutritional sciences, he brings a translational lens to imaging informatics—connecting physiology, muscle and adipose tissue biology, and socioeconomic context to clinically actionable imaging biomarkers.</p>
               <p>Across projects involving datasets bordering one million scans, he emphasizes reproducible pipelines, center-scale collaboration, and clear, empathetic science communication, operating under the philosophy that “with function comes beauty” in both computational systems and scientific discovery.</p>
               <p><a href="https://orcid.org/0000-0002-9530-1927">Full publication record on ORCID</a>.</p>
+              <p class="inline-contact-callout"><strong>For scientific collaboration:</strong> <a href="mailto:rush4@wisc.edu">rush4@wisc.edu</a></p>
             </section>
 
             <section class="science-section" id="research-projects" aria-labelledby="research-projects-title">
@@ -232,7 +233,29 @@
       </section>
     </div>
   </main>
-  <footer><div class="container">&copy; <span id="year"></span> Ben Rush</div></footer>
+  <footer class="site-footer">
+    <div class="container site-footer-inner">
+      <div class="site-footer-brand">
+        <p class="site-footer-name">Ben Rush</p>
+        <p>Radiology data science, science communication, applied improv, and workshops.</p>
+      </div>
+      <div class="site-footer-grid" aria-label="Contact links">
+        <div class="site-footer-group">
+          <h2>Contact</h2>
+          <a href="mailto:rush4@wisc.edu">Scientific collaboration</a>
+          <a href="mailto:ben@deeperthandata.media">Workshops</a>
+          <a href="mailto:contact@amalgamimprov.com">Amalgam questions</a>
+        </div>
+        <div class="site-footer-group">
+          <h2>Connect</h2>
+          <a href="https://www.instagram.com/benruschscience/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.linkedin.com/in/benrushscience/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/benrushscience" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <p class="site-footer-copyright">&copy; <span id="year"></span> Ben Rush</p>
+    </div>
+  </footer>
   <script src="/assets/js/site.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>

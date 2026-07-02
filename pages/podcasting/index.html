@@ -20,7 +20,7 @@
         <a href="/pages/personal-story/">Story</a>
         <a href="/pages/science/">Science</a>
         <a href="/pages/improv/">Improv</a>
-        <a href="/pages/podcasting/">Podcasting</a>
+        <a href="/pages/podcasting/" aria-current="page">Podcasting</a>
         <a href="/pages/workshops/">Workshops</a>
         <a href="/pages/cv/">CV</a>
       </nav>
@@ -120,7 +120,29 @@
       </section>
     </div>
   </main>
-  <footer><div class="container">&copy; <span id="year"></span> Ben Rush</div></footer>
+  <footer class="site-footer">
+    <div class="container site-footer-inner">
+      <div class="site-footer-brand">
+        <p class="site-footer-name">Ben Rush</p>
+        <p>Radiology data science, science communication, applied improv, and workshops.</p>
+      </div>
+      <div class="site-footer-grid" aria-label="Contact links">
+        <div class="site-footer-group">
+          <h2>Contact</h2>
+          <a href="mailto:rush4@wisc.edu">Scientific collaboration</a>
+          <a href="mailto:ben@deeperthandata.media">Workshops</a>
+          <a href="mailto:contact@amalgamimprov.com">Amalgam questions</a>
+        </div>
+        <div class="site-footer-group">
+          <h2>Connect</h2>
+          <a href="https://www.instagram.com/benruschscience/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.linkedin.com/in/benrushscience/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/benrushscience" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <p class="site-footer-copyright">&copy; <span id="year"></span> Ben Rush</p>
+    </div>
+  </footer>
   <script src="/assets/js/site.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
