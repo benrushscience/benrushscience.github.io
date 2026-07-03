@@ -1,0 +1,889 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Improv Group Map</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+<!-- Filtered improv group map with category, country, state/region, and city controls. -->
+
+<!-- Leaflet and plugin styles -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.css" />
+
+<h2 style="text-align:center; margin:0 0 8px;">Improv Group Map</h2>
+
+<div id="mapWrap">
+  <div id="map" style="width:100%;"></div>
+  <div id="mapLoadingOverlay" aria-live="polite" aria-label="Loading groups on the map">
+    <div class="map-loading-card">
+      <div class="map-loading-spinner" aria-hidden="true"></div>
+      <div class="map-loading-text">Loading groups...</div>
+    </div>
+  </div>
+
+  <!-- Filter panel kept on the map for category, country, state/region, and city focus -->
+  <div id="filterPanel">
+    <div class="filter-panel-header">
+      <div>
+        <div class="filter-kicker">Map Controls</div>
+        <div class="filter-title">Filter Groups</div>
+      </div>
+      <div class="filter-panel-actions">
+        <button type="button" id="toggleFiltersBtn" aria-expanded="true" aria-controls="filterPanelBody">Hide</button>
+        <button type="button" id="clearFiltersBtn">Reset</button>
+      </div>
+    </div>
+
+    <div id="filterPanelBody">
+      <label class="filter-group">
+        <span>Category</span>
+        <select id="categoryFilter">
+          <option value="">All categories</option>
+        </select>
+      </label>
+
+      <label class="filter-group">
+        <span>Country</span>
+        <select id="countryFilter">
+          <option value="">All countries</option>
+        </select>
+      </label>
+
+      <label class="filter-group">
+        <span>State / Region</span>
+        <select id="stateFilter">
+          <option value="">All states / regions</option>
+        </select>
+      </label>
+
+      <label class="filter-group">
+        <span>City</span>
+        <select id="cityFilter">
+          <option value="">All cities</option>
+        </select>
+      </label>
+
+      <div id="filterStatus">Loading map data...</div>
+    </div>
+  </div>
+</div>
+
+<div style="font-size:12px;color:#777;margin-top:6px;">Use the panel on the map to filter by category, country, state/region, or city.</div>
+
+<style>
+  /* Layout */
+  #mapWrap {
+    position: relative;
+  }
+
+  #map {
+    height: min(70vh, 650px);
+    min-height: 360px;
+    margin: 0;
+  }
+
+  /* Loading overlay keeps the brief startup delay from feeling like a glitch. */
+  #mapLoadingOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 640;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(247, 246, 243, 0.28);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 180ms ease, visibility 180ms ease;
+    pointer-events: none;
+  }
+
+  #mapLoadingOverlay.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .map-loading-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    background: rgba(32, 32, 32, 0.82);
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+    font: 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    text-align: center;
+  }
+
+  .map-loading-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: map-loading-spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+
+  .map-loading-text {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  @keyframes map-loading-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 600px) {
+    #map {
+      height: min(60vh, 520px);
+      min-height: 320px;
+    }
+  }
+
+  /* Filter panel */
+  #filterPanel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 650;
+    width: min(320px, calc(100% - 24px));
+    box-sizing: border-box;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(92, 92, 92, 0.92);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.24);
+    font: 14px/1.35 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+
+  .filter-panel-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .filter-kicker,
+  .filter-group span {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.78);
+  }
+
+  .filter-title {
+    margin-top: 2px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.05;
+    color: #fff;
+  }
+
+  .filter-panel-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  #toggleFiltersBtn,
+  #clearFiltersBtn {
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    cursor: pointer;
+    font: inherit;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  #toggleFiltersBtn {
+    background: #FFE974;
+    color: #202020;
+    border-color: rgba(32,32,32,0.18);
+    box-shadow: 0 2px 0 rgba(189,0,91,0.7);
+  }
+
+  #toggleFiltersBtn:hover,
+  #clearFiltersBtn:hover {
+    background: rgba(255,255,255,0.18);
+  }
+
+  #toggleFiltersBtn:hover {
+    background: #fff2a0;
+  }
+
+  #toggleFiltersBtn:focus-visible,
+  #clearFiltersBtn:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.7);
+    outline-offset: 2px;
+  }
+
+  #filterPanelBody {
+    display: block;
+  }
+
+  /* Collapse the panel down to its header so the map has more room on small screens. */
+  #filterPanel.is-collapsed #filterPanelBody {
+    display: none;
+  }
+
+  .filter-group {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .filter-group select {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.11);
+    color: #fff;
+    font: inherit;
+    box-sizing: border-box;
+  }
+
+  .filter-group select option {
+    color: #111;
+  }
+
+  #filterStatus {
+    margin-top: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.92);
+  }
+
+  @media (max-width: 700px) {
+    #filterPanel {
+      left: 12px;
+      right: 12px;
+      width: auto;
+      max-height: 45vh;
+      overflow: auto;
+    }
+
+    #filterPanel.is-collapsed {
+      max-height: none;
+      overflow: visible;
+    }
+  }
+
+  /* Map theming */
+  .marker-cluster-small div,
+  .marker-cluster-medium div,
+  .marker-cluster-large div {
+    background: #E55937;
+    color: #fff;
+    border: 2px solid #BD005B;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: #F7F6F3;
+    color: #000;
+    border: 2px solid #BD005B;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+
+  .leaflet-popup-tip {
+    background: #F7F6F3;
+    border: 2px solid #BD005B;
+  }
+
+  .leaflet-popup-content {
+    margin: 14px 16px;
+    line-height: 1.3;
+  }
+
+  .leaflet-popup-content b {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 2px;
+    color: #000;
+  }
+
+  .leaflet-popup-content em {
+    color: #BD005B;
+    font-style: normal;
+  }
+
+  .leaflet-popup-content a {
+    color: #BD005B;
+    text-decoration: none;
+    border-bottom: 1px dotted #BD005B;
+  }
+
+  .leaflet-popup-content a:hover {
+    text-decoration: underline;
+  }
+
+  .leaflet-control-darktoggle {
+    background: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    font: 13px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+
+  .leaflet-control-darktoggle label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .leaflet-control-darktoggle input[type="checkbox"] {
+    accent-color: #BD005B;
+  }
+
+  .leaflet-bar button {
+    background: #fff;
+    border: none;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .leaflet-bar button:hover {
+    background: #f4f4f4;
+  }
+</style>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script>
+  // Base map setup
+  const map = L.map('map', { center: [40.8137, -96.7026], zoom: 4 });
+
+  const lightTiles = L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }
+  ).addTo(map);
+
+  const darkTiles = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    { attribution: '&copy; OpenStreetMap & CARTO' }
+  );
+
+  if (L.control && typeof L.control.fullscreen === 'function') {
+    L.control.fullscreen({ position: 'topleft' }).addTo(map);
+  } else {
+    console.warn('Fullscreen plugin not available; continuing without fullscreen.');
+  }
+
+  const DarkToggle = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd: function() {
+      const container = L.DomUtil.create('div', 'leaflet-control-darktoggle');
+      const label = L.DomUtil.create('label', '', container);
+      const input = L.DomUtil.create('input', '', label);
+      input.type = 'checkbox';
+      input.id = 'darkToggle';
+      const span = L.DomUtil.create('span', '', label);
+      span.textContent = 'Dark map';
+      L.DomEvent.disableClickPropagation(container);
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          if (map.hasLayer(lightTiles)) map.removeLayer(lightTiles);
+          if (!map.hasLayer(darkTiles)) darkTiles.addTo(map);
+        } else {
+          if (map.hasLayer(darkTiles)) map.removeLayer(darkTiles);
+          if (!map.hasLayer(lightTiles)) lightTiles.addTo(map);
+        }
+      });
+      return container;
+    }
+  });
+  map.addControl(new DarkToggle());
+
+  // Clustered markers
+  const clusters = L.markerClusterGroup({
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    chunkedLoading: true
+  });
+  map.addLayer(clusters);
+
+  // Marker icon helpers
+  function makeIcon(fillColor = '#E55937', strokeColor = '#BD005B', centerColor = '#FFE974') {
+    const svg = encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="42" viewBox="0 0 28 42">
+        <path d="M14 0C6.82 0 1 5.82 1 13c0 9.43 11.19 26.16 12.04 27.39a1.2 1.2 0 0 0 1.92 0C15.81 39.16 27 22.43 27 13 27 5.82 21.18 0 14 0z" fill="${fillColor}" stroke="${strokeColor}" stroke-width="2"/>
+        <circle cx="14" cy="13" r="5" fill="${centerColor}"/>
+      </svg>`);
+
+    return L.icon({
+      iconUrl: `data:image/svg+xml;charset=UTF-8,${svg}`,
+      iconSize: [28, 42],
+      iconAnchor: [14, 42],
+      popupAnchor: [0, -38]
+    });
+  }
+
+  const brandedIcon = makeIcon();
+  const chicagoIcon = makeIcon('#1F9D55', '#0F6A37', '#D7F9E3');
+
+  // Small data helpers
+  function esc(value = '') {
+    return String(value).replace(/[&<>"']/g, match => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[match]));
+  }
+
+  function normalizeUrl(url = '') {
+    const trimmedUrl = String(url).trim();
+    if (!trimmedUrl) return '';
+    if (!/^https?:\/\//i.test(trimmedUrl)) return 'https://' + trimmedUrl;
+    return trimmedUrl;
+  }
+
+  const seen = new Set();
+
+  function validRow(name, lat, lon) {
+    if (isNaN(lat) || isNaN(lon)) return false;
+    if (+lat === 0 && +lon === 0) return false;
+
+    const key = `${(name || '').trim().toLowerCase()}|${lat.toFixed(5)}|${lon.toFixed(5)}`;
+    if (seen.has(key)) return false;
+
+    seen.add(key);
+    return true;
+  }
+
+  function normalizeSearchValue(value = '') {
+    return String(value)
+      .trim()
+      .toLowerCase()
+      .replace(/\./g, '')
+      .replace(/\s+/g, ' ');
+  }
+
+  // Filter panel elements
+  const filterPanel = document.getElementById('filterPanel');
+  const filterPanelBody = document.getElementById('filterPanelBody');
+  const filterStatus = document.getElementById('filterStatus');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const countryFilter = document.getElementById('countryFilter');
+  const stateFilter = document.getElementById('stateFilter');
+  const cityFilter = document.getElementById('cityFilter');
+  const toggleFiltersBtn = document.getElementById('toggleFiltersBtn');
+  const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+  const mapLoadingOverlay = document.getElementById('mapLoadingOverlay');
+  const allEntries = [];
+  let hasFinishedInitialLoad = false;
+  let pendingLoadRefresh = null;
+  let hasShownLoadedMarkers = false;
+
+  // Let people collapse the floating controls so the map is easier to use on phones.
+  function setFilterPanelCollapsed(isCollapsed) {
+    filterPanel.classList.toggle('is-collapsed', isCollapsed);
+    filterPanelBody.hidden = isCollapsed;
+    toggleFiltersBtn.textContent = isCollapsed ? 'Show' : 'Hide';
+    toggleFiltersBtn.setAttribute('aria-expanded', String(!isCollapsed));
+    toggleFiltersBtn.setAttribute('aria-label', isCollapsed ? 'Show filter controls' : 'Hide filter controls');
+  }
+
+  function setFilterStatus(message) {
+    filterStatus.textContent = message || '';
+  }
+
+  // Hide the startup overlay once the map begins visibly populating.
+  function setMapLoadingOverlayVisible(isVisible) {
+    mapLoadingOverlay.classList.toggle('is-hidden', !isVisible);
+  }
+
+  // Share a clear status while the CSV is still streaming in.
+  function updateLoadingStatus() {
+    const scope = [categoryFilter.value, countryFilter.value, stateFilter.value, cityFilter.value].filter(Boolean).join(' / ');
+    const visibleCount = allEntries.filter(matchesFilters).length;
+    setFilterStatus(
+      `Loading groups: ${visibleCount} currently visible out of ${allEntries.length} loaded${scope ? ` for ${scope}` : ''}.`
+    );
+  }
+
+  function uniqueSorted(values) {
+    return Array.from(new Set(values.filter(Boolean))).sort((a, b) => a.localeCompare(b));
+  }
+
+  const AIRTABLE_CATEGORY_CHOICES = [
+    'Aggregator',
+    'Camp',
+    'Comedy Club',
+    'Other',
+    'Theater',
+    'Troupe/Act/Team'
+  ];
+
+  // Category cells can contain multiple comma-separated values.
+  // Keep each category as a separate value for dropdown options while using contains-style matching for filtering.
+  function splitCategories(value) {
+    return String(value || '')
+      .split(',')
+      .map(value => String(value || '').replace(/\s+/g, ' ').trim())
+      .filter(Boolean);
+  }
+
+  function normalizeCategoryValue(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
+  function categoryContains(entry, selectedCategory) {
+    const normalizedSelectedCategory = normalizeCategoryValue(selectedCategory);
+    if (!normalizedSelectedCategory) return true;
+
+    const normalizedCategoryText = normalizeCategoryValue(entry.categoryLabel);
+    if (normalizedCategoryText.includes(normalizedSelectedCategory)) {
+      return true;
+    }
+
+    return (entry.categoryList || []).some(category => {
+      return normalizeCategoryValue(category).includes(normalizedSelectedCategory);
+    });
+  }
+
+  function setSelectOptions(select, placeholder, values, selectedValue = '') {
+    const options = ['<option value="">' + esc(placeholder) + '</option>'];
+
+    values.forEach(value => {
+      const selected = value === selectedValue ? ' selected' : '';
+      options.push('<option value="' + esc(value) + '"' + selected + '>' + esc(value) + '</option>');
+    });
+
+    select.innerHTML = options.join('');
+  }
+
+  function setCountryFilterAvailability(hasCountryData) {
+    countryFilter.disabled = !hasCountryData;
+    countryFilter.title = hasCountryData ? '' : 'Add a country column to the source CSV to enable this filter.';
+  }
+
+  function getCountryPlaceholder(hasCountryData) {
+    return hasCountryData ? 'All countries' : 'No country data in source';
+  }
+
+  // Support common category header variants from Airtable/CSV exports.
+  function getCategoryValue(row) {
+    return String(
+      row['category'] ||
+      row['Category'] ||
+      row['CATEGORY'] ||
+      row['group_category'] ||
+      row['Group Category'] ||
+      row['group type'] ||
+      row['Group Type'] ||
+      row['type'] ||
+      row['Type'] ||
+      ''
+    ).trim();
+  }
+
+  // Support several likely country header names so the filter keeps working
+  // even if the sheet uses a slightly different column label.
+  function getCountryValue(row) {
+    return String(
+      row['country'] ||
+      row['Country'] ||
+      row['COUNTRY'] ||
+      row['country_name'] ||
+      row['Country Name'] ||
+      row['countryname'] ||
+      row['country_region'] ||
+      row['countryregion'] ||
+      row['Country Region'] ||
+      row['Country / Region'] ||
+      row['Country/Region'] ||
+      row['nation'] ||
+      row['Nation'] ||
+      ''
+    ).trim();
+  }
+
+  // Keep the dropdown options in sync with the current filter scope
+  function updateFilterOptions() {
+    const selectedCategory = categoryFilter.value;
+    const selectedCountry = countryFilter.value;
+    const selectedState = stateFilter.value;
+    const selectedCity = cityFilter.value;
+
+    const categories = uniqueSorted(
+      AIRTABLE_CATEGORY_CHOICES.concat(
+        allEntries.reduce((allCategories, entry) => {
+          return allCategories.concat(entry.categoryList || []);
+        }, [])
+      )
+    );
+    setSelectOptions(categoryFilter, 'All categories', categories, categories.includes(selectedCategory) ? selectedCategory : '');
+
+    const countries = uniqueSorted(
+      allEntries
+        .filter(entry => categoryContains(entry, categoryFilter.value))
+        .map(entry => entry.countryLabel)
+    );
+    const hasCountryData = countries.length > 0;
+
+    setSelectOptions(countryFilter, getCountryPlaceholder(hasCountryData), countries, selectedCountry);
+    setCountryFilterAvailability(hasCountryData);
+
+    const states = uniqueSorted(
+      allEntries
+        .filter(entry => categoryContains(entry, categoryFilter.value))
+        .filter(entry => !countryFilter.value || entry.countryLabel === countryFilter.value)
+        .map(entry => entry.stateLabel)
+    );
+    setSelectOptions(stateFilter, 'All states / regions', states, states.includes(selectedState) ? selectedState : '');
+
+    const cities = uniqueSorted(
+      allEntries
+        .filter(entry => categoryContains(entry, categoryFilter.value))
+        .filter(entry => !countryFilter.value || entry.countryLabel === countryFilter.value)
+        .filter(entry => !stateFilter.value || entry.stateLabel === stateFilter.value)
+        .map(entry => entry.cityLabel)
+    );
+    setSelectOptions(cityFilter, 'All cities', cities, cities.includes(selectedCity) ? selectedCity : '');
+  }
+
+  function matchesFilters(entry) {
+    if (categoryFilter.value && !categoryContains(entry, categoryFilter.value)) return false;
+    if (countryFilter.value && entry.countryLabel !== countryFilter.value) return false;
+    if (stateFilter.value && entry.stateLabel !== stateFilter.value) return false;
+    if (cityFilter.value && entry.cityLabel !== cityFilter.value) return false;
+    return true;
+  }
+
+  // During the initial CSV load, batch UI refreshes so we do not rebuild the filters on every single row.
+  function scheduleLoadingRefresh() {
+    if (hasFinishedInitialLoad || pendingLoadRefresh) return;
+
+    pendingLoadRefresh = window.setTimeout(() => {
+      pendingLoadRefresh = null;
+      updateFilterOptions();
+      updateLoadingStatus();
+    }, 120);
+  }
+
+  // Build a normalized map entry from one CSV row.
+  function buildEntryFromRow(row) {
+    const name = row['name'] || row['Name'] || '';
+    const latitude = parseFloat((row['latitude'] || row['Latitude'] || '').toString().trim());
+    const longitude = parseFloat((row['longitude'] || row['Longitude'] || '').toString().trim());
+    const blurb = row['blurb'] || row['Blurb'] || '';
+    const website = row['website'] || row['Website'] || '';
+    const category = getCategoryValue(row);
+    const city = String(row['city'] || row['City'] || '').trim();
+    const state = String(row['state'] || row['State'] || row['region'] || row['Region'] || '').trim();
+    const country = getCountryValue(row);
+
+    if (!validRow(name, latitude, longitude)) return null;
+
+    const cityNorm = normalizeSearchValue(city);
+    const marker = L.marker([latitude, longitude], { icon: cityNorm === 'chicago' ? chicagoIcon : brandedIcon });
+    const safeName = esc(name);
+    const safeBlurb = esc(blurb);
+    const safeUrl = normalizeUrl(website);
+    const websiteLink = safeUrl ? `<br><a href="${safeUrl}" target="_blank" rel="noopener noreferrer nofollow">Website</a>` : '';
+    const locationLine = [city, state, country].filter(Boolean).join(', ');
+    const displayLocation = locationLine ? `<br><em>${esc(locationLine)}</em>` : '';
+
+    marker.bindPopup(`<b>${safeName}</b>${displayLocation}<br>${safeBlurb}${websiteLink}`);
+
+    return {
+      marker,
+      categoryLabel: category,
+      categoryList: splitCategories(category),
+      cityLabel: city,
+      stateLabel: state,
+      countryLabel: country
+    };
+  }
+
+  // Add one row at a time so the map starts populating before the entire CSV finishes loading.
+  function appendRowToMap(row) {
+    const entry = buildEntryFromRow(row);
+    if (!entry) return;
+
+    allEntries.push(entry);
+
+    if (matchesFilters(entry)) {
+      clusters.addLayer(entry.marker);
+
+      if (!hasShownLoadedMarkers) {
+        hasShownLoadedMarkers = true;
+        setMapLoadingOverlayVisible(false);
+      }
+    }
+
+    scheduleLoadingRefresh();
+  }
+
+  // Render parsed rows in small batches so the map stays responsive while the markers appear.
+  function appendRowsInBatches(rows, startIndex = 0) {
+    const batchSize = 40;
+    const batchEnd = Math.min(startIndex + batchSize, rows.length);
+
+    for (let index = startIndex; index < batchEnd; index += 1) {
+      appendRowToMap(rows[index]);
+    }
+
+    if (batchEnd < rows.length) {
+      window.requestAnimationFrame(() => appendRowsInBatches(rows, batchEnd));
+      return;
+    }
+
+    hasFinishedInitialLoad = true;
+
+    if (pendingLoadRefresh) {
+      window.clearTimeout(pendingLoadRefresh);
+      pendingLoadRefresh = null;
+    }
+
+    setMapLoadingOverlayVisible(false);
+    applyFilters(true);
+  }
+
+  // Apply filters, redraw visible markers, and refocus the map when helpful
+  function applyFilters(fitBounds = true) {
+    updateFilterOptions();
+
+    const visibleEntries = allEntries.filter(matchesFilters);
+    clusters.clearLayers();
+
+    if (visibleEntries.length) {
+      clusters.addLayers(visibleEntries.map(entry => entry.marker));
+    }
+
+    if (visibleEntries.length && fitBounds) {
+      const bounds = L.latLngBounds(visibleEntries.map(entry => entry.marker.getLatLng()));
+      map.fitBounds(bounds.pad(0.12));
+    }
+
+    if (!visibleEntries.length) {
+      setFilterStatus('No groups match the current filters.');
+      return;
+    }
+
+    const scope = [categoryFilter.value, countryFilter.value, stateFilter.value, cityFilter.value].filter(Boolean).join(' / ');
+
+    if (!hasFinishedInitialLoad) {
+      updateLoadingStatus();
+      return;
+    }
+
+    setFilterStatus(`Showing ${visibleEntries.length} of ${allEntries.length} groups${scope ? ` for ${scope}` : ''}.`);
+  }
+
+  function setFilters({ category, country, state, city }) {
+    if (typeof category !== 'undefined') categoryFilter.value = category;
+    updateFilterOptions();
+
+    if (typeof country !== 'undefined') countryFilter.value = country;
+    updateFilterOptions();
+
+    if (typeof state !== 'undefined') stateFilter.value = state;
+    updateFilterOptions();
+
+    if (typeof city !== 'undefined') cityFilter.value = city;
+    applyFilters(true);
+  }
+
+  [categoryFilter, countryFilter, stateFilter, cityFilter].forEach(select => {
+    select.addEventListener('change', () => applyFilters(true));
+  });
+
+  toggleFiltersBtn.addEventListener('click', () => {
+    setFilterPanelCollapsed(!filterPanel.classList.contains('is-collapsed'));
+  });
+
+  clearFiltersBtn.addEventListener('click', () => {
+    setFilters({ category: '', country: '', state: '', city: '' });
+  });
+
+  // Locate button
+  const LocateControl = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd: function() {
+      const btn = L.DomUtil.create('button', 'leaflet-bar');
+      btn.title = 'Find groups near me';
+      btn.style.padding = '6px 12px';
+      btn.style.cursor = 'pointer';
+      btn.style.background = '#BD005B';
+      btn.style.color = '#fff';
+      btn.style.fontWeight = '700';
+      btn.textContent = 'Near Me';
+      L.DomEvent.disableClickPropagation(btn);
+      btn.onclick = () => {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(position => {
+          map.setView([position.coords.latitude, position.coords.longitude], 10);
+        });
+      };
+      return btn;
+    }
+  });
+  map.addControl(new LocateControl());
+
+  L.DomEvent.disableClickPropagation(filterPanel);
+  L.DomEvent.disableScrollPropagation(filterPanel);
+
+  // Start in the expanded state so the current desktop experience stays the same.
+  setFilterPanelCollapsed(false);
+  setMapLoadingOverlayVisible(true);
+
+  // Airtable-backed public export from the deployed Google Apps Script web app
+  const MAP_DATA_URL = 'https://script.google.com/macros/s/AKfycbw0B2d6Vmn2YfhV-rgkv7CKMj3XR9ib_G_dVCg9zq41Mdk8spEwV3JIJwuBDEzL05w7Lw/exec?format=csv';
+
+  setFilterStatus('Loading map data...');
+
+  fetch(MAP_DATA_URL)
+    .then(response => response.text())
+    .then(csvText => {
+      const trimmedCsv = csvText.trim();
+
+      if (trimmedCsv.startsWith('<!DOCTYPE') || trimmedCsv.startsWith('<html')) {
+        throw new Error('Google returned HTML, not CSV/TSV. Publishing/permissions or redirect issue.');
+      }
+
+      const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+      appendRowsInBatches(parsed.data || []);
+    })
+    .catch(error => {
+      console.error('Error fetching the CSV data:', error);
+      setFilterStatus('Could not load group data for the filters.');
+    });
+</script>
+</body>
+</html>
+

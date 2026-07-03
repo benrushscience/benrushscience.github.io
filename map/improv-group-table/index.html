@@ -1,0 +1,951 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Improv Group Table</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+<!-- Improv group list table for Squarespace code blocks. -->
+<!-- This version reuses the public group CSV feed and presents it as a searchable, sortable table. -->
+
+<div id="groupListTableApp">
+  <div class="group-list-shell">
+    <div class="group-list-header">
+      <div>
+        <div class="group-list-kicker">Group Directory</div>
+        <h2>Improv Group List</h2>
+        <p>
+          Search by group name, filter by category, country, state/region, or city, and sort by clicking any column header.
+        </p>
+      </div>
+      <div class="group-list-summary" id="groupListSummary" aria-live="polite">
+        Loading groups...
+      </div>
+    </div>
+
+    <!-- Filter controls mirror the group map filters while keeping the table easy to maintain. -->
+    <div class="group-list-filters" aria-label="Group table filters">
+      <label class="group-list-filter">
+        <span>Search group name</span>
+        <input
+          type="search"
+          id="groupNameSearch"
+          placeholder="Type part of a group name"
+          autocomplete="off"
+        />
+      </label>
+
+      <label class="group-list-filter">
+        <span>Category</span>
+        <select id="groupCategoryFilter">
+          <option value="">All categories</option>
+        </select>
+      </label>
+
+      <label class="group-list-filter">
+        <span>Country</span>
+        <select id="groupCountryFilter">
+          <option value="">All countries</option>
+        </select>
+      </label>
+
+      <label class="group-list-filter">
+        <span>State / Region</span>
+        <select id="groupStateFilter">
+          <option value="">All states / regions</option>
+        </select>
+      </label>
+
+      <label class="group-list-filter">
+        <span>City</span>
+        <select id="groupCityFilter">
+          <option value="">All cities</option>
+        </select>
+      </label>
+
+      <div class="group-list-actions">
+        <button type="button" id="groupResetFilters">Reset filters</button>
+        <button type="button" id="groupViewAllButton">View All</button>
+        <button type="button" id="groupPopoutButton">Pop-Out</button>
+      </div>
+    </div>
+
+    <div class="group-list-feedback" id="groupListFeedback" aria-live="polite">
+      Loading group data...
+    </div>
+
+    <div class="group-table-wrap">
+      <table class="group-table">
+        <colgroup>
+          <col class="group-col-name" />
+          <col class="group-col-category" />
+          <col class="group-col-city" />
+          <col class="group-col-state" />
+          <col class="group-col-country" />
+          <col class="group-col-description" />
+          <col class="group-col-url" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">
+              <button type="button" class="group-sort-button is-active" data-sort-key="name">
+                Group Name
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="group-sort-button" data-sort-key="category">Category</button>
+            </th>
+            <th scope="col">
+              <button type="button" class="group-sort-button" data-sort-key="city">City</button>
+            </th>
+            <th scope="col">
+              <button type="button" class="group-sort-button" data-sort-key="state">State / Region</button>
+            </th>
+            <th scope="col">
+              <button type="button" class="group-sort-button" data-sort-key="country">Country</button>
+            </th>
+            <th scope="col">
+              <button type="button" class="group-sort-button" data-sort-key="description">
+                Description
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="group-sort-button" data-sort-key="url">URL</button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="groupTableBody">
+          <tr>
+            <td colspan="7" class="group-table-empty">Loading group data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Overall card layout */
+  #groupListTableApp {
+    --group-bg: #FFE974;
+    --group-card: #FFE974;
+    --group-border: rgba(0, 0, 0, 0.9);
+    --group-ink: #000000;
+    --group-muted: #272727;
+    --group-accent: #BD005B;
+    --group-accent-alt: #E55937;
+    --group-accent-dark: #000000;
+    --group-shadow: 0 18px 34px rgba(0, 0, 0, 0.14);
+    color: var(--group-ink);
+    font: 16px/1.5 Georgia, "Times New Roman", serif;
+  }
+
+  #groupListTableApp * {
+    box-sizing: border-box;
+  }
+
+  #groupListTableApp .group-list-shell {
+    width: 100%;
+    padding: 24px;
+    border: 2px solid var(--group-border);
+    border-radius: 24px;
+    background: var(--group-bg);
+    box-shadow: var(--group-shadow);
+  }
+
+  #groupListTableApp .group-list-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: end;
+    margin-bottom: 20px;
+  }
+
+  #groupListTableApp .group-list-kicker {
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--group-accent);
+  }
+
+  #groupListTableApp h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    line-height: 0.95;
+    color: var(--group-ink);
+  }
+
+  #groupListTableApp .group-list-header p {
+    max-width: 54rem;
+    margin: 10px 0 0;
+    color: var(--group-muted);
+  }
+
+  #groupListTableApp .group-list-summary {
+    min-width: 180px;
+    padding: 12px 14px;
+    border: 2px solid var(--group-border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.78);
+    font-size: 14px;
+    text-align: right;
+    color: var(--group-ink);
+  }
+
+  /* Filters */
+  #groupListTableApp .group-list-filters {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.4fr) repeat(4, minmax(150px, 1fr));
+    gap: 14px;
+    align-items: end;
+    margin-bottom: 14px;
+  }
+
+  #groupListTableApp .group-list-filter span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--group-muted);
+  }
+
+  #groupListTableApp .group-list-filter input,
+  #groupListTableApp .group-list-filter select,
+  #groupListTableApp .group-list-actions button {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 2px solid var(--group-border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.86);
+    color: var(--group-ink);
+    font: inherit;
+  }
+
+  #groupListTableApp .group-list-filter input:focus-visible,
+  #groupListTableApp .group-list-filter select:focus-visible,
+  #groupListTableApp .group-list-actions button:focus-visible,
+  #groupListTableApp .group-sort-button:focus-visible,
+  #groupListTableApp .group-url-link:focus-visible {
+    outline: 2px solid var(--group-accent);
+    outline-offset: 2px;
+  }
+
+  #groupListTableApp .group-list-actions {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(150px, 190px));
+    justify-content: end;
+    gap: 10px;
+  }
+
+  #groupListTableApp .group-list-actions button {
+    cursor: pointer;
+    font-weight: 700;
+    white-space: normal;
+    transition: background 160ms ease, transform 160ms ease;
+  }
+
+  #groupListTableApp #groupResetFilters {
+    background: var(--group-accent);
+    color: #fff;
+  }
+
+  #groupListTableApp #groupViewAllButton,
+  #groupListTableApp #groupPopoutButton {
+    background: rgba(255, 255, 255, 0.86);
+    color: var(--group-ink);
+  }
+
+  #groupListTableApp .group-list-actions button:hover {
+    background: var(--group-accent-dark);
+    color: #FFE974;
+    transform: translateY(-1px);
+  }
+
+  #groupListTableApp .group-list-actions button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--group-muted);
+  }
+
+  #groupListTableApp .group-list-feedback {
+    margin-bottom: 14px;
+    color: var(--group-muted);
+    font-size: 14px;
+  }
+
+  /* Table */
+  #groupListTableApp .group-table-wrap {
+    overflow-x: auto;
+    border: 2px solid var(--group-border);
+    border-radius: 18px;
+    background: var(--group-card);
+    backdrop-filter: blur(6px);
+  }
+
+  #groupListTableApp .group-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1040px;
+    table-layout: fixed;
+  }
+
+  #groupListTableApp .group-col-name {
+    width: 18%;
+  }
+
+  #groupListTableApp .group-col-category {
+    width: 10%;
+  }
+
+  #groupListTableApp .group-col-city {
+    width: 11%;
+  }
+
+  #groupListTableApp .group-col-state {
+    width: 10%;
+  }
+
+  #groupListTableApp .group-col-country {
+    width: 9%;
+  }
+
+  #groupListTableApp .group-col-description {
+    width: 34%;
+  }
+
+  #groupListTableApp .group-col-url {
+    width: 8%;
+  }
+
+  #groupListTableApp .group-table th,
+  #groupListTableApp .group-table td {
+    padding: 14px 16px;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  #groupListTableApp .group-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.96);
+  }
+
+  #groupListTableApp .group-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  #groupListTableApp .group-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.48);
+  }
+
+  #groupListTableApp .group-sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #FFE974;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  #groupListTableApp .group-sort-button::after {
+    content: "\2195";
+    font-size: 12px;
+    color: rgba(255, 233, 116, 0.74);
+  }
+
+  #groupListTableApp .group-sort-button.is-active::after {
+    color: #ffffff;
+  }
+
+  #groupListTableApp .group-sort-button.is-active[data-sort-direction="asc"]::after {
+    content: "\2191";
+  }
+
+  #groupListTableApp .group-sort-button.is-active[data-sort-direction="desc"]::after {
+    content: "\2193";
+  }
+
+  #groupListTableApp .group-name-cell {
+    min-width: 0;
+    font-weight: 700;
+  }
+
+  #groupListTableApp .group-description-cell {
+    max-width: none;
+    color: var(--group-muted);
+  }
+
+  #groupListTableApp .group-url-link {
+    color: var(--group-accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    word-break: break-word;
+    font-weight: 700;
+  }
+
+  #groupListTableApp .group-table-empty {
+    padding: 28px 16px;
+    text-align: center;
+    color: var(--group-muted);
+  }
+
+  @media (max-width: 1100px) {
+    #groupListTableApp .group-list-filters {
+      grid-template-columns: minmax(220px, 1.4fr) repeat(2, minmax(140px, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    #groupListTableApp .group-list-header {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    #groupListTableApp .group-list-summary {
+      width: 100%;
+      text-align: left;
+    }
+
+    #groupListTableApp .group-list-filters {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    #groupListTableApp .group-list-shell {
+      padding: 18px;
+      border-radius: 20px;
+    }
+
+    #groupListTableApp .group-list-actions {
+      grid-template-columns: 1fr;
+      justify-content: stretch;
+    }
+
+    #groupListTableApp .group-table th,
+    #groupListTableApp .group-table td {
+      padding: 12px;
+    }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script>
+  (function () {
+    // Shared data source from the existing Airtable-backed group map export.
+    // Use JSON so this table is not affected by a stale Apps Script CSV cache.
+    const MAP_DATA_URL = 'https://script.google.com/macros/s/AKfycbw0B2d6Vmn2YfhV-rgkv7CKMj3XR9ib_G_dVCg9zq41Mdk8spEwV3JIJwuBDEzL05w7Lw/exec?format=json&v=20260607-all-countries';
+    const DEFAULT_ROW_LIMIT = 10;
+    const AIRTABLE_CATEGORY_CHOICES = [
+      'Aggregator',
+      'Camp',
+      'Comedy Club',
+      'Other',
+      'Theater',
+      'Troupe/Act/Team'
+    ];
+
+    // DOM references stay in one place so future edits are easy to follow.
+    const nameSearchInput = document.getElementById('groupNameSearch');
+    const categoryFilter = document.getElementById('groupCategoryFilter');
+    const countryFilter = document.getElementById('groupCountryFilter');
+    const stateFilter = document.getElementById('groupStateFilter');
+    const cityFilter = document.getElementById('groupCityFilter');
+    const resetFiltersButton = document.getElementById('groupResetFilters');
+    const viewAllButton = document.getElementById('groupViewAllButton');
+    const popoutButton = document.getElementById('groupPopoutButton');
+    const summaryElement = document.getElementById('groupListSummary');
+    const feedbackElement = document.getElementById('groupListFeedback');
+    const tableBody = document.getElementById('groupTableBody');
+    const sortButtons = Array.from(document.querySelectorAll('#groupListTableApp .group-sort-button'));
+
+    const state = {
+      allGroups: [],
+      filteredGroups: [],
+      visibleGroups: [],
+      sortKey: 'name',
+      sortDirection: 'asc',
+      showAllRows: false
+    };
+
+    // HTML escaping protects the table from broken markup in Airtable text fields.
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, function (match) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[match];
+      });
+    }
+
+    function normalizeUrl(url) {
+      const trimmedUrl = String(url || '').trim();
+      if (!trimmedUrl) return '';
+      if (!/^https?:\/\//i.test(trimmedUrl)) return 'https://' + trimmedUrl;
+      return trimmedUrl;
+    }
+
+    function cleanText(value) {
+      return String(value || '').replace(/\s+/g, ' ').trim();
+    }
+
+    // Category cells can contain multiple comma-separated values.
+    // Keep each category as a separate value for dropdown options while using contains-style matching for filtering.
+    function splitCategories(value) {
+      return String(value || '')
+        .split(',')
+        .map(cleanText)
+        .filter(Boolean);
+    }
+
+    function normalizeCategoryValue(value) {
+      return cleanText(value).toLowerCase();
+    }
+
+    function categoryContains(group, selectedCategory) {
+      const normalizedSelectedCategory = normalizeCategoryValue(selectedCategory);
+      if (!normalizedSelectedCategory) return true;
+
+      const normalizedCategoryText = normalizeCategoryValue(group.category);
+      if (normalizedCategoryText.includes(normalizedSelectedCategory)) {
+        return true;
+      }
+
+      return (group.categoryList || []).some(function (category) {
+        return normalizeCategoryValue(category).includes(normalizedSelectedCategory);
+      });
+    }
+
+    function uniqueSorted(values) {
+      return Array.from(new Set(values.filter(Boolean))).sort(function (a, b) {
+        return a.localeCompare(b, undefined, { sensitivity: 'base' });
+      });
+    }
+
+    function setSelectOptions(select, placeholder, values, selectedValue) {
+      const options = ['<option value="">' + escapeHtml(placeholder) + '</option>'];
+
+      values.forEach(function (value) {
+        const selected = value === selectedValue ? ' selected' : '';
+        options.push('<option value="' + escapeHtml(value) + '"' + selected + '>' + escapeHtml(value) + '</option>');
+      });
+
+      select.innerHTML = options.join('');
+    }
+
+    // The Airtable export uses lowercase headers today, with common variants supported for resilience.
+    function mapGroupRow(row) {
+      const name = cleanText(row.name || row.Name || row['Group Name'] || row.group_name);
+      const category = cleanText(row.category || row.Category || row.type || row.Type);
+      const city = cleanText(row.city || row.City);
+      const stateName = cleanText(row.state || row.State || row.region || row.Region || row['State / Region']);
+      const country = cleanText(row.country || row.Country || row['Country Name']);
+      const description = cleanText(row.blurb || row.Blurb || row.description || row.Description);
+      const website = normalizeUrl(row.website || row.Website || row.url || row.URL);
+
+      return {
+        name: name,
+        category: category,
+        categoryList: splitCategories(category),
+        city: city,
+        state: stateName,
+        country: country,
+        description: description,
+        url: website
+      };
+    }
+
+    function updateFilterOptions() {
+      const selectedCategory = categoryFilter.value;
+      const selectedCountry = countryFilter.value;
+      const selectedState = stateFilter.value;
+      const selectedCity = cityFilter.value;
+
+      const categories = uniqueSorted(
+        AIRTABLE_CATEGORY_CHOICES.concat(
+          state.allGroups.reduce(function (allCategories, group) {
+            return allCategories.concat(group.categoryList || []);
+          }, [])
+        )
+      );
+      setSelectOptions(categoryFilter, 'All categories', categories, selectedCategory);
+
+      const countries = uniqueSorted(state.allGroups.map(function (group) {
+        return group.country;
+      }));
+      setSelectOptions(countryFilter, 'All countries', countries, selectedCountry);
+
+      const states = uniqueSorted(
+        state.allGroups
+          .filter(function (group) {
+            return !countryFilter.value || group.country === countryFilter.value;
+          })
+          .map(function (group) {
+            return group.state;
+          })
+      );
+      setSelectOptions(stateFilter, 'All states / regions', states, states.includes(selectedState) ? selectedState : '');
+
+      const cities = uniqueSorted(
+        state.allGroups
+          .filter(function (group) {
+            return !countryFilter.value || group.country === countryFilter.value;
+          })
+          .filter(function (group) {
+            return !stateFilter.value || group.state === stateFilter.value;
+          })
+          .map(function (group) {
+            return group.city;
+          })
+      );
+      setSelectOptions(cityFilter, 'All cities', cities, cities.includes(selectedCity) ? selectedCity : '');
+    }
+
+    function matchesFilters(group) {
+      const searchTerm = cleanText(nameSearchInput.value).toLowerCase();
+
+      if (searchTerm && !group.name.toLowerCase().includes(searchTerm)) {
+        return false;
+      }
+
+      if (categoryFilter.value && !categoryContains(group, categoryFilter.value)) {
+        return false;
+      }
+
+      if (countryFilter.value && group.country !== countryFilter.value) {
+        return false;
+      }
+
+      if (stateFilter.value && group.state !== stateFilter.value) {
+        return false;
+      }
+
+      if (cityFilter.value && group.city !== cityFilter.value) {
+        return false;
+      }
+
+      return true;
+    }
+
+    function compareStrings(a, b) {
+      return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    }
+
+    function sortGroups(groups) {
+      const sorted = groups.slice();
+      const directionMultiplier = state.sortDirection === 'asc' ? 1 : -1;
+
+      sorted.sort(function (left, right) {
+        let comparison = compareStrings(String(left[state.sortKey] || ''), String(right[state.sortKey] || ''));
+
+        if (comparison === 0) {
+          comparison = compareStrings(left.name, right.name);
+        }
+
+        return comparison * directionMultiplier;
+      });
+
+      return sorted;
+    }
+
+    function updateSummary() {
+      const totalCount = state.allGroups.length;
+      const filteredCount = state.filteredGroups.length;
+      const visibleCount = state.visibleGroups.length;
+      summaryElement.textContent = visibleCount + ' shown / ' + filteredCount + ' matches / ' + totalCount + ' total';
+    }
+
+    function updateSortButtons() {
+      sortButtons.forEach(function (button) {
+        const isActive = button.dataset.sortKey === state.sortKey;
+        button.classList.toggle('is-active', isActive);
+        if (isActive) {
+          button.setAttribute('data-sort-direction', state.sortDirection);
+          button.setAttribute('aria-sort', state.sortDirection === 'asc' ? 'ascending' : 'descending');
+        } else {
+          button.removeAttribute('data-sort-direction');
+          button.removeAttribute('aria-sort');
+        }
+      });
+    }
+
+    function renderEmptyState(message) {
+      tableBody.innerHTML =
+        '<tr><td colspan="7" class="group-table-empty">' + escapeHtml(message) + '</td></tr>';
+    }
+
+    function buildTableRowsMarkup(groups) {
+      return groups
+        .map(function (group) {
+          const urlMarkup = group.url
+            ? '<a class="group-url-link" href="' +
+              escapeHtml(group.url) +
+              '" target="_blank" rel="noopener noreferrer nofollow">Visit site</a>'
+            : '<span>No URL listed</span>';
+
+          return (
+            '<tr>' +
+            '<td class="group-name-cell">' + escapeHtml(group.name || 'Untitled Group') + '</td>' +
+            '<td>' + escapeHtml(group.category || '') + '</td>' +
+            '<td>' + escapeHtml(group.city || '') + '</td>' +
+            '<td>' + escapeHtml(group.state || '') + '</td>' +
+            '<td>' + escapeHtml(group.country || '') + '</td>' +
+            '<td class="group-description-cell">' + escapeHtml(group.description || '') + '</td>' +
+            '<td>' + urlMarkup + '</td>' +
+            '</tr>'
+          );
+        })
+        .join('');
+    }
+
+    function updateViewAllButton() {
+      const filteredCount = state.filteredGroups.length;
+      const canExpand = filteredCount > DEFAULT_ROW_LIMIT;
+
+      viewAllButton.disabled = !canExpand;
+      viewAllButton.textContent = state.showAllRows && canExpand ? 'Show Fewer' : 'View All';
+    }
+
+    function getActiveFiltersMarkup() {
+      const filters = [];
+      const searchTerm = cleanText(nameSearchInput.value);
+
+      if (searchTerm) filters.push('Name contains "' + escapeHtml(searchTerm) + '"');
+      if (categoryFilter.value) filters.push('Category is ' + escapeHtml(categoryFilter.value));
+      if (countryFilter.value) filters.push('Country is ' + escapeHtml(countryFilter.value));
+      if (stateFilter.value) filters.push('State / region is ' + escapeHtml(stateFilter.value));
+      if (cityFilter.value) filters.push('City is ' + escapeHtml(cityFilter.value));
+
+      if (!filters.length) {
+        return '<p class="group-popout-meta">Filters: none</p>';
+      }
+
+      return '<p class="group-popout-meta">Filters: ' + filters.join(' | ') + '</p>';
+    }
+
+    function openPopoutView() {
+      const popoutWindow = window.open('', '_blank');
+      if (!popoutWindow) {
+        window.alert('Please allow pop-ups for this site to open the full page table.');
+        return;
+      }
+
+      const popoutMarkup = [
+        '<!DOCTYPE html>',
+        '<html lang="en">',
+        '<head>',
+        '<meta charset="utf-8" />',
+        '<meta name="viewport" content="width=device-width, initial-scale=1" />',
+        '<title>Improv Group List</title>',
+        '<style>',
+        'body{margin:0;padding:28px;background:#FFE974;color:#000;font:16px/1.5 Georgia,"Times New Roman",serif;}',
+        '.group-popout-shell{max-width:1500px;margin:0 auto;padding:24px;border:2px solid #000;border-radius:24px;background:#FFE974;box-shadow:0 18px 34px rgba(0,0,0,0.14);}',
+        '.group-popout-kicker{margin-bottom:6px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#BD005B;}',
+        '.group-popout-title{margin:0;font-size:clamp(2rem,3vw,2.8rem);line-height:0.95;}',
+        '.group-popout-meta{margin:10px 0 0;color:#272727;}',
+        '.group-popout-summary{margin:14px 0 20px;color:#000;font-weight:700;}',
+        '.group-popout-table-wrap{overflow-x:auto;border:2px solid #000;border-radius:18px;background:#FFE974;}',
+        '.group-popout-table{width:100%;min-width:1040px;border-collapse:collapse;table-layout:fixed;}',
+        '.group-popout-col-name{width:18%;}',
+        '.group-popout-col-category{width:10%;}',
+        '.group-popout-col-city{width:11%;}',
+        '.group-popout-col-state{width:10%;}',
+        '.group-popout-col-country{width:9%;}',
+        '.group-popout-col-description{width:34%;}',
+        '.group-popout-col-url{width:8%;}',
+        '.group-popout-table th,.group-popout-table td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(0,0,0,0.2);}',
+        '.group-popout-table th{background:#000;color:#FFE974;font-weight:700;}',
+        '.group-popout-table tbody tr:nth-child(even){background:rgba(255,255,255,0.28);}',
+        '.group-popout-table a{color:#BD005B;text-decoration-thickness:1px;text-underline-offset:2px;word-break:break-word;font-weight:700;}',
+        '.group-popout-description{max-width:460px;color:#272727;}',
+        '@media (max-width:640px){body{padding:16px;}.group-popout-shell{padding:18px;}}',
+        '</style>',
+        '</head>',
+        '<body>',
+        '<div class="group-popout-shell">',
+        '<div class="group-popout-kicker">Group Directory</div>',
+        '<h1 class="group-popout-title">Improv Group List</h1>',
+        getActiveFiltersMarkup(),
+        '<p class="group-popout-summary">Showing all ' + state.filteredGroups.length + ' matching groups.</p>',
+        '<div class="group-popout-table-wrap">',
+        '<table class="group-popout-table">',
+        '<colgroup><col class="group-popout-col-name" /><col class="group-popout-col-category" /><col class="group-popout-col-city" /><col class="group-popout-col-state" /><col class="group-popout-col-country" /><col class="group-popout-col-description" /><col class="group-popout-col-url" /></colgroup>',
+        '<thead><tr><th>Group Name</th><th>Category</th><th>City</th><th>State / Region</th><th>Country</th><th>Description</th><th>URL</th></tr></thead>',
+        '<tbody>',
+        buildTableRowsMarkup(state.filteredGroups).replace(/group-description-cell/g, 'group-popout-description'),
+        '</tbody>',
+        '</table>',
+        '</div>',
+        '</div>',
+        '</body>',
+        '</html>'
+      ].join('');
+
+      popoutWindow.document.open();
+      popoutWindow.document.write(popoutMarkup);
+      popoutWindow.document.close();
+    }
+
+    function renderTable() {
+      updateFilterOptions();
+      state.filteredGroups = sortGroups(state.allGroups.filter(matchesFilters));
+      state.visibleGroups = state.showAllRows
+        ? state.filteredGroups.slice()
+        : state.filteredGroups.slice(0, DEFAULT_ROW_LIMIT);
+
+      updateSummary();
+      updateSortButtons();
+      updateViewAllButton();
+
+      if (!state.filteredGroups.length) {
+        feedbackElement.textContent = 'No groups match the current search and location filters.';
+        renderEmptyState('No groups match the current search and location filters.');
+        return;
+      }
+
+      if (!state.showAllRows && state.filteredGroups.length > DEFAULT_ROW_LIMIT) {
+        feedbackElement.textContent =
+          'Showing the first ' + DEFAULT_ROW_LIMIT + ' of ' + state.filteredGroups.length + ' matching groups.';
+      } else {
+        feedbackElement.textContent =
+          'Showing ' +
+          state.filteredGroups.length +
+          ' matching group' +
+          (state.filteredGroups.length === 1 ? '' : 's') +
+          '.';
+      }
+
+      tableBody.innerHTML = buildTableRowsMarkup(state.visibleGroups);
+    }
+
+    function loadGroupData() {
+      if (!window.Papa) {
+        feedbackElement.textContent = 'Could not load the CSV parser library.';
+        renderEmptyState('Could not load the CSV parser library.');
+        summaryElement.textContent = '0 shown / 0 total';
+        return;
+      }
+
+      fetch(MAP_DATA_URL, { cache: 'no-store' })
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (dataText) {
+          const trimmedData = dataText.trim();
+
+          if (!trimmedData) {
+            throw new Error('The group feed was empty.');
+          }
+
+          if (trimmedData.startsWith('<!DOCTYPE') || trimmedData.startsWith('<html')) {
+            throw new Error('Google returned HTML instead of map data.');
+          }
+
+          const parsedRows = JSON.parse(trimmedData);
+          if (!Array.isArray(parsedRows)) {
+            throw new Error('Google returned a non-array map payload.');
+          }
+
+          state.allGroups = parsedRows
+            .map(mapGroupRow)
+            .filter(function (group) {
+              return group.name;
+            });
+
+          feedbackElement.textContent = 'Group data loaded.';
+          renderTable();
+        })
+        .catch(function (error) {
+          console.error('Error fetching group data:', error);
+          state.allGroups = [];
+          summaryElement.textContent = '0 shown / 0 total';
+          feedbackElement.textContent = 'Could not load group data.';
+          renderEmptyState('Could not load group data. Check the published Apps Script URL.');
+        });
+    }
+
+    // Event wiring keeps the UI responsive without extra dependencies.
+    nameSearchInput.addEventListener('input', function () {
+      state.showAllRows = false;
+      renderTable();
+    });
+
+    [categoryFilter, countryFilter, stateFilter, cityFilter].forEach(function (select) {
+      select.addEventListener('change', function () {
+        state.showAllRows = false;
+        renderTable();
+      });
+    });
+
+    resetFiltersButton.addEventListener('click', function () {
+      nameSearchInput.value = '';
+      categoryFilter.value = '';
+      countryFilter.value = '';
+      stateFilter.value = '';
+      cityFilter.value = '';
+      state.showAllRows = false;
+      renderTable();
+    });
+
+    viewAllButton.addEventListener('click', function () {
+      if (state.filteredGroups.length <= DEFAULT_ROW_LIMIT) {
+        return;
+      }
+
+      state.showAllRows = !state.showAllRows;
+      renderTable();
+    });
+
+    popoutButton.addEventListener('click', openPopoutView);
+
+    sortButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        const nextSortKey = button.dataset.sortKey;
+
+        if (state.sortKey === nextSortKey) {
+          state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+          state.sortKey = nextSortKey;
+          state.sortDirection = 'asc';
+        }
+
+        renderTable();
+      });
+    });
+
+    updateSortButtons();
+    loadGroupData();
+  })();
+</script>
+
+</body>
+</html>
+

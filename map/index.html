@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Map iframe routes</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #171717;
+      --muted: #5f6268;
+      --paper: #fffdf6;
+      --panel: #ffffff;
+      --line: #d8d3c5;
+      --accent: #bd005b;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1;
+    }
+
+    .lede {
+      margin: 0 0 28px;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .route-list {
+      display: grid;
+      gap: 14px;
+      margin: 0 0 32px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .route-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .route-card h2 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+    }
+
+    .route-card a {
+      color: var(--accent);
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      overflow-x: auto;
+      background: #171717;
+      color: #fffdf6;
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Map iframe routes</h1>
+    <p class="lede">Use these GitHub Pages routes as iframe sources in Squarespace Code blocks.</p>
+
+    <ul class="route-list">
+      <li class="route-card">
+        <h2>Improv Group Map</h2>
+        <a href="/map/improv-group-map/">/map/improv-group-map/</a>
+        <pre>&lt;iframe src="https://benrushscience.github.io/map/improv-group-map/" title="Improv Group Map" style="width:100%;height:760px;border:0;display:block;" loading="lazy" allow="geolocation; fullscreen" allowfullscreen&gt;&lt;/iframe&gt;</pre>
+      </li>
+      <li class="route-card">
+        <h2>Improv Group Table</h2>
+        <a href="/map/improv-group-table/">/map/improv-group-table/</a>
+        <pre>&lt;iframe src="https://benrushscience.github.io/map/improv-group-table/" title="Improv Group Table" style="width:100%;height:900px;border:0;display:block;" loading="lazy"&gt;&lt;/iframe&gt;</pre>
+      </li>
+      <li class="route-card">
+        <h2>Improv Festival Map</h2>
+        <a href="/map/improv-festival-map/">/map/improv-festival-map/</a>
+        <pre>&lt;iframe src="https://benrushscience.github.io/map/improv-festival-map/" title="Improv Festival Map" style="width:100%;height:760px;border:0;display:block;" loading="lazy" allow="geolocation; fullscreen" allowfullscreen&gt;&lt;/iframe&gt;</pre>
+      </li>
+      <li class="route-card">
+        <h2>Improv Festival Table</h2>
+        <a href="/map/improv-festival-table/">/map/improv-festival-table/</a>
+        <pre>&lt;iframe src="https://benrushscience.github.io/map/improv-festival-table/" title="Improv Festival Table" style="width:100%;height:900px;border:0;display:block;" loading="lazy"&gt;&lt;/iframe&gt;</pre>
+      </li>
+    </ul>
+  </main>
+</body>
+</html>

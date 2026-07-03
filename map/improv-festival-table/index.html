@@ -1,0 +1,992 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Improv Festival Table</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+<!-- Improv festival list table for Squarespace code blocks. -->
+<!-- This version reuses the public festival CSV feed and presents it as a searchable, sortable table. -->
+
+<div id="festivalListTableApp">
+  <div class="festival-list-shell">
+    <div class="festival-list-header">
+      <div>
+        <div class="festival-list-kicker">Festival Directory</div>
+        <h2>Improv Festival List</h2>
+        <p>
+          Search by festival name, narrow by date range, and sort the table by clicking any column header.
+        </p>
+      </div>
+      <div class="festival-list-summary" id="festivalListSummary" aria-live="polite">
+        Loading festivals...
+      </div>
+    </div>
+
+    <!-- Filter controls stay simple so the code block is easy to maintain in Squarespace. -->
+    <div class="festival-list-filters" aria-label="Festival table filters">
+      <label class="festival-list-filter">
+        <span>Search festival name</span>
+        <input
+          type="search"
+          id="festivalNameSearch"
+          placeholder="Type part of a festival name"
+          autocomplete="off"
+        />
+      </label>
+
+      <label class="festival-list-filter">
+        <span>Starts on or after</span>
+        <input type="date" id="festivalStartFilter" />
+      </label>
+
+      <label class="festival-list-filter">
+        <span>Ends on or before</span>
+        <input type="date" id="festivalEndFilter" />
+      </label>
+
+      <div class="festival-list-actions">
+        <button type="button" id="festivalResetFilters">Reset filters</button>
+        <button type="button" id="festivalViewAllButton">View All</button>
+        <button type="button" id="festivalPopoutButton">Pop-Out</button>
+      </div>
+
+      <div class="festival-submission-filter-row">
+        <button
+          type="button"
+          id="festivalSubmissionsOnlyButton"
+          class="festival-submission-filter-button"
+          aria-pressed="false"
+        >
+          <span class="festival-submission-filter-icon" aria-hidden="true"></span>
+          Currently taking submissions
+        </button>
+      </div>
+    </div>
+
+    <div class="festival-list-feedback" id="festivalListFeedback" aria-live="polite">
+      Loading festival data...
+    </div>
+
+    <div class="festival-table-wrap">
+      <table class="festival-table">
+        <colgroup>
+          <col class="festival-col-name" />
+          <col class="festival-col-city" />
+          <col class="festival-col-country" />
+          <col class="festival-col-start" />
+          <col class="festival-col-end" />
+          <col class="festival-col-description" />
+          <col class="festival-col-url" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">
+              <button type="button" class="festival-sort-button is-active" data-sort-key="name">
+                Festival Name
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="festival-sort-button" data-sort-key="city">City</button>
+            </th>
+            <th scope="col">
+              <button type="button" class="festival-sort-button" data-sort-key="country">Country</button>
+            </th>
+            <th scope="col">
+              <button type="button" class="festival-sort-button" data-sort-key="startDate">
+                Start Date
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="festival-sort-button" data-sort-key="endDate">
+                End Date
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="festival-sort-button" data-sort-key="description">
+                Description
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="festival-sort-button" data-sort-key="url">URL</button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="festivalTableBody">
+          <tr>
+            <td colspan="7" class="festival-table-empty">Loading festival data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Overall card layout */
+  #festivalListTableApp {
+    --festival-bg: #FFE974;
+    --festival-card: #FFE974;
+    --festival-border: rgba(0, 0, 0, 0.9);
+    --festival-ink: #000000;
+    --festival-muted: #272727;
+    --festival-accent: #f0523d;
+    --festival-accent-dark: #000000;
+    --festival-shadow: 0 18px 34px rgba(0, 0, 0, 0.14);
+    color: var(--festival-ink);
+    font: 16px/1.5 Georgia, "Times New Roman", serif;
+  }
+
+  #festivalListTableApp * {
+    box-sizing: border-box;
+  }
+
+  #festivalListTableApp .festival-list-shell {
+    width: 100%;
+    padding: 24px;
+    border: 2px solid var(--festival-border);
+    border-radius: 24px;
+    background: var(--festival-bg);
+    box-shadow: var(--festival-shadow);
+  }
+
+  #festivalListTableApp .festival-list-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: end;
+    margin-bottom: 20px;
+  }
+
+  #festivalListTableApp .festival-list-kicker {
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--festival-accent);
+  }
+
+  #festivalListTableApp h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    line-height: 0.95;
+    color: var(--festival-ink);
+  }
+
+  #festivalListTableApp .festival-list-header p {
+    max-width: 54rem;
+    margin: 10px 0 0;
+    color: var(--festival-muted);
+  }
+
+  #festivalListTableApp .festival-list-summary {
+    min-width: 180px;
+    padding: 12px 14px;
+    border: 2px solid var(--festival-border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.78);
+    font-size: 14px;
+    text-align: right;
+    color: var(--festival-ink);
+  }
+
+  /* Filters */
+  #festivalListTableApp .festival-list-filters {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(160px, 1fr)) minmax(240px, auto);
+    gap: 14px;
+    align-items: end;
+    margin-bottom: 14px;
+  }
+
+  #festivalListTableApp .festival-list-filter span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--festival-muted);
+  }
+
+  #festivalListTableApp .festival-list-filter input,
+  #festivalListTableApp .festival-list-actions button,
+  #festivalListTableApp .festival-submission-filter-button {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 2px solid var(--festival-border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.86);
+    color: var(--festival-ink);
+    font: inherit;
+  }
+
+  #festivalListTableApp .festival-list-filter input:focus-visible,
+  #festivalListTableApp .festival-list-actions button:focus-visible,
+  #festivalListTableApp .festival-submission-filter-button:focus-visible,
+  #festivalListTableApp .festival-sort-button:focus-visible,
+  #festivalListTableApp .festival-url-link:focus-visible {
+    outline: 2px solid var(--festival-accent);
+    outline-offset: 2px;
+  }
+
+  #festivalListTableApp .festival-list-actions button {
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 160ms ease, transform 160ms ease;
+  }
+
+  #festivalListTableApp .festival-submission-filter-row {
+    grid-column: 1 / -1;
+  }
+
+  #festivalListTableApp .festival-submission-filter-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  #festivalListTableApp .festival-submission-filter-button[aria-pressed="true"] {
+    background: #f2fbf5;
+    border-color: #1f9d55;
+    color: #0f6a37;
+  }
+
+  #festivalListTableApp .festival-submission-filter-button:hover {
+    background: #f2fbf5;
+    border-color: #1f9d55;
+    color: #0f6a37;
+    transform: translateY(-1px);
+  }
+
+  #festivalListTableApp .festival-submission-filter-icon,
+  #festivalListTableApp .festival-submission-open-icon {
+    flex: 0 0 auto;
+    width: 0.74rem;
+    height: 0.74rem;
+    border-radius: 999px;
+    background: #1f9d55;
+    border: 2px solid #0f6a37;
+    box-shadow: 0 0 0 3px rgba(31, 157, 85, 0.18);
+  }
+
+  #festivalListTableApp .festival-list-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #festivalListTableApp #festivalResetFilters {
+    background: var(--festival-accent);
+    color: #fff;
+  }
+
+  #festivalListTableApp #festivalViewAllButton,
+  #festivalListTableApp #festivalPopoutButton {
+    background: rgba(255, 255, 255, 0.86);
+    color: var(--festival-ink);
+  }
+
+  #festivalListTableApp .festival-list-actions button:hover {
+    background: var(--festival-accent-dark);
+    color: #FFE974;
+    transform: translateY(-1px);
+  }
+
+  #festivalListTableApp .festival-list-actions button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--festival-muted);
+  }
+
+  #festivalListTableApp .festival-list-feedback {
+    margin-bottom: 14px;
+    color: var(--festival-muted);
+    font-size: 14px;
+  }
+
+  /* Table */
+  #festivalListTableApp .festival-table-wrap {
+    overflow-x: auto;
+    border: 2px solid var(--festival-border);
+    border-radius: 18px;
+    background: var(--festival-card);
+    backdrop-filter: blur(6px);
+  }
+
+  #festivalListTableApp .festival-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 940px;
+    table-layout: fixed;
+  }
+
+  #festivalListTableApp .festival-col-name {
+    width: 18%;
+  }
+
+  #festivalListTableApp .festival-col-city {
+    width: 11%;
+  }
+
+  #festivalListTableApp .festival-col-country {
+    width: 11%;
+  }
+
+  #festivalListTableApp .festival-col-start,
+  #festivalListTableApp .festival-col-end {
+    width: 10.5%;
+  }
+
+  #festivalListTableApp .festival-col-description {
+    width: 31%;
+  }
+
+  #festivalListTableApp .festival-col-url {
+    width: 8%;
+  }
+
+  #festivalListTableApp .festival-table th,
+  #festivalListTableApp .festival-table td {
+    padding: 14px 16px;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  #festivalListTableApp .festival-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.96);
+  }
+
+  #festivalListTableApp .festival-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  #festivalListTableApp .festival-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.48);
+  }
+
+  #festivalListTableApp .festival-table tbody tr.festival-taking-submissions-row {
+    background: #f2fbf5;
+  }
+
+  #festivalListTableApp .festival-table tbody tr.festival-taking-submissions-row:nth-child(even) {
+    background: #e7f7ed;
+  }
+
+  #festivalListTableApp .festival-table tbody tr.festival-taking-submissions-row:hover {
+    background: #d7f9e3;
+  }
+
+  #festivalListTableApp .festival-sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #FFE974;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  #festivalListTableApp .festival-sort-button::after {
+    content: "â†•";
+    font-size: 12px;
+    color: rgba(255, 233, 116, 0.74);
+  }
+
+  #festivalListTableApp .festival-sort-button.is-active::after {
+    color: #ffffff;
+  }
+
+  #festivalListTableApp .festival-sort-button.is-active[data-sort-direction="asc"]::after {
+    content: "â†‘";
+  }
+
+  #festivalListTableApp .festival-sort-button.is-active[data-sort-direction="desc"]::after {
+    content: "â†“";
+  }
+
+  #festivalListTableApp .festival-name-cell {
+    min-width: 0;
+    font-weight: 700;
+  }
+
+  #festivalListTableApp .festival-name-with-submissions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #festivalListTableApp .festival-description-cell {
+    max-width: none;
+    color: var(--festival-muted);
+  }
+
+  #festivalListTableApp .festival-url-link {
+    color: var(--festival-accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    word-break: break-word;
+    font-weight: 700;
+  }
+
+  #festivalListTableApp .festival-table-empty {
+    padding: 28px 16px;
+    text-align: center;
+    color: var(--festival-muted);
+  }
+
+  @media (max-width: 900px) {
+    #festivalListTableApp .festival-list-header {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    #festivalListTableApp .festival-list-summary {
+      width: 100%;
+      text-align: left;
+    }
+
+    #festivalListTableApp .festival-list-filters {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    #festivalListTableApp .festival-list-shell {
+      padding: 18px;
+      border-radius: 20px;
+    }
+
+    #festivalListTableApp .festival-table th,
+    #festivalListTableApp .festival-table td {
+      padding: 12px;
+    }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script>
+  (function () {
+    // Shared data source from the existing festival map export.
+    const MAP_DATA_URL = 'https://script.google.com/macros/s/AKfycbyTG15EsbIGQKA-0Qq3sqZZaiBJ7jPLKG6ulCHmkhoFfBiLoYo8596V9x53uTCB9DOn/exec';
+    const DEFAULT_ROW_LIMIT = 10;
+
+    // DOM references stay in one place so future edits are easy to follow.
+    const nameSearchInput = document.getElementById('festivalNameSearch');
+    const startFilterInput = document.getElementById('festivalStartFilter');
+    const endFilterInput = document.getElementById('festivalEndFilter');
+    const submissionsOnlyButton = document.getElementById('festivalSubmissionsOnlyButton');
+    const resetFiltersButton = document.getElementById('festivalResetFilters');
+    const viewAllButton = document.getElementById('festivalViewAllButton');
+    const popoutButton = document.getElementById('festivalPopoutButton');
+    const summaryElement = document.getElementById('festivalListSummary');
+    const feedbackElement = document.getElementById('festivalListFeedback');
+    const tableBody = document.getElementById('festivalTableBody');
+    const sortButtons = Array.from(document.querySelectorAll('#festivalListTableApp .festival-sort-button'));
+
+    const state = {
+      allFestivals: [],
+      filteredFestivals: [],
+      visibleFestivals: [],
+      sortKey: 'name',
+      sortDirection: 'asc',
+      submissionsOnly: false,
+      showAllRows: false
+    };
+
+    // HTML escaping protects the table from broken markup in Airtable text fields.
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, function (match) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[match];
+      });
+    }
+
+    function normalizeUrl(url) {
+      const trimmedUrl = String(url || '').trim();
+      if (!trimmedUrl) return '';
+      if (!/^https?:\/\//i.test(trimmedUrl)) return 'https://' + trimmedUrl;
+      return trimmedUrl;
+    }
+
+    function parseDateOnly(value) {
+      const trimmedValue = String(value || '').trim().slice(0, 10);
+      if (!trimmedValue) return null;
+
+      const parsedDate = new Date(trimmedValue + 'T00:00:00');
+      return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+    }
+
+    function getTodayAtMidnight() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return today;
+    }
+
+    function getRowValue(row, fieldNames) {
+      for (let index = 0; index < fieldNames.length; index += 1) {
+        const value = row[fieldNames[index]];
+        if (value !== undefined && value !== null && String(value).trim() !== '') {
+          return value;
+        }
+      }
+      return '';
+    }
+
+    function isAcceptingSubmissions(startDate, submissionRaw) {
+      const submissionDate = parseDateOnly(submissionRaw);
+      const today = getTodayAtMidnight();
+
+      return Boolean(startDate && submissionDate) && startDate > today && submissionDate >= today;
+    }
+
+    function toDateInputValue(date) {
+      if (!date) return '';
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return year + '-' + month + '-' + day;
+    }
+
+    function formatDate(date, fallbackValue) {
+      if (!date) return escapeHtml(fallbackValue || '');
+
+      return escapeHtml(
+        new Intl.DateTimeFormat(undefined, {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        }).format(date)
+      );
+    }
+
+    function cleanText(value) {
+      return String(value || '').replace(/\s+/g, ' ').trim();
+    }
+
+    // The Airtable export uses a few field-name variants, so the mapper checks common alternatives.
+    function mapFestivalRow(row) {
+      const name = cleanText(row.festival_name || row['Festival Name'] || row.name || row.Name);
+      const city = cleanText(row.city || row.City);
+      const countryName = cleanText(row.country || row.Country);
+      const startRaw = row.festival_start_date || row['Festival Start Date'] || row.start_date || row['Start Date'] || '';
+      const endRaw = row.festival_end_date || row['Festival End Date'] || row.end_date || row['End Date'] || '';
+      const submissionRaw = getRowValue(row, [
+        'festival_submission_date',
+        'Festival Submission Date',
+        'festival submission date',
+        'festivalSubmissionDate',
+        'festival_submission_deadline',
+        'Festival Submission Deadline',
+        'festival submission deadline',
+        'submission_deadline',
+        'Submission Deadline',
+        'submission deadline',
+        'submission_end_date',
+        'Submission End Date',
+        'submission end date',
+        'submissionEndDate'
+      ]);
+      const description = cleanText(row.blurb || row.Blurb || row.description || row.Description);
+      const website = normalizeUrl(row.website || row.Website || row.url || row.URL);
+
+      const startDate = parseDateOnly(startRaw);
+      const endDate = parseDateOnly(endRaw);
+      const acceptsSubmissions = isAcceptingSubmissions(startDate, submissionRaw);
+
+      return {
+        name: name,
+        city: city,
+        country: countryName,
+        startDate: startDate,
+        endDate: endDate,
+        startDateLabel: formatDate(startDate, startRaw),
+        endDateLabel: formatDate(endDate, endRaw),
+        startDateValue: startDate ? toDateInputValue(startDate) : '',
+        endDateValue: endDate ? toDateInputValue(endDate) : '',
+        description: description,
+        url: website,
+        acceptsSubmissions: acceptsSubmissions
+      };
+    }
+
+    function matchesFilters(festival) {
+      const searchTerm = cleanText(nameSearchInput.value).toLowerCase();
+      const selectedStart = parseDateOnly(startFilterInput.value);
+      const selectedEnd = parseDateOnly(endFilterInput.value);
+
+      if (searchTerm && !festival.name.toLowerCase().includes(searchTerm)) {
+        return false;
+      }
+
+      if (state.submissionsOnly && !festival.acceptsSubmissions) {
+        return false;
+      }
+
+      if (selectedStart) {
+        const festivalEnd = festival.endDate || festival.startDate;
+        if (!festivalEnd || festivalEnd < selectedStart) {
+          return false;
+        }
+      }
+
+      if (selectedEnd) {
+        const festivalStart = festival.startDate || festival.endDate;
+        if (!festivalStart || festivalStart > selectedEnd) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function compareStrings(a, b) {
+      return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    }
+
+    function compareDates(a, b) {
+      const aTime = a ? a.getTime() : Number.POSITIVE_INFINITY;
+      const bTime = b ? b.getTime() : Number.POSITIVE_INFINITY;
+      return aTime - bTime;
+    }
+
+    function sortFestivals(festivals) {
+      const sorted = festivals.slice();
+      const directionMultiplier = state.sortDirection === 'asc' ? 1 : -1;
+
+      sorted.sort(function (left, right) {
+        let comparison = 0;
+
+        if (state.sortKey === 'startDate') {
+          comparison = compareDates(left.startDate || left.endDate, right.startDate || right.endDate);
+        } else if (state.sortKey === 'endDate') {
+          comparison = compareDates(left.endDate || left.startDate, right.endDate || right.startDate);
+        } else {
+          comparison = compareStrings(String(left[state.sortKey] || ''), String(right[state.sortKey] || ''));
+        }
+
+        if (comparison === 0) {
+          comparison = compareStrings(left.name, right.name);
+        }
+
+        return comparison * directionMultiplier;
+      });
+
+      return sorted;
+    }
+
+    function updateSummary() {
+      const totalCount = state.allFestivals.length;
+      const filteredCount = state.filteredFestivals.length;
+      const visibleCount = state.visibleFestivals.length;
+      summaryElement.textContent = visibleCount + ' shown / ' + filteredCount + ' matches / ' + totalCount + ' total';
+    }
+
+    function updateSortButtons() {
+      sortButtons.forEach(function (button) {
+        const isActive = button.dataset.sortKey === state.sortKey;
+        button.classList.toggle('is-active', isActive);
+        if (isActive) {
+          button.setAttribute('data-sort-direction', state.sortDirection);
+          button.setAttribute('aria-sort', state.sortDirection === 'asc' ? 'ascending' : 'descending');
+        } else {
+          button.removeAttribute('data-sort-direction');
+          button.removeAttribute('aria-sort');
+        }
+      });
+    }
+
+    function renderEmptyState(message) {
+      tableBody.innerHTML =
+        '<tr><td colspan="7" class="festival-table-empty">' + escapeHtml(message) + '</td></tr>';
+    }
+
+    function buildTableRowsMarkup(festivals) {
+      return festivals
+        .map(function (festival) {
+          const urlMarkup = festival.url
+            ? '<a class="festival-url-link" href="' +
+              escapeHtml(festival.url) +
+              '" target="_blank" rel="noopener noreferrer nofollow">Visit site</a>'
+            : '<span>No URL listed</span>';
+          const rowClass = festival.acceptsSubmissions ? ' class="festival-taking-submissions-row"' : '';
+          const submissionIcon = festival.acceptsSubmissions
+            ? '<span class="festival-submission-open-icon" title="Currently taking submissions" aria-label="Currently taking submissions"></span>'
+            : '';
+          const nameMarkup = '<span class="festival-name-with-submissions">' +
+            escapeHtml(festival.name || 'Untitled Festival') +
+            submissionIcon +
+            '</span>';
+
+          return (
+            '<tr' + rowClass + '>' +
+            '<td class="festival-name-cell">' + nameMarkup + '</td>' +
+            '<td>' + escapeHtml(festival.city || '') + '</td>' +
+            '<td>' + escapeHtml(festival.country || '') + '</td>' +
+            '<td data-sort-value="' + escapeHtml(festival.startDateValue) + '">' + festival.startDateLabel + '</td>' +
+            '<td data-sort-value="' + escapeHtml(festival.endDateValue) + '">' + festival.endDateLabel + '</td>' +
+            '<td class="festival-description-cell">' + escapeHtml(festival.description || '') + '</td>' +
+            '<td>' + urlMarkup + '</td>' +
+            '</tr>'
+          );
+        })
+        .join('');
+    }
+
+    function updateViewAllButton() {
+      const filteredCount = state.filteredFestivals.length;
+      const canExpand = filteredCount > DEFAULT_ROW_LIMIT;
+
+      viewAllButton.disabled = !canExpand;
+      viewAllButton.textContent = state.showAllRows && canExpand ? 'Show Fewer' : 'View All';
+    }
+
+    function updateSubmissionsFilterButton() {
+      submissionsOnlyButton.setAttribute('aria-pressed', state.submissionsOnly ? 'true' : 'false');
+    }
+
+    function getActiveFiltersMarkup() {
+      const filters = [];
+      const searchTerm = cleanText(nameSearchInput.value);
+      const selectedStart = cleanText(startFilterInput.value);
+      const selectedEnd = cleanText(endFilterInput.value);
+
+      if (searchTerm) filters.push('Name contains "' + escapeHtml(searchTerm) + '"');
+      if (selectedStart) filters.push('Starts on or after ' + escapeHtml(selectedStart));
+      if (selectedEnd) filters.push('Ends on or before ' + escapeHtml(selectedEnd));
+      if (state.submissionsOnly) filters.push('Currently taking submissions');
+
+      if (!filters.length) {
+        return '<p class="festival-popout-meta">Filters: none</p>';
+      }
+
+      return '<p class="festival-popout-meta">Filters: ' + filters.join(' | ') + '</p>';
+    }
+
+    function openPopoutView() {
+      const popoutWindow = window.open('', '_blank');
+      if (!popoutWindow) {
+        window.alert('Please allow pop-ups for this site to open the full page table.');
+        return;
+      }
+
+      const popoutMarkup = [
+        '<!DOCTYPE html>',
+        '<html lang="en">',
+        '<head>',
+        '<meta charset="utf-8" />',
+        '<meta name="viewport" content="width=device-width, initial-scale=1" />',
+        '<title>Improv Festival List</title>',
+        '<style>',
+        'body{margin:0;padding:28px;background:#FFE974;color:#000;font:16px/1.5 Georgia,"Times New Roman",serif;}',
+        '.festival-popout-shell{max-width:1400px;margin:0 auto;padding:24px;border:2px solid #000;border-radius:24px;background:#FFE974;box-shadow:0 18px 34px rgba(0,0,0,0.14);}',
+        '.festival-popout-kicker{margin-bottom:6px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#f0523d;}',
+        '.festival-popout-title{margin:0;font-size:clamp(2rem,3vw,2.8rem);line-height:0.95;}',
+        '.festival-popout-meta{margin:10px 0 0;color:#272727;}',
+        '.festival-popout-summary{margin:14px 0 20px;color:#000;font-weight:700;}',
+        '.festival-popout-table-wrap{overflow-x:auto;border:2px solid #000;border-radius:18px;background:#FFE974;}',
+        '.festival-popout-table{width:100%;min-width:940px;border-collapse:collapse;table-layout:fixed;}',
+        '.festival-popout-col-name{width:18%;}',
+        '.festival-popout-col-city{width:11%;}',
+        '.festival-popout-col-country{width:11%;}',
+        '.festival-popout-col-start,.festival-popout-col-end{width:10.5%;}',
+        '.festival-popout-col-description{width:31%;}',
+        '.festival-popout-col-url{width:8%;}',
+        '.festival-popout-table th,.festival-popout-table td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(0,0,0,0.2);}',
+        '.festival-popout-table th{background:#000;color:#FFE974;font-weight:700;}',
+        '.festival-popout-table tbody tr:nth-child(even){background:rgba(255,255,255,0.28);}',
+        '.festival-popout-table tbody tr.festival-taking-submissions-row{background:#f2fbf5;}',
+        '.festival-popout-table tbody tr.festival-taking-submissions-row:nth-child(even){background:#e7f7ed;}',
+        '.festival-name-with-submissions{display:inline-flex;align-items:center;gap:8px;}',
+        '.festival-submission-open-icon{flex:0 0 auto;width:.74rem;height:.74rem;border-radius:999px;background:#1f9d55;border:2px solid #0f6a37;box-shadow:0 0 0 3px rgba(31,157,85,.18);}',
+        '.festival-popout-table a{color:#f0523d;text-decoration-thickness:1px;text-underline-offset:2px;word-break:break-word;font-weight:700;}',
+        '.festival-popout-description{max-width:420px;color:#272727;}',
+        '@media (max-width:640px){body{padding:16px;}.festival-popout-shell{padding:18px;}}',
+        '</style>',
+        '</head>',
+        '<body>',
+        '<div class="festival-popout-shell">',
+        '<div class="festival-popout-kicker">Festival Directory</div>',
+        '<h1 class="festival-popout-title">Improv Festival List</h1>',
+        getActiveFiltersMarkup(),
+        '<p class="festival-popout-summary">Showing all ' + state.filteredFestivals.length + ' matching festivals.</p>',
+        '<div class="festival-popout-table-wrap">',
+        '<table class="festival-popout-table">',
+        '<colgroup><col class="festival-popout-col-name" /><col class="festival-popout-col-city" /><col class="festival-popout-col-country" /><col class="festival-popout-col-start" /><col class="festival-popout-col-end" /><col class="festival-popout-col-description" /><col class="festival-popout-col-url" /></colgroup>',
+        '<thead><tr><th>Festival Name</th><th>City</th><th>Country</th><th>Start Date</th><th>End Date</th><th>Description</th><th>URL</th></tr></thead>',
+        '<tbody>',
+        buildTableRowsMarkup(state.filteredFestivals).replace(/festival-description-cell/g, 'festival-popout-description'),
+        '</tbody>',
+        '</table>',
+        '</div>',
+        '</div>',
+        '</body>',
+        '</html>'
+      ].join('');
+
+      popoutWindow.document.open();
+      popoutWindow.document.write(popoutMarkup);
+      popoutWindow.document.close();
+    }
+
+    function renderTable() {
+      state.filteredFestivals = sortFestivals(state.allFestivals.filter(matchesFilters));
+      state.visibleFestivals = state.showAllRows
+        ? state.filteredFestivals.slice()
+        : state.filteredFestivals.slice(0, DEFAULT_ROW_LIMIT);
+
+      updateSummary();
+      updateSortButtons();
+      updateViewAllButton();
+      updateSubmissionsFilterButton();
+
+      if (!state.filteredFestivals.length) {
+        feedbackElement.textContent = 'No festivals match the current search, date, and submissions filters.';
+        renderEmptyState('No festivals match the current search, date, and submissions filters.');
+        return;
+      }
+
+      if (!state.showAllRows && state.filteredFestivals.length > DEFAULT_ROW_LIMIT) {
+        feedbackElement.textContent =
+          'Showing the first ' + DEFAULT_ROW_LIMIT + ' of ' + state.filteredFestivals.length + ' matching festivals.';
+      } else {
+        feedbackElement.textContent =
+          'Showing ' +
+          state.filteredFestivals.length +
+          ' matching festival' +
+          (state.filteredFestivals.length === 1 ? '' : 's') +
+          '.';
+      }
+
+      tableBody.innerHTML = buildTableRowsMarkup(state.visibleFestivals);
+    }
+
+    function loadFestivalData() {
+      if (!window.Papa) {
+        feedbackElement.textContent = 'Could not load the CSV parser library.';
+        renderEmptyState('Could not load the CSV parser library.');
+        summaryElement.textContent = '0 shown / 0 total';
+        return;
+      }
+
+      fetch(MAP_DATA_URL)
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (csvText) {
+          const trimmedCsv = csvText.trim();
+
+          if (!trimmedCsv) {
+            throw new Error('The festival feed was empty.');
+          }
+
+          if (trimmedCsv.startsWith('<!DOCTYPE') || trimmedCsv.startsWith('<html')) {
+            throw new Error('Google returned HTML instead of CSV.');
+          }
+
+          const parsed = window.Papa.parse(csvText, { header: true, skipEmptyLines: true });
+          state.allFestivals = (parsed.data || [])
+            .map(mapFestivalRow)
+            .filter(function (festival) {
+              return festival.name;
+            });
+
+          feedbackElement.textContent = 'Festival data loaded.';
+          renderTable();
+        })
+        .catch(function (error) {
+          console.error('Error fetching festival data:', error);
+          state.allFestivals = [];
+          summaryElement.textContent = '0 shown / 0 total';
+          feedbackElement.textContent = 'Could not load festival data.';
+          renderEmptyState('Could not load festival data. Check the published Apps Script URL.');
+        });
+    }
+
+    // Event wiring keeps the UI responsive without extra dependencies.
+    nameSearchInput.addEventListener('input', renderTable);
+    startFilterInput.addEventListener('input', renderTable);
+    endFilterInput.addEventListener('input', renderTable);
+
+    submissionsOnlyButton.addEventListener('click', function () {
+      state.submissionsOnly = !state.submissionsOnly;
+      state.showAllRows = false;
+      renderTable();
+    });
+
+    resetFiltersButton.addEventListener('click', function () {
+      nameSearchInput.value = '';
+      startFilterInput.value = '';
+      endFilterInput.value = '';
+      state.submissionsOnly = false;
+      state.showAllRows = false;
+      renderTable();
+    });
+
+    viewAllButton.addEventListener('click', function () {
+      if (state.filteredFestivals.length <= DEFAULT_ROW_LIMIT) {
+        return;
+      }
+
+      state.showAllRows = !state.showAllRows;
+      renderTable();
+    });
+
+    popoutButton.addEventListener('click', openPopoutView);
+
+    sortButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        const nextSortKey = button.dataset.sortKey;
+
+        if (state.sortKey === nextSortKey) {
+          state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+          state.sortKey = nextSortKey;
+          state.sortDirection = nextSortKey === 'startDate' || nextSortKey === 'endDate' ? 'asc' : 'asc';
+        }
+
+        renderTable();
+      });
+    });
+
+    updateSortButtons();
+    updateSubmissionsFilterButton();
+    loadFestivalData();
+  })();
+</script>
+
+</body>
+</html>
+
