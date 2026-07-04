@@ -43,4 +43,3 @@ After deploying the Worker, replace `https://YOUR-WORKER-URL.example.workers.dev
 ## Native Airtable iframe option
 
 A native Airtable calendar embed can show details when a visitor clicks an event if the calendar view's expanded-record field visibility is configured correctly. In Airtable, hide internal fields and show only the public fields listed above. Do not enable "Show all fields in expanded records" unless every field in the table is safe for public display.
-
