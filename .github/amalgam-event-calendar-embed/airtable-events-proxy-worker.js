@@ -186,4 +186,3 @@ function withCors(response, corsHeaders) {
     headers,
   });
 }
-
