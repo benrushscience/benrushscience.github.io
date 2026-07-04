@@ -1,0 +1,666 @@
+<section id="amalgam-events-calendar" class="amalgam-events-calendar" aria-labelledby="amalgam-events-title">
+  <div class="amalgam-calendar-header">
+    <div>
+      <p class="amalgam-calendar-kicker">Amalgam Improv</p>
+      <h2 id="amalgam-events-title">Event Calendar</h2>
+    </div>
+
+    <div class="amalgam-calendar-controls" aria-label="Calendar navigation">
+      <button class="amalgam-icon-button" type="button" data-calendar-prev aria-label="Previous month">
+        <span aria-hidden="true">&lsaquo;</span>
+      </button>
+      <p class="amalgam-current-month" data-calendar-heading aria-live="polite"></p>
+      <button class="amalgam-icon-button" type="button" data-calendar-next aria-label="Next month">
+        <span aria-hidden="true">&rsaquo;</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="amalgam-calendar-shell" data-calendar-status="loading">
+    <p class="amalgam-calendar-message" data-calendar-message>Loading events...</p>
+
+    <div class="amalgam-weekdays" aria-hidden="true">
+      <span>Sun</span>
+      <span>Mon</span>
+      <span>Tue</span>
+      <span>Wed</span>
+      <span>Thu</span>
+      <span>Fri</span>
+      <span>Sat</span>
+    </div>
+
+    <div class="amalgam-calendar-grid" data-calendar-grid role="grid" aria-label="Monthly event calendar"></div>
+  </div>
+
+  <aside class="amalgam-upcoming-events" aria-labelledby="amalgam-upcoming-title">
+    <h3 id="amalgam-upcoming-title">Upcoming Events</h3>
+    <div data-upcoming-list></div>
+  </aside>
+
+  <dialog class="amalgam-event-dialog" data-event-dialog aria-labelledby="amalgam-dialog-title">
+    <form method="dialog">
+      <button class="amalgam-dialog-close" value="close" aria-label="Close event details">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </form>
+
+    <article class="amalgam-dialog-content">
+      <p class="amalgam-dialog-date" data-dialog-date></p>
+      <h3 id="amalgam-dialog-title" data-dialog-title></h3>
+      <dl class="amalgam-event-meta">
+        <div>
+          <dt>Time</dt>
+          <dd data-dialog-time></dd>
+        </div>
+        <div>
+          <dt>Location</dt>
+          <dd data-dialog-location></dd>
+        </div>
+      </dl>
+      <div class="amalgam-dialog-description" data-dialog-description></div>
+      <a class="amalgam-event-link" data-dialog-link href="#" target="_blank" rel="noopener">Event details and tickets</a>
+    </article>
+  </dialog>
+</section>
+
+<style>
+  .amalgam-events-calendar {
+    --amalgam-ink: #211f1f;
+    --amalgam-muted: #5c5754;
+    --amalgam-line: #ddd7d0;
+    --amalgam-page: #fffdfa;
+    --amalgam-soft: #f5f1ec;
+    --amalgam-accent: #006a6a;
+    --amalgam-accent-strong: #004f4f;
+    --amalgam-warm: #9f4d2f;
+    --amalgam-focus: #f0b429;
+    color: var(--amalgam-ink);
+    font-family: inherit;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .amalgam-events-calendar * {
+    box-sizing: border-box;
+  }
+
+  .amalgam-calendar-header {
+    align-items: end;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .amalgam-calendar-kicker {
+    color: var(--amalgam-warm);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin: 0 0 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .amalgam-calendar-header h2,
+  .amalgam-upcoming-events h3 {
+    margin: 0;
+  }
+
+  .amalgam-calendar-controls {
+    align-items: center;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 2.5rem minmax(10rem, auto) 2.5rem;
+  }
+
+  .amalgam-current-month {
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+  }
+
+  .amalgam-icon-button,
+  .amalgam-event-button,
+  .amalgam-list-button,
+  .amalgam-dialog-close,
+  .amalgam-event-link {
+    border-radius: 6px;
+    font: inherit;
+  }
+
+  .amalgam-icon-button {
+    align-items: center;
+    background: var(--amalgam-page);
+    border: 1px solid var(--amalgam-line);
+    color: var(--amalgam-ink);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 1.7rem;
+    height: 2.5rem;
+    justify-content: center;
+    line-height: 1;
+    width: 2.5rem;
+  }
+
+  .amalgam-calendar-shell {
+    background: var(--amalgam-page);
+    border: 1px solid var(--amalgam-line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .amalgam-calendar-message {
+    color: var(--amalgam-muted);
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .amalgam-calendar-shell[data-calendar-status="ready"] .amalgam-calendar-message {
+    display: none;
+  }
+
+  .amalgam-weekdays,
+  .amalgam-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .amalgam-weekdays {
+    background: var(--amalgam-soft);
+    border-bottom: 1px solid var(--amalgam-line);
+    color: var(--amalgam-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .amalgam-weekdays span {
+    padding: 0.55rem 0.25rem;
+  }
+
+  .amalgam-day {
+    border-bottom: 1px solid var(--amalgam-line);
+    border-right: 1px solid var(--amalgam-line);
+    min-height: 8.5rem;
+    padding: 0.5rem;
+  }
+
+  .amalgam-day:nth-child(7n) {
+    border-right: 0;
+  }
+
+  .amalgam-day.is-outside-month {
+    background: #faf8f5;
+    color: #77716c;
+  }
+
+  .amalgam-day-number {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+
+  .amalgam-event-button {
+    background: #e7f4f2;
+    border: 1px solid #a8d8d2;
+    color: var(--amalgam-accent-strong);
+    cursor: pointer;
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0.25rem 0;
+    padding: 0.35rem 0.45rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .amalgam-event-time {
+    color: var(--amalgam-muted);
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.15rem;
+  }
+
+  .amalgam-upcoming-events {
+    margin-top: 1.25rem;
+  }
+
+  .amalgam-upcoming-list {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    margin-top: 0.75rem;
+  }
+
+  .amalgam-list-button {
+    background: var(--amalgam-page);
+    border: 1px solid var(--amalgam-line);
+    cursor: pointer;
+    min-height: 6rem;
+    padding: 0.85rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .amalgam-list-date {
+    color: var(--amalgam-warm);
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .amalgam-list-title {
+    display: block;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .amalgam-list-location {
+    color: var(--amalgam-muted);
+    display: block;
+    font-size: 0.9rem;
+    margin-top: 0.35rem;
+  }
+
+  .amalgam-event-dialog {
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 1.2rem 4rem rgb(0 0 0 / 0.26);
+    color: var(--amalgam-ink);
+    max-width: min(42rem, calc(100vw - 2rem));
+    padding: 0;
+    width: 100%;
+  }
+
+  .amalgam-event-dialog::backdrop {
+    background: rgb(20 18 16 / 0.58);
+  }
+
+  .amalgam-dialog-close {
+    background: var(--amalgam-page);
+    border: 1px solid var(--amalgam-line);
+    cursor: pointer;
+    font-size: 1.7rem;
+    height: 2.5rem;
+    line-height: 1;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+    width: 2.5rem;
+  }
+
+  .amalgam-dialog-content {
+    padding: 1.5rem;
+  }
+
+  .amalgam-dialog-date {
+    color: var(--amalgam-warm);
+    font-weight: 800;
+    margin: 0 3rem 0.35rem 0;
+  }
+
+  .amalgam-dialog-content h3 {
+    font-size: 1.6rem;
+    line-height: 1.15;
+    margin: 0 3rem 1rem 0;
+  }
+
+  .amalgam-event-meta {
+    border-top: 1px solid var(--amalgam-line);
+    display: grid;
+    gap: 0;
+    margin: 0 0 1rem;
+  }
+
+  .amalgam-event-meta div {
+    border-bottom: 1px solid var(--amalgam-line);
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 6rem 1fr;
+    padding: 0.65rem 0;
+  }
+
+  .amalgam-event-meta dt {
+    color: var(--amalgam-muted);
+    font-weight: 800;
+  }
+
+  .amalgam-event-meta dd {
+    margin: 0;
+  }
+
+  .amalgam-dialog-description {
+    line-height: 1.55;
+    white-space: pre-line;
+  }
+
+  .amalgam-event-link {
+    background: var(--amalgam-accent);
+    color: #fff;
+    display: inline-flex;
+    font-weight: 800;
+    margin-top: 1.15rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+  }
+
+  .amalgam-icon-button:focus-visible,
+  .amalgam-event-button:focus-visible,
+  .amalgam-list-button:focus-visible,
+  .amalgam-dialog-close:focus-visible,
+  .amalgam-event-link:focus-visible {
+    outline: 3px solid var(--amalgam-focus);
+    outline-offset: 2px;
+  }
+
+  .amalgam-event-button:hover,
+  .amalgam-list-button:hover,
+  .amalgam-icon-button:hover {
+    border-color: var(--amalgam-accent);
+  }
+
+  @media (max-width: 760px) {
+    .amalgam-calendar-header {
+      align-items: stretch;
+      display: grid;
+    }
+
+    .amalgam-calendar-controls {
+      grid-template-columns: 2.5rem 1fr 2.5rem;
+    }
+
+    .amalgam-weekdays {
+      display: none;
+    }
+
+    .amalgam-calendar-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .amalgam-day,
+    .amalgam-day:nth-child(7n) {
+      border-right: 0;
+      min-height: 0;
+    }
+
+    .amalgam-day.is-outside-month {
+      display: none;
+    }
+
+    .amalgam-event-meta div {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    // Replace this with the deployed Worker URL from airtable-events-proxy-worker.js.
+    const CALENDAR_DATA_URL = "https://YOUR-WORKER-URL.example.workers.dev";
+    const TIME_ZONE = "America/Chicago";
+    const root = document.getElementById("amalgam-events-calendar");
+
+    if (!root) return;
+
+    const state = {
+      events: [],
+      visibleMonth: startOfMonth(new Date()),
+    };
+
+    const elements = {
+      shell: root.querySelector("[data-calendar-status]"),
+      message: root.querySelector("[data-calendar-message]"),
+      heading: root.querySelector("[data-calendar-heading]"),
+      grid: root.querySelector("[data-calendar-grid]"),
+      upcomingList: root.querySelector("[data-upcoming-list]"),
+      prev: root.querySelector("[data-calendar-prev]"),
+      next: root.querySelector("[data-calendar-next]"),
+      dialog: root.querySelector("[data-event-dialog]"),
+      dialogTitle: root.querySelector("[data-dialog-title]"),
+      dialogDate: root.querySelector("[data-dialog-date]"),
+      dialogTime: root.querySelector("[data-dialog-time]"),
+      dialogLocation: root.querySelector("[data-dialog-location]"),
+      dialogDescription: root.querySelector("[data-dialog-description]"),
+      dialogLink: root.querySelector("[data-dialog-link]"),
+    };
+
+    elements.prev.addEventListener("click", () => {
+      state.visibleMonth = addMonths(state.visibleMonth, -1);
+      render();
+    });
+
+    elements.next.addEventListener("click", () => {
+      state.visibleMonth = addMonths(state.visibleMonth, 1);
+      render();
+    });
+
+    loadEvents();
+
+    async function loadEvents() {
+      try {
+        const response = await fetch(CALENDAR_DATA_URL, { headers: { Accept: "application/json" } });
+        if (!response.ok) throw new Error(`Calendar returned ${response.status}`);
+
+        const payload = await response.json();
+        state.events = (payload.events || []).map(prepareEvent).sort((a, b) => a.sortDate - b.sortDate);
+
+        const firstUpcoming = state.events.find((event) => event.sortDate >= startOfDay(new Date()));
+        if (firstUpcoming) {
+          state.visibleMonth = startOfMonth(firstUpcoming.sortDate);
+        }
+
+        elements.shell.dataset.calendarStatus = "ready";
+        render();
+      } catch (error) {
+        elements.shell.dataset.calendarStatus = "error";
+        elements.message.textContent = "Events are temporarily unavailable.";
+        console.error("Unable to load Amalgam events", error);
+      }
+    }
+
+    function render() {
+      renderMonthHeading();
+      renderCalendarGrid();
+      renderUpcomingList();
+    }
+
+    function renderMonthHeading() {
+      elements.heading.textContent = new Intl.DateTimeFormat("en-US", {
+        month: "long",
+        year: "numeric",
+      }).format(state.visibleMonth);
+    }
+
+    function renderCalendarGrid() {
+      elements.grid.innerHTML = "";
+
+      const firstGridDate = startOfWeek(state.visibleMonth);
+      const lastMonthDay = endOfMonth(state.visibleMonth);
+      const totalDays = Math.ceil((daysBetween(firstGridDate, lastMonthDay) + 1) / 7) * 7;
+
+      for (let index = 0; index < totalDays; index += 1) {
+        const date = addDays(firstGridDate, index);
+        const events = eventsForDate(date);
+        const day = document.createElement("section");
+        const dayId = `amalgam-day-${toDateKey(date)}`;
+
+        day.className = "amalgam-day";
+        day.setAttribute("role", "gridcell");
+        day.setAttribute("aria-labelledby", dayId);
+
+        if (date.getMonth() !== state.visibleMonth.getMonth()) {
+          day.classList.add("is-outside-month");
+        }
+
+        const label = document.createElement("span");
+        label.className = "amalgam-day-number";
+        label.id = dayId;
+        label.textContent = String(date.getDate());
+        day.append(label);
+
+        events.forEach((event) => {
+          const button = document.createElement("button");
+          button.className = "amalgam-event-button";
+          button.type = "button";
+          button.setAttribute("aria-label", `${event.title}, ${event.fullDate}, ${event.timeLabel}`);
+          button.innerHTML = `${escapeHtml(event.title)}<span class="amalgam-event-time">${escapeHtml(event.timeLabel)}</span>`;
+          button.addEventListener("click", () => openEvent(event));
+          day.append(button);
+        });
+
+        elements.grid.append(day);
+      }
+    }
+
+    function renderUpcomingList() {
+      const upcoming = state.events
+        .filter((event) => event.sortDate >= startOfDay(new Date()))
+        .slice(0, 6);
+
+      if (upcoming.length === 0) {
+        elements.upcomingList.innerHTML = '<p class="amalgam-calendar-message">No upcoming events are listed yet.</p>';
+        return;
+      }
+
+      const list = document.createElement("div");
+      list.className = "amalgam-upcoming-list";
+
+      upcoming.forEach((event) => {
+        const button = document.createElement("button");
+        button.className = "amalgam-list-button";
+        button.type = "button";
+        button.innerHTML = `
+          <span class="amalgam-list-date">${escapeHtml(event.shortDate)} &middot; ${escapeHtml(event.timeLabel)}</span>
+          <span class="amalgam-list-title">${escapeHtml(event.title)}</span>
+          <span class="amalgam-list-location">${escapeHtml(event.location || "Location TBA")}</span>
+        `;
+        button.addEventListener("click", () => openEvent(event));
+        list.append(button);
+      });
+
+      elements.upcomingList.replaceChildren(list);
+    }
+
+    function openEvent(event) {
+      elements.dialogTitle.textContent = event.title;
+      elements.dialogDate.textContent = event.fullDate;
+      elements.dialogTime.textContent = event.timeLabel;
+      elements.dialogLocation.textContent = event.location || "Location TBA";
+      elements.dialogDescription.textContent = event.description || "More details coming soon.";
+
+      if (event.url) {
+        elements.dialogLink.href = event.url;
+        elements.dialogLink.hidden = false;
+      } else {
+        elements.dialogLink.hidden = true;
+      }
+
+      if (typeof elements.dialog.showModal === "function") {
+        elements.dialog.showModal();
+      } else {
+        elements.dialog.setAttribute("open", "");
+      }
+    }
+
+    function prepareEvent(event) {
+      const sortDate = event.startsAt ? new Date(event.startsAt) : parseLocalDate(event.date);
+      const endDate = event.endsAt ? new Date(event.endsAt) : null;
+
+      return {
+        ...event,
+        sortDate,
+        dateKey: event.date,
+        fullDate: new Intl.DateTimeFormat("en-US", {
+          dateStyle: "full",
+          timeZone: TIME_ZONE,
+        }).format(sortDate),
+        shortDate: new Intl.DateTimeFormat("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          timeZone: TIME_ZONE,
+        }).format(sortDate),
+        timeLabel: formatTimeRange(sortDate, endDate),
+      };
+    }
+
+    function eventsForDate(date) {
+      const dateKey = toDateKey(date);
+      return state.events.filter((event) => event.dateKey === dateKey);
+    }
+
+    function formatTimeRange(start, end) {
+      if (!start || Number.isNaN(start.getTime())) return "Time TBA";
+
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        timeZone: TIME_ZONE,
+      });
+
+      if (!end || Number.isNaN(end.getTime()) || start.getTime() === end.getTime()) {
+        return formatter.format(start);
+      }
+
+      return `${formatter.format(start)}-${formatter.format(end)}`;
+    }
+
+    function parseLocalDate(dateString) {
+      const [year, month, day] = dateString.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    function startOfMonth(date) {
+      return new Date(date.getFullYear(), date.getMonth(), 1);
+    }
+
+    function endOfMonth(date) {
+      return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    }
+
+    function startOfWeek(date) {
+      return addDays(date, -date.getDay());
+    }
+
+    function startOfDay(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    function addDays(date, days) {
+      const next = new Date(date);
+      next.setDate(next.getDate() + days);
+      return next;
+    }
+
+    function addMonths(date, months) {
+      return new Date(date.getFullYear(), date.getMonth() + months, 1);
+    }
+
+    function daysBetween(start, end) {
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+      return Math.round((startOfDay(end) - startOfDay(start)) / millisecondsPerDay);
+    }
+
+    function toDateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  })();
+</script>
+

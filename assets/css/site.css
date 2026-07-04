@@ -730,6 +730,43 @@ a:hover {
   line-height: 1.56;
 }
 
+/* Inline story photos keep memoir images close to the passages they illustrate. */
+.story-photo {
+  max-width: min(100%, 34rem);
+  margin: var(--space-5) 0 var(--space-6);
+  overflow: hidden;
+  background: rgba(255, 253, 248, 0.88);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.story-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.story-photo figcaption {
+  margin: 0;
+  padding: 0.72rem 0.95rem 0.85rem;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.story-photo--poster {
+  max-width: min(100%, 44rem);
+}
+
+.story-photo--poster img {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 blockquote {
   margin: var(--space-6) 0;
   padding: var(--space-4) var(--space-5);
