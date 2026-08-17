@@ -95,7 +95,7 @@
     publicationCard.className = "module-card publication-card";
     publicationCard.dataset.publicationId = "pickhardt-l1-hu-accepted";
     publicationCard.innerHTML = `
-      <p class="module-kicker">Osteoporosis International · Accepted</p>
+      <p class="module-kicker">Osteoporosis International · 2026</p>
       <h3 class="module-title">${acceptedPublicationTitle}</h3>
       <p class="module-meta">Pickhardt, P.J.; Blake, G.M.; Lee, M.H.; Rule, A.D.; Pyrros, A.T.; Rockenbach, M.A.B.C.; Filice, R.W.; Rush, B.E.; Binkley, N.C.; Garrett, J.W.</p>
     `;
@@ -110,8 +110,72 @@
 
     if (publicationsHeading) {
       const citation = document.createElement("p");
-      citation.innerHTML = `Pickhardt, P.J., Blake, G.M., Lee, M.H., Rule, A.D., Pyrros, A.T., Rockenbach, M.A.B.C., Filice, R.W., <strong>Rush, B.E.</strong>, Binkley, N.C., Garrett, J.W. ${acceptedPublicationTitle}. <em>Osteoporosis International</em>, accepted.`;
+      citation.innerHTML = `Pickhardt, P.J., Blake, G.M., Lee, M.H., Rule, A.D., Pyrros, A.T., Rockenbach, M.A.B.C., Filice, R.W., <strong>Rush, B.E.</strong>, Binkley, N.C., Garrett, J.W. ${acceptedPublicationTitle}. <em>Osteoporosis International</em>, 2026.`;
       publicationsHeading.insertAdjacentElement("afterend", citation);
+    }
+  }
+
+  const cvActions = document.querySelector(".cv-page .cv-actions");
+  if (cvActions) {
+    cvActions.innerHTML = '<button class="cv-download-btn" type="button" data-print-cv>Print / save current CV as PDF</button>';
+
+    if (!document.getElementById("cv-print-styles")) {
+      const cvPrintStyles = document.createElement("style");
+      cvPrintStyles.id = "cv-print-styles";
+      cvPrintStyles.textContent = `
+        @media print {
+          @page { margin: 0.6in; }
+          .cv-page header,
+          .cv-page footer,
+          .cv-page .cv-actions,
+          .cv-page .cv-toc,
+          .cv-page .skip-link {
+            display: none !important;
+          }
+          .cv-page .cv-layout {
+            display: block !important;
+          }
+          .cv-page .doc-content {
+            width: 100% !important;
+            max-width: none !important;
+          }
+          .cv-page .cv-section {
+            break-inside: auto;
+          }
+          .cv-page .cv-section > summary {
+            list-style: none;
+          }
+          .cv-page .cv-section > summary::-webkit-details-marker {
+            display: none;
+          }
+          .cv-page a {
+            color: inherit !important;
+            text-decoration: none !important;
+          }
+        }
+      `;
+      document.head.appendChild(cvPrintStyles);
+    }
+
+    let cvSectionOpenStates = [];
+    window.addEventListener("beforeprint", () => {
+      const cvSections = Array.from(document.querySelectorAll(".cv-page details.cv-section"));
+      cvSectionOpenStates = cvSections.map((section) => section.open);
+      cvSections.forEach((section) => {
+        section.open = true;
+      });
+    });
+
+    window.addEventListener("afterprint", () => {
+      const cvSections = Array.from(document.querySelectorAll(".cv-page details.cv-section"));
+      cvSections.forEach((section, index) => {
+        section.open = cvSectionOpenStates[index] ?? section.open;
+      });
+    });
+
+    const printCvButton = cvActions.querySelector("[data-print-cv]");
+    if (printCvButton) {
+      printCvButton.addEventListener("click", () => window.print());
     }
   }
 
