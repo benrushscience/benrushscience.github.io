@@ -231,7 +231,6 @@ header {
 
 .site-header nav a[aria-current="page"] {
   background: rgba(255, 231, 141, 0.58);
-  box-shadow: inset 0 -2px 0 rgba(255, 79, 163, 0.55);
 }
 
 /* -------------------------------------------------------------------------- */
