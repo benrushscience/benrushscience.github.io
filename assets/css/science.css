@@ -149,3 +149,39 @@
     border-radius: var(--radius-md);
   }
 }
+
+/* Display the article screenshot in full, with readable text and no photo overlay. */
+.science-page .page-hero-image-frame--article {
+  align-self: start;
+  min-height: 0;
+  background: #fff;
+  border-color: var(--color-border);
+}
+
+.science-page .page-hero-image-frame--article::before,
+.science-page .page-hero-image-frame--article::after {
+  content: none;
+}
+
+.science-page .page-hero-image-frame--article > a {
+  display: block;
+  line-height: 0;
+}
+
+.science-page .page-hero-image-frame--article img {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  filter: none;
+  object-fit: contain;
+}
+
+.science-page .page-hero-image-frame--article figcaption {
+  margin: 0;
+  padding: var(--space-4);
+  color: var(--color-text);
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.5;
+  text-transform: none;
+}
