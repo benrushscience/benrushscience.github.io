@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/assets/css/identity.css" />
   <link rel="stylesheet" href="/assets/css/page-heroes.css" />
   <link rel="stylesheet" href="/assets/css/hero-images.css" />
+  <link rel="stylesheet" href="/assets/css/workshops.css" />
 </head>
 <body class="workshops-page">
   <header>
@@ -35,8 +36,12 @@
           <div class="page-hero-copy">
             <p class="page-hero-kicker">Applied learning</p>
             <h1 class="page-hero-title" id="workshops-page-title">Workshops for clearer teams and braver ideas.</h1>
-            <p class="page-hero-lede">Interactive sessions that use Sci-prov, science communication, applied improv, humor, and AI practice to help groups communicate with more confidence and warmth.</p>
-            <p class="page-hero-support">The goal is not a lecture about communication. It is a room full of people practicing the behaviors that make collaboration feel safer, sharper, and more useful.</p>
+            <p class="page-hero-lede">Hands-on sessions in science communication, applied improv, teamwork, and AI for scientists and professional teams.</p>
+            <div class="hero-actions workshop-inquiry-actions" aria-label="Plan a workshop">
+              <a class="button button-primary" href="mailto:ben@deeperthandata.media?subject=Workshop%20inquiry&amp;body=Hello%20Ben%2C%0A%0AI%20would%20like%20to%20discuss%20a%20workshop.%0A%0AOrganization%3A%0AAudience%20and%20approximate%20group%20size%3A%0AGoals%20or%20preferred%20topic%3A%0APreferred%20dates%20and%20duration%3A%0ALocation%20or%20preferred%20virtual%20format%3A%0A%0AThank%20you%21">Inquire about a workshop</a>
+              <a class="button button-secondary" href="#workshop-overview">View workshop details</a>
+            </div>
+            <p class="page-hero-support">Tell Ben about your audience, goals, and preferred date.</p>
             <div class="page-hero-chips" aria-label="Workshop themes">
               <span class="page-hero-chip">Sci-prov workshops</span>
               <span class="page-hero-chip">Applied improv</span>
@@ -52,29 +57,32 @@
         </div>
 
         <div class="doc-content">
-          <section class="module-section">
+          <section class="module-section" id="workshop-overview" aria-labelledby="workshop-overview-title">
             <div class="module-section-header">
-              <p class="eyebrow">Applied learning</p>
-              <h2 class="module-section-title">Sci-prov, Applied Improv, Science Communication, and Team Workshops</h2>
-              <p class="module-section-lede">Ben designs and leads workshops that help scientists, trainees, and professional teams communicate clearly, collaborate effectively, and think more creatively under pressure.</p>
+              <p class="module-kicker">Bring Ben to your team</p>
+              <h2 class="module-section-title" id="workshop-overview-title">Plan a workshop</h2>
+              <p class="module-section-lede">Choose a topic below, then get in touch to discuss a session for your group.</p>
             </div>
-            <p>Ben Rush is an Informatics Data Scientist in the Department of Radiology at the University of Wisconsin-Madison and the founder of Amalgam Improv in Madison, Wisconsin. His background sits at the intersection of science, communication, and performance: he trained in biology, neuroscience, epidemiology, and nutritional sciences, then built a career in data science, biomedical research, teaching, and public-facing science communication.</p>
-            <p>Ben became seriously involved in improv in January 2020 when he took Improv for Scientists with Amy Zelenski. That class changed how he thinks about communication, leadership, and collaboration. Improv gave him practical tools for uncertainty, listening, trust, and creativity, and those skills became even more important during COVID. Since then, he has brought improv into research environments, classrooms, conference spaces, and professional development settings.</p>
-            <p>Today, Ben designs and leads workshops that help scientists, trainees, and professional teams communicate clearly, collaborate effectively, and think more creatively under pressure. He also leads <a href="https://www.amalgamimprov.com/">Amalgam Improv</a>, where he continues to develop performance-driven training experiences that transfer directly to research teams, healthcare settings, and business environments.</p>
+            <dl class="workshop-details">
+              <div><dt>Who it’s for</dt><dd>Scientists, STEM trainees, research teams, and professional groups.</dd></div>
+              <div><dt>Duration</dt><dd>Sci-prov: The Workshops is a two-hour training. Discuss timing for other topics when you inquire.</dd></div>
+              <div><dt>Format</dt><dd>Interactive exercises, guided discussion, and practice. Include your location or preferred virtual format so Ben can discuss delivery options.</dd></div>
+              <div><dt>What participants practice</dt><dd>Explaining complex ideas, listening actively, adapting to questions, and recovering from mistakes.</dd></div>
+            </dl>
           </section>
 
           <section class="module-section" aria-labelledby="sci-prov-workshops-title">
             <div class="module-section-header">
               <p class="module-kicker">Featured program</p>
               <h2 class="module-section-title" id="sci-prov-workshops-title">Sci-prov: science communication through applied improv</h2>
-              <p class="module-section-lede">Sci-prov is Ben's flagship workshop and public program: scientists share short, digestible presentations, Q&amp;A becomes material for improvised scenes, and participants practice communicating complex ideas in real time.</p>
+              <p class="module-section-lede">Sci-prov workshops use applied improv to help scientists communicate complex ideas, respond to questions, and connect with an audience.</p>
             </div>
             <div class="module-grid" aria-label="Sci-prov flagship workshop">
               <article class="module-card workshop-card">
                 <div class="mini-viz mini-viz-learning" aria-hidden="true"></div>
                 <p class="module-kicker">Flagship offering</p>
                 <h3 class="module-title">Sci-prov: The Workshops</h3>
-                <p class="module-description">A 2-hour applied improv and science communication training for STEM graduate students, post-docs, staff, faculty, and research teams that need to share ideas clearly with collaborators, decision-makers, and the public.</p>
+                <p class="module-description">A 2-hour applied improv and science communication training for STEM graduate students, postdocs, staff, faculty, and research teams that need to share ideas clearly with collaborators, decision-makers, and the public.</p>
                 <p class="module-description">Participants practice spontaneous speaking, active listening, adaptive Q&amp;A, recovery from mistakes, and audience-aware message design in a lively, low-stakes room.</p>
                 <div class="module-tags" aria-label="Sci-prov audience">
                   <span class="module-tag">STEM trainees</span>
@@ -121,11 +129,8 @@
                 </div>
               </article>
             </div>
-            <div class="hero-actions" aria-label="Sci-prov calls to action">
-              <a class="button button-primary" href="https://illuminatingdiscovery.wisc.edu/sci-prov/">Workshop dates and RSVP</a>
-              <a class="button button-secondary" href="https://www.amalgamimprov.com/sci-prov">See the Sci-prov format</a>
-              <a class="button button-secondary" href="https://docs.google.com/forms/d/e/1FAIpQLScszq0YarHKk-j83Oi7Qdlazp_XNUr4FAVIeXV0U5VKhZPW5w/viewform?usp=preview">Present at Sci-prov</a>
-              <a class="button button-primary" href="mailto:ben@deeperthandata.media">Book a workshop</a>
+            <div class="hero-actions">
+              <a class="button button-primary" href="mailto:ben@deeperthandata.media?subject=Workshop%20inquiry&amp;body=Hello%20Ben%2C%0A%0AI%20would%20like%20to%20discuss%20a%20workshop.%0A%0AOrganization%3A%0AAudience%20and%20approximate%20group%20size%3A%0AGoals%20or%20preferred%20topic%3A%0APreferred%20dates%20and%20duration%3A%0ALocation%20or%20preferred%20virtual%20format%3A%0A%0AThank%20you%21">Inquire about a workshop</a>
             </div>
           </section>
 
@@ -203,6 +208,30 @@
             </div>
           </section>
 
+          <section class="module-section" aria-labelledby="public-sci-prov-title">
+            <div class="module-section-header">
+              <p class="module-kicker">Attend or take part</p>
+              <h2 class="module-section-title" id="public-sci-prov-title">Public Sci-prov workshops and shows</h2>
+              <p class="module-section-lede">Looking to participate as an individual? Find scheduled workshops, explore the show, or volunteer to present. At Sci-prov shows, scientists give short talks and answer questions that inspire improvised scenes.</p>
+            </div>
+            <div class="hero-actions" aria-label="Public Sci-prov events">
+              <a class="button button-primary" href="https://illuminatingdiscovery.wisc.edu/sci-prov/">Workshop dates and RSVP</a>
+              <a class="button button-secondary" href="https://www.amalgamimprov.com/sci-prov">See the Sci-prov show</a>
+              <a class="button button-secondary" href="https://docs.google.com/forms/d/e/1FAIpQLScszq0YarHKk-j83Oi7Qdlazp_XNUr4FAVIeXV0U5VKhZPW5w/viewform?usp=preview">Present at Sci-prov</a>
+            </div>
+          </section>
+
+          <section class="module-section">
+            <div class="module-section-header">
+              <p class="eyebrow">Applied learning</p>
+              <h2 class="module-section-title">Meet your facilitator</h2>
+              <p class="module-section-lede">Ben designs and leads workshops that help scientists, trainees, and professional teams communicate clearly, collaborate effectively, and think more creatively under pressure.</p>
+            </div>
+            <p>Ben Rush is an Informatics Data Scientist in the Department of Radiology at the University of Wisconsin-Madison and the founder of Amalgam Improv in Madison, Wisconsin. His background sits at the intersection of science, communication, and performance: he trained in biology, neuroscience, epidemiology, and nutritional sciences, then built a career in data science, biomedical research, teaching, and public-facing science communication.</p>
+            <p>Ben became seriously involved in improv in January 2020 when he took Improv for Scientists with Amy Zelenski. That class changed how he thinks about communication, leadership, and collaboration. Improv gave him practical tools for uncertainty, listening, trust, and creativity, and those skills became even more important during COVID. Since then, he has brought improv into research environments, classrooms, conference spaces, and professional development settings.</p>
+            <p>Ben also leads <a href="https://www.amalgamimprov.com/">Amalgam Improv</a>, where he continues to develop performance-driven training experiences that transfer directly to research teams, healthcare settings, and business environments.</p>
+          </section>
+
           <section class="module-section" aria-labelledby="clients-title">
             <div class="module-section-header">
               <p class="module-kicker">Clients and collaborators</p>
@@ -253,3 +282,4 @@
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
+

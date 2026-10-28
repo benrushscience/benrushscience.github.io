@@ -87,33 +87,7 @@
     if (target === current) link.setAttribute("aria-current", "page");
   });
 
-  const acceptedPublicationTitle = "Multi-center validation of automated CT-based L1 vertebral Hounsfield unit measurement for opportunistic osteoporosis screening";
-
-  const publicationGrid = document.querySelector(".science-page #publications .publication-grid");
-  if (publicationGrid && !publicationGrid.textContent.includes(acceptedPublicationTitle)) {
-    const publicationCard = document.createElement("article");
-    publicationCard.className = "module-card publication-card";
-    publicationCard.dataset.publicationId = "pickhardt-l1-hu-accepted";
-    publicationCard.innerHTML = `
-      <p class="module-kicker">Osteoporosis International · 2026</p>
-      <h3 class="module-title">${acceptedPublicationTitle}</h3>
-      <p class="module-meta">Pickhardt, P.J.; Blake, G.M.; Lee, M.H.; Rule, A.D.; Pyrros, A.T.; Rockenbach, M.A.B.C.; Filice, R.W.; Rush, B.E.; Binkley, N.C.; Garrett, J.W.</p>
-    `;
-    publicationGrid.prepend(publicationCard);
-  }
-
-  const cvContent = document.querySelector(".cv-page .doc-content");
-  if (cvContent && !cvContent.textContent.includes(acceptedPublicationTitle)) {
-    const publicationsHeading = Array.from(cvContent.querySelectorAll(".cv-section-title")).find(
-      (heading) => heading.textContent.trim().toUpperCase() === "PUBLICATIONS"
-    );
-
-    if (publicationsHeading) {
-      const citation = document.createElement("p");
-      citation.innerHTML = `Pickhardt, P.J., Blake, G.M., Lee, M.H., Rule, A.D., Pyrros, A.T., Rockenbach, M.A.B.C., Filice, R.W., <strong>Rush, B.E.</strong>, Binkley, N.C., Garrett, J.W. ${acceptedPublicationTitle}. <em>Osteoporosis International</em>, 2026.`;
-      publicationsHeading.insertAdjacentElement("afterend", citation);
-    }
-  }
+  // Publication content belongs in the Science HTML and generated CV, never in runtime inserts.
 
   const cvActions = document.querySelector(".cv-page .cv-actions");
   if (cvActions) {
@@ -297,3 +271,4 @@
     observer.observe(item);
   });
 })();
+
