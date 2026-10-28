@@ -35,3 +35,25 @@
     width: 100%;
   }
 }
+
+/* Preserve the full landscape workshop photo without tall empty bands. */
+.workshops-page .page-hero-image-frame {
+  align-self: center;
+  min-height: 0;
+}
+
+.workshops-page .page-hero-image-frame::before,
+.workshops-page .page-hero-image-frame::after {
+  content: none;
+}
+
+.workshops-page .page-hero-image-frame img {
+  flex: none;
+  height: auto;
+  min-height: 0;
+  filter: none;
+}
+
+.workshops-page .page-hero-image-frame figcaption {
+  padding: var(--space-4);
+}
