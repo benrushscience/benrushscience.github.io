@@ -1,0 +1,26 @@
+/* Shared typefaces for the website, embedded maps, and directories. */
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Oswald:wght@200..700&display=swap');
+
+body,
+.leaflet-container {
+  font-family: "Arimo", Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.filter-title,
+.group-popout-title,
+.festival-popout-title {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
