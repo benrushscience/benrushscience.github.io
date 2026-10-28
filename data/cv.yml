@@ -507,6 +507,7 @@ sections:
   - id: "publications"
     title: "PUBLICATIONS"
     content: |
+      <p>Pickhardt, P.J., Blake, G.M., Lee, M.H., Rule, A.D., Pyrros, A.T., Rockenbach, M.A.B.C., Filice, R.W., <strong>Rush, B.E.</strong>, Binkley, N.C., Garrett, J.W. Multi-center validation of automated CT-based L1 vertebral Hounsfield unit. <em>Osteoporosis International</em>, 2026. <a href="https://doi.org/10.1007/s00198-026-08212-1">View DOI</a></p>
       <p>Krueger, D, Borchardt, G… <strong>Rush, B. E.,</strong> et al. Novel DXA body composition approaches: comparison with traditional total body scans. <em>Journal of Clinical Densitometry</em>, 2026.</p>
       <p><strong>Rush, B.E.</strong>, Moeller, A, Lee, M.H., Pooler, B.D., Summers, R. M., Pickhardt,P.J., Garrett, J.W. A Novel Deep Learning-Based Automated Adipose Tissue Segmentation Model for Value-Added Screening at Abdominal CT. <em>Abdominal Radiology</em>, in review.</p>
       <p>Pooler, B.D., Garrett, J.W., Lee, M.H., <strong>Rush, B.E.</strong>, Summers, R.M., Pickhardt, P.J. CT-Based Body Composition Measures and Systemic Disease: A Population-Level Analysis Using Artificial Intelligence Tools in Over 100,000 Patients. <em>American Journal of Roentgenology</em>, published online.</p>
